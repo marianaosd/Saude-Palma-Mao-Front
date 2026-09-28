@@ -1,0 +1,174 @@
+.container {
+  width: min(1120px, calc(100% - 3rem));
+  margin-inline: auto;
+}
+
+.skip-link {
+  position: absolute;
+  top: -10rem;
+  left: 1rem;
+  z-index: 1;
+  padding: 0.75rem 1rem;
+  background: #fff;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.site-header,
+.brand,
+.site-header nav,
+.site-footer {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.site-header {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-block: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.brand {
+  gap: 0.75rem;
+  font-weight: 700;
+}
+
+.brand img {
+  flex-shrink: 0;
+}
+
+.site-header a {
+  padding-block: 0.5rem;
+  text-decoration: none;
+}
+
+.site-header a:hover {
+  text-decoration: underline;
+}
+
+.hero {
+  max-width: 780px;
+  padding-block: 5rem;
+}
+
+.eyebrow {
+  color: var(--color-primary);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.hero h1 {
+  margin-bottom: 1.5rem;
+  font-size: clamp(2.2rem, 5vw, 3.75rem);
+  letter-spacing: -0.04em;
+}
+
+.hero-description {
+  max-width: 640px;
+  margin-bottom: 2rem;
+  color: var(--color-muted);
+  font-size: 1.125rem;
+}
+
+.primary-link {
+  display: inline-block;
+  padding: 0.85rem 1.25rem;
+  border-radius: 0.5rem;
+  color: #fff;
+  background: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.proposal {
+  padding: 2rem;
+  border-radius: 1rem;
+  background: #e8f2ed;
+}
+
+.proposal h2,
+.audience h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.proposal p:last-child {
+  max-width: 780px;
+  margin-bottom: 0;
+}
+
+.audience {
+  padding-top: 4rem;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.profile-card {
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background: #fff;
+}
+
+.profile-card h3 {
+  font-size: 1.25rem;
+}
+
+.profile-card p,
+.profile-card ul,
+.project-note,
+.site-footer {
+  color: var(--color-muted);
+}
+
+.profile-card ul {
+  margin-bottom: 0;
+  padding-left: 1.25rem;
+}
+
+.profile-card li + li {
+  margin-top: 0.5rem;
+}
+
+.project-note {
+  margin-block: 2.5rem;
+}
+
+.site-footer {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.875rem;
+}
+
+.site-footer p {
+  margin-bottom: 0;
+}
+
+@media (max-width: 760px) {
+  .container {
+    width: calc(100% - 2rem);
+  }
+
+  .hero {
+    padding-block: 3rem;
+  }
+
+  .proposal {
+    padding: 1.5rem;
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+}
