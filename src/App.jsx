@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AppLayout from './components/layout/AppLayout.jsx'
 import Home from './pages/institucional/Home.jsx'
 import Login from './pages/auth/Login.jsx'
@@ -10,9 +10,27 @@ import Clinicas from './pages/paciente/Clinicas.jsx'
 import EscolhaProfissional from './pages/paciente/EscolhaProfissional.jsx'
 import Agendamento from './pages/paciente/Agendamento.jsx'
 import Confirmacao from './pages/paciente/Confirmacao.jsx'
+import HomeProfissional from './pages/profissional/HomeProfissional.jsx'
 
 function App() {
-  const [screen, setScreen] = useState('home')
+  const [screen, setScreen] = useState(() => (
+    window.location.hash === '#profissional' ? 'profissional' : 'home'
+  ))
+
+  useEffect(() => {
+    function syncScreenFromHash() {
+      if (window.location.hash === '#profissional') {
+        setScreen('profissional')
+      } else if (['', '#inicio', '#proposta', '#publicos'].includes(window.location.hash)) {
+        setScreen('home')
+      }
+    }
+
+    window.addEventListener('hashchange', syncScreenFromHash)
+    return () => window.removeEventListener('hashchange', syncScreenFromHash)
+  }, [])
+
+  if (screen === 'profissional') return <HomeProfissional />
 
   return (
     <AppLayout onLogin={() => setScreen('login')}>

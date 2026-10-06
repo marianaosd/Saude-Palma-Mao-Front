@@ -58,6 +58,10 @@ function Login({ onBack, onCadastro, onLogin }) {
           </button>
         </p>
 
+        <p className="professional-login-link">
+          <a href="#profissional">Entrar como profissional</a>
+        </p>
+
         <button
           type="button"
           className="back-home-button"

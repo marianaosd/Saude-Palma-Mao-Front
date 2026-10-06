@@ -129,6 +129,16 @@
   cursor: pointer;
 }
 
+.professional-login-link {
+  margin: 1rem 0 0;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.professional-login-link a {
+  color: var(--color-primary-dark);
+}
+
 @media (max-width: 560px) {
 
   .auth-page {

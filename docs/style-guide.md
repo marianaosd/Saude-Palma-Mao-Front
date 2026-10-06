@@ -451,7 +451,7 @@ A tabela registra o código analisado antes da reorganização de 6/10/2026. Os 
 | Ícones | Favicon local e alguns símbolos/emojis nos textos | Conferir correspondência com a marca e os SVGs do Figma |
 | Reutilização | `Header` e `ProfileCard` existentes; botões e cartões recorrentes nas páginas | Extrair componentes de interface com variantes claras |
 
-O antigo `src/pages/Profissional.jsx` passou a ser `src/pages/paciente/EscolhaProfissional.jsx`. Ele participa da escolha de atendimento pelo paciente. O futuro portal de trabalho do profissional ficará em `src/pages/profissional/`, com contexto e navegação próprios.
+O antigo `src/pages/Profissional.jsx` passou a ser `src/pages/paciente/EscolhaProfissional.jsx`. Ele participa da escolha de atendimento pelo paciente. O portal de trabalho do profissional usa `src/pages/profissional/`, com contexto e navegação próprios.
 
 ### 13.2 Estrutura alvo e adoção parcial
 
@@ -464,24 +464,39 @@ src/
 │   └── typography.css      # Estilos tipográficos reutilizáveis
 ├── components/
 │   ├── ui/                 # Button, FormField, Avatar, Notice, PriorityTag
-│   └── layout/             # AppShell, TopBar, ProfessionalBottomNav
+│   ├── layout/             # Estruturas e navegação de contexto
+│   └── profissional/       # Componentes do médico; conteúdos de diálogo em panels/
 ├── assets/
 │   ├── icons/              # SVGs locais correspondentes ao design
 │   └── fonts/              # Caso sejam adotadas fontes hospedadas localmente
 └── pages/                  # Composição dos fluxos com os componentes comuns
 ```
 
-A árvore acima descreve a estrutura alvo. Já existem `styles/tokens.css`, `components/layout/` e páginas agrupadas em `institucional/`, `auth/` e `paciente/`. `typography.css`, `components/ui/`, os assets definitivos e os componentes citados na árvore continuam propostos. Os tokens atuais são importados uma única vez em `main.jsx`; cada página importa seu CSS, e login/cadastro compartilham `Auth.css`. Não redefinir tokens no CSS de cada página. Usar variantes por propriedades/classes, por exemplo `variant="primary"`, `size="large"` e `selected`, em vez de duplicar estilos por tela. Preservar a convenção existente de JavaScript com aspas simples e sem ponto e vírgula.
+A árvore acima descreve a estrutura alvo. Já existem `styles/tokens.css`, `styles/fonts.css`, componentes em `layout/`, `profissional/` e `ui/`, além de páginas agrupadas em `institucional/`, `auth/`, `paciente/` e `profissional/`. Nunito/Inter e os SVGs usados pela home médica estão versionados em `assets/`. `typography.css` e os componentes ainda não implementados do catálogo continuam propostos. `pages/` contém apenas páginas e seu CSS; componentes ficam em `components/`, inclusive quando específicos de um único fluxo. A organização obrigatória está no [AGENTS.md](../AGENTS.md) e detalhada em [Estrutura do frontend](estrutura-frontend.md). Os tokens atuais são importados uma única vez em `main.jsx`; cada página importa seu CSS, e login/cadastro compartilham `Auth.css`. Não redefinir tokens no CSS de cada página. Usar variantes por propriedades/classes, por exemplo `variant="primary"`, `size="large"` e `selected`, em vez de duplicar estilos por tela. Preservar a convenção existente de JavaScript com aspas simples e sem ponto e vírgula.
+
+#### Adoção: home profissional (`1:147`)
+
+Implementação iniciada em **6 de outubro de 2026**. A página em `src/pages/profissional/HomeProfissional.jsx` compõe o cabeçalho com disponibilidade, o resumo do dia, os três atalhos, as três consultas do frame e a navegação profissional. A largura móvel acompanha os 402px do Figma e centraliza o conteúdo em janelas maiores. A navegação fica fixa e o conteúdo reserva o espaço inferior para continuar rolável.
+
+- `tokens.css` mantém os tokens existentes do protótipo e acrescenta o escopo `.theme-figma` com os valores observados usados por esta página.
+- `fonts.css` declara Nunito 400 e Inter 400 como fontes locais; os arquivos e licenças estão em `src/assets/fonts/`.
+- `ProfessionalIcon.jsx` aponta para os SVGs originais do frame, guardados em `src/assets/icons/profissional/`, sem referências a URLs temporárias nem alterações às dimensões intrínsecas.
+- `AppointmentCard` e `PriorityTag` dividem a construção das consultas e suas etiquetas. Os registros fictícios do profissional, consultas e histórico estão em `src/data/profissional.js` e são passados pela página aos componentes.
+- `components/profissional/ProfessionalPanel.jsx` controla o diálogo; os conteúdos de agenda, histórico, horários, perfil e pré-triagem ficam em `components/profissional/panels/`. Todos usam `ProfessionalPanel.css`; não há componentes dentro de `pages/`.
+- `App.jsx` abre a nova experiência em `#profissional`, inclusive ao acessar ou atualizar essa URL. O login de demonstração oferece o link “Entrar como profissional”; “Início” e o retorno do painel de perfil usam `#inicio`.
+- Os atalhos abrem painéis nativos acessíveis. Disponibilidade, amostras da agenda, pré-triagem de demonstração, horários locais, histórico e dados de perfil têm interações de demonstração; disponibilidade e horários não persistem nem chegam a um backend.
+- O fundo da marca e dos CTAs primários usa a cor original `#0D9488`, como no Figma. O contraste da marca e a possível proposta de separar o fundo de ação permanecem documentados na seção 11; o ajuste não foi incorporado à arte reproduzida.
+
+Esta adoção é uma etapa: não implanta ainda a agenda profissional como página completa, nem conecta os registros ao percurso do paciente ou a uma API. Funcionalidades não construídas não devem ser inferidas a partir dos painéis locais.
 
 ### 13.3 Ordem sugerida
 
-1. Resolver as pendências de contraste, prioridade e estado de seleção que afetam componentes compartilhados.
-2. Centralizar tokens, carregar as fontes e revisar os estilos globais.
-3. Criar os componentes básicos: botão, campo, ícone/avatar, cartão, etiqueta e aviso.
-4. Montar as estruturas de página, barra superior e navegação profissional.
-5. Padronizar acesso e home do paciente; depois as três etapas da pré-triagem e resultado.
-6. Desenvolver o portal profissional com agenda, histórico e perfil.
-7. Estender os padrões às páginas sem frame, documentando as novas decisões.
+1. Resolver as pendências de contraste, prioridade e estados que afetam componentes compartilhados.
+2. Completar a navegação por URL e construir a agenda, o histórico e o perfil profissionais.
+3. Aplicar a identidade aprovada às telas de acesso e à home do paciente.
+4. Unificar os registros dos dois perfis e construir a consulta vinculada à pré-triagem.
+5. Implementar e validar as etapas restantes da pré-triagem e do agendamento do paciente.
+6. Estender a base às telas sem frame, documentando as decisões de design aprovadas.
 
 ## 14. Pendências do design e critérios de entrega
 

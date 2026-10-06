@@ -4,9 +4,9 @@ Organização registrada em **6 de outubro de 2026**, após a análise do [style
 
 ## 1. Objetivo desta etapa
 
-Preparar o código existente para desenvolver os fluxos de paciente e profissional em grupo. Esta etapa reorganiza arquivos, separa responsabilidades e atualiza o inventário. A implementação das telas que faltam e a migração visual do Figma serão as próximas entregas.
+Preparar o código existente para desenvolver os fluxos de paciente e profissional em grupo. A home do profissional baseada no frame `1:147` está conectada à aplicação. A agenda, o histórico e o perfil profissionais completos, além dos fluxos de acesso, ainda precisam de implementação.
 
-A interface atual foi preservada: componentes de página, textos e transições continuam sendo os do protótipo. A principal renomeação é `Profissional.jsx` → `pages/paciente/EscolhaProfissional.jsx`, pois essa tela é utilizada pelo paciente para selecionar atendimento.
+A escolha de atendimento do paciente continua em `pages/paciente/EscolhaProfissional.jsx`. No portal médico, as páginas compõem componentes de `components/profissional/`; os painéis de demonstração foram retirados de `pages/profissional/components/`. Esta organização preserva os textos, o design e os comportamentos existentes.
 
 ## 2. Responsabilidade de cada pasta
 
@@ -15,18 +15,22 @@ A interface atual foi preservada: componentes de página, textos e transições 
 | `src/pages/institucional/` | Apresentação pública do projeto. |
 | `src/pages/auth/` | Login e cadastro compartilhados pelos futuros perfis. Ter a opção de perfil na tela não significa que a autenticação esteja implementada. |
 | `src/pages/paciente/` | Área do paciente, pré-triagem, resultado e escolha/agendamento de atendimento. |
-| `src/components/layout/` | Estrutura externa às páginas: cabeçalho, conteúdo principal, rodapé e atalho acessível. |
+| `src/pages/profissional/` | Somente páginas completas e seu CSS; atualmente a home referente ao frame `1:147`. |
+| `src/components/layout/` | Estrutura externa às páginas: cabeçalho, conteúdo principal, rodapé e navegação por contexto. |
+| `src/components/profissional/` | Componentes do portal médico: cartão de consulta, ícone e diálogo profissional. |
+| `src/components/profissional/panels/` | Conteúdos internos do diálogo: agenda, histórico, horários, perfil e pré-triagem. Não são páginas completas. |
+| `src/components/ui/` | Elementos visuais compartilháveis entre os perfis, como `PriorityTag`. |
+| `src/data/` | Registros fictícios do profissional, consultas e histórico usados na demonstração. |
+| `src/assets/` | SVGs, fontes e respectivas licenças. |
 | `src/styles/` | Tokens atuais, estilos globais e classes visuais recorrentes. |
 | `public/` | Arquivos públicos utilizados diretamente, como o favicon. |
 | `docs/` | Requisitos, referência visual, decisões de organização e próximas entregas. |
 
 Pastas a criar quando houver implementação para elas:
 
-- `src/pages/profissional/`: painel, agenda, histórico, perfil e acompanhamento de atendimentos do profissional.
-- `src/components/ui/`: componentes realmente compartilhados, como botão, campo e aviso, com as variantes definidas durante a adoção do style guide.
-- `src/data/`: dados fictícios centralizados quando começarmos a conectar os fluxos.
-- `src/services/`: chamadas à API quando o backend começar a ser integrado.
-- `src/assets/fonts/` e `src/assets/icons/`: fontes e ícones locais, caso essa seja a forma escolhida de disponibilizá-los.
+- `src/services/`: chamadas à API, quando o backend começar a ser integrado.
+
+As pastas de componentes já existem. Acrescentar arquivos nelas conforme a necessidade, sem duplicar uma estrutura dentro de `pages/`.
 
 Não criamos páginas vazias para representar funcionalidades futuras. Uma página só entra no inventário de implementadas quando tiver conteúdo e acesso pelo fluxo.
 
@@ -36,41 +40,55 @@ Não criamos páginas vazias para representar funcionalidades futuras. Uma pági
 
 ```text
 main.jsx
-  ├── styles/tokens.css → styles/global.css → styles/shared.css
+  ├── fonts.css → tokens.css → global.css → shared.css
   └── App.jsx
-       ├── estado da tela e funções de navegação
-       └── AppLayout.jsx
-            ├── Header.jsx
-            ├── página selecionada
-            └── rodapé
+       ├── AppLayout → páginas institucionais, de acesso e do paciente
+       └── HomeProfissional
+            ├── dados fictícios de data/profissional.js
+            └── ProfessionalLayout
+                 ├── conteúdo da página e AppointmentCard
+                 └── ProfessionalPanel → conteúdos em profissional/panels/
 ```
 
 `App.jsx` mantém `screen` com `useState` e passa ações às páginas por propriedades, como `onBack` e `onConfirmar`. Os identificadores das telas não são URLs. A seleção de profissional passou a usar `escolha-profissional`, evitando confusão com o futuro portal profissional.
 
-`AppLayout` extrai a estrutura que já era repetida em torno das páginas. É uma estrutura provisória do protótipo: na adoção do design, acesso, paciente e profissional terão composições apropriadas ao seu contexto. O cabeçalho institucional não é a especificação do cabeçalho interno, e `AppLayout` ainda não implementa `AppShell`, `TopBar` ou a navegação profissional descritos no guia.
+O portal profissional tem uma exceção: `#profissional` abre sua home, inclusive por acesso direto ou atualização. `#inicio` retorna à página institucional. As demais telas continuam usando o estado de demonstração; uma implementação completa de rotas e do histórico do navegador ainda está pendente.
+
+`AppLayout` conserva a estrutura institucional e do paciente. A home profissional usa `ProfessionalLayout`, com navegação fixa e área de conteúdo próprias; o cabeçalho interno não reutiliza a navegação institucional.
 
 ### CSS
 
-- `styles/tokens.css`: única declaração dos tokens de cor atuais. Conserva os valores que já prevaleciam no antigo `App.css`.
+- `styles/tokens.css`: conserva os tokens do protótipo anterior e define `.theme-figma`, o escopo de cores e componentes adotados no frame profissional.
+- `styles/fonts.css`: declara as fontes locais Nunito 400 e Inter 400, carregadas em `main.jsx`.
 - `styles/global.css`: base dos elementos HTML, fonte do sistema, foco e regras gerais.
 - `styles/shared.css`: classes existentes de botões, rótulos e títulos de seção. Ainda não é uma biblioteca de componentes React.
 - `components/layout/AppLayout.css`: estilos do cabeçalho, container, rodapé e atalho para o conteúdo.
 - Cada página importa seu CSS de mesmo nome. Login e cadastro importam o mesmo `Auth.css`.
+- Componentes com CSS próprio o importam no seu arquivo JSX: `ProfessionalIcon.css` pertence ao ícone, por exemplo, e não ao layout.
+- Os conteúdos de `components/profissional/panels/` usam as classes comuns de `ProfessionalPanel.css`, importado pelo diálogo que os contém. Não duplicar essa folha para cada conteúdo.
 - As media queries ficam junto das regras da página a que pertencem, nos arquivos correspondentes.
 
 O CSS continua global, sem CSS Modules. Use classes específicas ao contexto e evite seletores genéricos no CSS de páginas. Na escolha de profissional, o prefixo passou de `professional-` para `professional-selection-`, deixando claro a qual fluxo esses estilos pertencem.
 
-Os antigos `App.css` e `index.css` foram distribuídos nesses arquivos. `ProfileCard.jsx`, `data/profiles.js` e seus estilos foram removidos porque a Home atual já não os utilizava; não havia conteúdo visível dependente deles.
+`ProfessionalLayout` possui composição e navegação próprias. `HomeProfissional.jsx` importa os dados de demonstração de `data/profissional.js` e os passa aos componentes por propriedades. `ProfessionalPanel` controla o diálogo e escolhe seu conteúdo; cada arquivo de `panels/` cuida de uma responsabilidade. Os componentes não importam páginas nem os registros fictícios diretamente. Rótulos de interface, como os títulos dos painéis, podem permanecer junto do componente.
 
 ### Convenções para o grupo
 
 1. Componentes e páginas em `PascalCase`; variáveis e funções em `camelCase`.
 2. Preservar JavaScript/JSX, aspas simples e ausência de ponto e vírgula.
-3. Colocar a composição da tela em `pages/`; componentes usados em diferentes contextos em `components/`.
-4. Um componente exclusivo de um fluxo pode ficar em uma subpasta `components/` desse fluxo, quando necessário.
+3. Reservar `pages/` para páginas completas e seu CSS. **Não criar `components/` dentro de `pages/`.**
+4. Componentes do médico ficam em `components/profissional/`, mesmo quando usados por uma única página; layouts em `components/layout/`; elementos compartilháveis entre perfis em `components/ui/`.
 5. Importar estilos globais somente no ponto de entrada. Não redefinir tokens dentro das páginas.
 6. Extrair componentes com base em repetição real; não criar uma biblioteca inteira antes de seus primeiros usos.
 7. Ao adicionar uma página, implementar sua entrada e saída na navegação e atualizar o inventário abaixo.
+8. Passar registros e ações por propriedades; concentrar os exemplos de dados em `data/`, mantendo o estado de tela na página e o estado de edição local no formulário.
+9. Consultar o [AGENTS.md](../AGENTS.md): ele registra esse padrão para as próximas alterações feitas por agentes no repositório.
+
+### Exemplo para a próxima página profissional
+
+Uma agenda completa deverá entrar como `pages/profissional/AgendaProfissional.jsx` e `AgendaProfissional.css`. Seus blocos visuais devem reutilizar ou acrescentar componentes em `components/profissional/`. O `AgendaPanel` atual continua sendo uma amostra em um diálogo; sua presença não significa que a página Agenda esteja implementada.
+
+Os painéis foram separados em `AgendaPanel`, `HistoryPanel`, `AvailabilityForm`, `ProfilePanel` e `TriagePanel`. `ProfessionalPanel` mantém abertura, fechamento e título do diálogo. O estado de disponibilidade, os horários salvos durante a sessão e a escolha do painel continuam sob responsabilidade de `HomeProfissional`.
 
 ## 4. O que o style guide define para os próximos passos
 
@@ -78,7 +96,7 @@ O guia registra 13 frames, com largura de referência de 402px. **Isso não sign
 
 A direção visual usa verde-água, superfícies claras, Nunito para títulos, Inter para leitura, cartões arredondados e composições voltadas ao celular. A seção 2 do guia identifica os frames; telas sem referência serão extensões documentadas do sistema.
 
-Nesta reorganização os valores atuais foram mantidos. Fontes Nunito/Inter, escala tipográfica, cores completas, componentes do design e layouts por perfil ainda precisam ser aplicados. Por exemplo, `tokens.css` ainda usa `#F5F5F4` para o fundo, `#E8F2ED` para o verde claro e `#57534E` para texto secundário. Isso é uma etapa de migração, não uma alteração dos valores observados no Figma.
+O portal profissional aplica Nunito/Inter locais, cores, ícones e cartões do frame `1:147`. `.theme-figma` mantém esses tokens isolados; o protótipo institucional e as telas existentes do paciente ainda usam seus estilos anteriores. Os painéis profissionais são interações demonstrativas, sem persistência ou API.
 
 Antes de padronizar os componentes, registrar as decisões sobre contraste dos botões, semântica de prioridade, estados selecionados e foco. “Moderado” aparece de formas diferentes no paciente e na agenda profissional; o style guide documenta essa diferença sem estabelecer uma regra clínica. O desktop, as fontes definitivas e os ícones também precisam da implementação e conferência descritas no guia.
 
@@ -98,6 +116,7 @@ Antes de padronizar os componentes, registrar as decisões sobre contraste dos b
 | `paciente/EscolhaProfissional.jsx` | Extensão do sistema, sem frame específico | Lista fixa; não guarda profissional/data/horário selecionados. |
 | `paciente/Agendamento.jsx` | Extensão do sistema, sem frame específico | Resumo fixo; ainda não usa a seleção do paciente. |
 | `paciente/Confirmacao.jsx` | Extensão do sistema, sem frame específico | Mensagem de confirmação; não cria registro de consulta. |
+| `profissional/HomeProfissional.jsx` | Home profissional, nó `1:147` | Composição visual implementada; atalhos usam dados fictícios e estado local. Agenda, histórico e perfil ainda não são páginas completas. |
 
 ## 6. Telas e experiências pendentes
 
@@ -111,7 +130,7 @@ Os nomes abaixo são propostas. Algumas experiências podem ser seções, etapas
 | Paciente | Meus agendamentos e detalhes | Requisito da jornada; exibir o registro confirmado e seus dados. Sem frame específico no guia. |
 | Paciente | Contato de emergência | Requisito da visão geral; definir cadastro, acionamento e compartilhamento antes de implementar. |
 | Paciente | Histórico | Atalho já presente no protótipo; definir o recorte. O frame de histórico do Figma é profissional. |
-| Profissional | Home do profissional | Nó `1:147`: disponibilidade, resumo, atalhos e próximas consultas. |
+| Profissional | Home do profissional | Nó `1:147`: composição implementada; ligar disponibilidade e resumo aos registros persistentes. |
 | Profissional | Agenda | Nós `2:424` e `2:604`: uma tela com seleção de dia, consultas e horários livres. |
 | Profissional | Histórico | Nó `2:754`: busca, filtros e atendimentos concluídos. |
 | Profissional | Perfil | Nó `2:902`: identificação, dados profissionais e clínicas vinculadas. |
@@ -123,12 +142,12 @@ A área administrativa e a PWA permanecem na visão completa do produto. Não s�
 
 ## 7. Sequência sugerida de desenvolvimento
 
-1. **Tratar limitações imediatas:** interceptar o envio do cadastro e validar os campos; explicitar a simulação do resultado de triagem, sem apresentar classificação fixa como se fosse calculada.
-2. **Aplicar a base visual:** resolver os pontos de contraste/seleção, carregar as fontes e migrar os tokens e estilos comuns. Criar os primeiros componentes reutilizáveis e layouts por contexto.
-3. **Conectar o paciente:** acesso de demonstração por perfil, estado das etapas da triagem e seleção de clínica/profissional/horário. Criar “Meus agendamentos” e seus detalhes.
-4. **Construir o portal profissional:** home, agenda, leitura da pré-triagem vinculada à consulta, disponibilidade, histórico e perfil. Usar os mesmos registros simulados do fluxo do paciente.
-5. **Revisar a navegação:** rotas por URL, voltar do navegador, acesso direto, retorno ao início, saída da conta e comportamento ao atualizar a página. Definir o que persistirá no protótipo antes de adicionar armazenamento.
-6. **Completar os requisitos complementares:** contato de emergência, lembretes e demais itens priorizados com o grupo. Depois, integrar API, autenticação real e banco de dados conforme a visão geral.
+1. **Tratar limitações imediatas:** interceptar o envio do cadastro e validar os campos; explicitar a simulação do resultado da triagem.
+2. **Completar o portal profissional:** agenda, histórico, perfil, detalhes da consulta e leitura da pré-triagem. Ligar os controles locais aos registros escolhidos.
+3. **Conectar o paciente:** acesso por perfil, etapas da triagem e seleção de clínica/profissional/horário. Criar “Meus agendamentos” e seus detalhes.
+4. **Padronizar as páginas restantes:** resolver pendências de contraste/seleção, aplicar os tokens e conectar os elementos que serão compartilhados.
+5. **Completar a navegação:** rotas por URL e histórico do navegador para os fluxos restantes. Definir o que persiste antes de adicionar armazenamento.
+6. **Completar os requisitos complementares:** contato de emergência, lembretes e itens priorizados com o grupo; então, integrar API, autenticação real e banco de dados.
 
 Para conectar os dois perfis, cada consulta precisa identificar paciente, profissional, clínica, data/hora, pré-triagem e situação. Evitar repetir nomes e horários como textos independentes em cada tela. Enquanto não houver backend, usar dados fictícios e comunicar os limites da simulação.
 
@@ -140,9 +159,9 @@ Para conectar os dois perfis, cada consulta precisa identificar paciente, profis
 - Login sem validação de credenciais e sem sessão/perfil funcional.
 - Pré-triagem sem coleta das respostas e com resultado fixo.
 - Escolhas de clínica, médico e horário descartadas; resumo e confirmação fixos.
-- Atalhos do paciente sem ação, ausência de lista de consultas e ausência do portal profissional.
-- Navegação apenas por estado: recarregar reinicia a aplicação e os links institucionais do cabeçalho não retornam à Home a partir de outras telas.
-- Visual ainda anterior à adoção do style guide. A separação dos arquivos não resolve as pendências de contraste, fontes e responsividade apontadas no guia.
+- Atalhos do paciente sem ação, ausência da lista de consultas e dados profissionais sem persistência.
+- As telas, salvo `#profissional`, navegam por estado: recarregar retorna ao início; os links do cabeçalho institucional ainda não retornam à Home a partir de todas as telas.
+- A nova home aplica os tokens e as fontes do frame profissional. As demais telas ainda precisam da migração visual e da revisão responsiva.
 
 ## 9. Verificação por entrega
 

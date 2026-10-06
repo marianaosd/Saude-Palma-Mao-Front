@@ -15,12 +15,12 @@ Este repositório é o ponto de partida do **frontend em React**. Nesta etapa, o
 ## O que existe hoje
 
 - React com JavaScript, Vite e ESLint configurados.
-- Página institucional e nove telas de protótipo: login, cadastro, área do paciente, pré-triagem, resultado, clínicas, escolha de profissional, agendamento e confirmação.
+- Página institucional, home profissional de demonstração e nove telas de protótipo de acesso e do paciente: login, cadastro, área do paciente, pré-triagem, resultado, clínicas, escolha de profissional, agendamento e confirmação.
 - Páginas agrupadas por contexto, CSS junto das telas e layout compartilhado separado da navegação.
 - Tokens atuais centralizados e estilos globais carregados pelo ponto de entrada.
 - Style guide baseado no Figma e documentação da estrutura e das próximas entregas.
 
-**Existe navegação de demonstração, mas os fluxos ainda não estão completos.** O login apenas troca de tela; as respostas e escolhas não são compartilhadas; a confirmação não registra uma consulta. Cadastro, autenticação, portal profissional, API, banco de dados e PWA ainda precisam de implementação funcional.
+**Existe navegação de demonstração, mas os fluxos ainda não estão completos.** O login apenas troca de tela; as respostas e escolhas não são compartilhadas; a confirmação não registra uma consulta. A home profissional usa dados fictícios do Figma; seus painéis locais não estão ligados a uma API. Cadastro, autenticação, API, banco de dados e PWA ainda precisam de implementação funcional.
 
 A reorganização preservou o protótipo existente. As limitações conhecidas, inclusive o tratamento pendente do envio do cadastro e o resultado fixo da pré-triagem, estão em [Estrutura do frontend e próximas entregas](docs/estrutura-frontend.md). Use somente dados fictícios.
 
@@ -102,10 +102,28 @@ saude-palma-mao/
 │   └── favicon.svg
 ├── src/
 │   ├── components/
-│   │   └── layout/
-│   │       ├── AppLayout.jsx # Cabeçalho, conteúdo, rodapé e atalho acessível
-│   │       ├── AppLayout.css
-│   │       └── Header.jsx
+│   │   ├── layout/
+│   │   │   ├── AppLayout.jsx # Cabeçalho, conteúdo, rodapé e atalho acessível
+│   │   │   ├── AppLayout.css
+│   │   │   ├── Header.jsx
+│   │   │   ├── ProfessionalLayout.jsx # Navegação do portal profissional
+│   │   │   └── ProfessionalLayout.css
+│   │   ├── profissional/
+│   │   │   ├── AppointmentCard.jsx
+│   │   │   ├── AppointmentCard.css
+│   │   │   ├── ProfessionalIcon.jsx
+│   │   │   ├── ProfessionalIcon.css
+│   │   │   ├── ProfessionalPanel.jsx
+│   │   │   ├── ProfessionalPanel.css
+│   │   │   └── panels/     # Conteúdos do diálogo profissional
+│   │   │       ├── AgendaPanel.jsx
+│   │   │       ├── HistoryPanel.jsx
+│   │   │       ├── AvailabilityForm.jsx
+│   │   │       ├── ProfilePanel.jsx
+│   │   │       └── TriagePanel.jsx
+│   │   └── ui/
+│   │       ├── PriorityTag.jsx
+│   │       └── PriorityTag.css
 │   ├── pages/
 │   │   ├── institucional/
 │   │   │   ├── Home.jsx
@@ -114,21 +132,31 @@ saude-palma-mao/
 │   │   │   ├── Login.jsx
 │   │   │   ├── Cadastro.jsx
 │   │   │   └── Auth.css     # Estilos compartilhados das telas de acesso
-│   │   └── paciente/
-│   │       ├── Paciente.jsx
-│   │       ├── Triagem.jsx
-│   │       ├── Resultado.jsx
-│   │       ├── Clinicas.jsx
-│   │       ├── EscolhaProfissional.jsx
-│   │       ├── Agendamento.jsx
-│   │       ├── Confirmacao.jsx
-│   │       └── …           # Cada JSX desta pasta tem seu CSS de mesmo nome
+│   │   ├── paciente/
+│   │   │   ├── Paciente.jsx
+│   │   │   ├── Triagem.jsx
+│   │   │   ├── Resultado.jsx
+│   │   │   ├── Clinicas.jsx
+│   │   │   ├── EscolhaProfissional.jsx
+│   │   │   ├── Agendamento.jsx
+│   │   │   ├── Confirmacao.jsx
+│   │   │   └── …           # Cada JSX desta pasta tem seu CSS de mesmo nome
+│   │   └── profissional/
+│   │       ├── HomeProfissional.jsx
+│   │       └── HomeProfissional.css
+│   ├── assets/
+│   │   ├── fonts/          # Inter e Nunito locais
+│   │   └── icons/profissional/ # SVGs exportados do Figma
+│   ├── data/
+│   │   └── profissional.js # Dados demonstrativos da home
 │   ├── styles/
+│   │   ├── fonts.css       # Fontes locais
 │   │   ├── tokens.css      # Valores efetivos do protótipo atual
 │   │   ├── global.css      # Base HTML, tipografia atual e foco
 │   │   └── shared.css      # Classes recorrentes de botões e textos
 │   ├── App.jsx             # Estado da tela e transições do protótipo
 │   └── main.jsx            # Entrada React e importação dos estilos comuns
+├── AGENTS.md              # Padrão de organização para agentes e contribuidores
 ├── .gitignore
 ├── .nvmrc
 ├── eslint.config.js
@@ -139,7 +167,7 @@ saude-palma-mao/
 └── README.md
 ```
 
-`node_modules/` é a pasta local de dependências e `dist/` é gerada pelo build. Ambas são ignoradas pelo Git. A futura pasta `pages/profissional/` será criada ao implementar o portal profissional.
+`node_modules/` é a pasta local de dependências e `dist/` é gerada pelo build. Ambas são ignoradas pelo Git. A home profissional está acessível em `#profissional`; as demais telas do portal continuam como próximas etapas.
 
 `EscolhaProfissional.jsx` pertence ao paciente: é a seleção de quem realizará o atendimento. Ela substitui o antigo nome `Profissional.jsx`, que poderia ser confundido com a área de trabalho do médico.
 
@@ -158,16 +186,21 @@ Como primeiro exercício, altere um texto em `src/pages/paciente/Paciente.jsx` e
 ### Onde colocar código novo
 
 - `pages/institucional/`: apresentação pública do projeto.
-- `pages/auth/`: acesso e cadastro; futuramente escolha de perfil e recuperação de acesso.
+- `pages/auth/`: acesso e cadastro; o link para profissional abre a home demonstrativa.
 - `pages/paciente/`: tarefas realizadas pelo paciente, inclusive a escolha do profissional.
+- `pages/profissional/`: páginas completas do médico e seu CSS; atualmente a home.
 - `components/layout/`: estrutura externa às telas e navegação compartilhada.
+- `components/profissional/`: cartões, ícones e diálogo do portal; conteúdos do diálogo em `panels/`.
+- `components/ui/`: elementos compartilháveis, como etiquetas e futuros campos e botões.
 - `styles/`: tokens e regras comuns. Estilos exclusivos ficam junto da página.
 
-Quando o portal profissional começar, suas telas ficarão em `pages/profissional/`. Componentes de interface reutilizáveis poderão ser extraídos para `components/ui/`; dados simulados para `data/`; chamadas à futura API para `services/`. Criar essas pastas quando houver código para elas.
+**Padrão do projeto:** `pages/` contém somente páginas e seu CSS. Todos os componentes, inclusive os exclusivos do médico, ficam em `components/`. Não criar pastas `components/` dentro de `pages/`. O [AGENTS.md](AGENTS.md) orienta agentes e contribuidores a manter essa organização.
 
-Os valores de `tokens.css` preservam o visual atual: a migração para Nunito/Inter, cores e componentes do Figma é a próxima etapa visual. `shared.css` reúne classes existentes e ainda não equivale à biblioteca de componentes proposta no style guide.
+Os dados profissionais, consultas e histórico são exemplos locais em `data/profissional.js`. A página passa esses registros aos componentes por propriedades; os painéis ainda não persistem nem se conectam a uma API. Chamadas futuras ficam em `services/`.
 
-A navegação usa estado local, sem roteador por URL, autenticação ou persistência. Atualizar a página reinicia o protótipo.
+O tema `.theme-figma` em `tokens.css` delimita os valores visuais da home profissional; fontes e SVGs do Figma são carregados de `assets/`. `shared.css` reúne classes existentes e ainda não equivale à biblioteca completa proposta no style guide.
+
+A navegação usa estado local, sem autenticação ou persistência. O hash `#profissional` abre a home médica, inclusive ao atualizar a página; ainda não há roteamento completo para as demais telas. Os estados de demonstração são reiniciados ao recarregar.
 
 ## Como vamos evoluir
 
@@ -176,10 +209,10 @@ Esta é uma sequência sugerida para o grupo ajustar às aulas e às entregas, s
 | Etapa | Entrega proposta | Aprendizado principal | Situação |
 | --- | --- | --- | --- |
 | 1 — Base atual | Apresentação, organização por contexto e documentação | JSX, componentes, props, estado e CSS | Base organizada |
-| 2 — Validação e protótipos | Validar as dores, aplicar o style guide e completar as referências das telas | Requisitos e padrões visuais | Design documentado; aplicação visual pendente |
+| 2 — Validação e protótipos | Validar as dores, aplicar o style guide e completar as referências das telas | Requisitos e padrões visuais | Design documentado; home profissional implementada |
 | 3 — Interface do paciente | Conectar acesso, pré-triagem e acompanhamento das consultas | Estado, eventos, formulários e navegação | Telas parciais; dados e validação pendentes |
 | 4 — Fluxo de agendamento | Preservar escolhas, confirmar e consultar agendamentos simulados | Composição de telas e estados de interface | Telas existentes; registros pendentes |
-| 5 — Profissional e administração | Portal profissional, agenda e leitura da pré-triagem; gestão administrativa em recorte posterior | Reutilização e organização por perfil | Portal profissional ainda não implementado |
+| 5 — Profissional e administração | Portal profissional, agenda e leitura da pré-triagem; gestão administrativa em recorte posterior | Reutilização e organização por perfil | Home profissional e painéis demonstrativos; demais páginas pendentes |
 | 6 — Integração fullstack | API Node.js, PostgreSQL, autenticação, permissões e persistência | Requisições, carregamento, erros e integração | Planejada |
 | 7 — Evolução e entrega | PWA, revisão de acessibilidade, testes dos fluxos e publicação | Qualidade e disponibilização da aplicação | Planejada |
 
