@@ -4,7 +4,7 @@ Organização registrada em **6 de outubro de 2026**, após a análise do [style
 
 ## 1. Objetivo desta etapa
 
-Preparar o código existente para desenvolver os fluxos de paciente e profissional em grupo. A home do profissional (`1:147`) e a agenda (`2:424`) estão conectadas à aplicação. O histórico e o perfil completos, além dos fluxos de acesso, ainda precisam de implementação.
+Preparar o código existente para desenvolver os fluxos de paciente e profissional em grupo. A home do profissional (`1:147`), a agenda (`2:424`) e o histórico (`2:754`) estão conectados à aplicação. O perfil completo e os fluxos de acesso ainda precisam de implementação.
 
 A escolha de atendimento do paciente continua em `pages/paciente/EscolhaProfissional.jsx`. No portal médico, as páginas compõem componentes de `components/profissional/`; os painéis de demonstração foram retirados de `pages/profissional/components/`. Esta organização preserva os textos, o design e os comportamentos existentes.
 
@@ -15,10 +15,11 @@ A escolha de atendimento do paciente continua em `pages/paciente/EscolhaProfissi
 | `src/pages/institucional/` | Apresentação pública do projeto. |
 | `src/pages/auth/` | Login e cadastro compartilhados pelos futuros perfis. Ter a opção de perfil na tela não significa que a autenticação esteja implementada. |
 | `src/pages/paciente/` | Área do paciente, pré-triagem, resultado e escolha/agendamento de atendimento. |
-| `src/pages/profissional/` | Páginas completas e seu CSS; atualmente a home `1:147` e a agenda `2:424`. |
+| `src/pages/profissional/` | Páginas completas e seu CSS; atualmente a home `1:147`, a agenda `2:424` e o histórico `2:754`. |
 | `src/components/layout/` | Estrutura externa às páginas: cabeçalho, conteúdo principal, rodapé e navegação por contexto. |
 | `src/components/profissional/` | Componentes do portal médico: cartão de consulta, ícone e diálogo profissional. |
 | `src/components/profissional/agendaProfissional/` | Seletor de dia, linha de consulta e faixa de horário livre da agenda. |
+| `src/components/profissional/historicoProfissional/` | Filtros, cartão de atendimento e diálogo de detalhe do histórico. |
 | `src/components/profissional/panels/` | Conteúdos internos do diálogo: agenda, histórico, horários, perfil e pré-triagem. Não são páginas completas. |
 | `src/components/ui/` | Elementos visuais compartilháveis entre os perfis, como `PriorityTag`. |
 | `src/data/` | Registros fictícios do profissional, consultas e histórico usados na demonstração. |
@@ -45,15 +46,18 @@ main.jsx
   └── App.jsx
        ├── AppLayout → páginas institucionais, de acesso e do paciente
        ├── HomeProfissional → ProfessionalLayout → ProfessionalHomePanel
-       └── AgendaProfissional → ProfessionalLayout
+       ├── AgendaProfissional → ProfessionalLayout
             ├── dados fictícios em data/agendaProfissional.js
             ├── componentes em profissional/agendaProfissional/
             └── ProfessionalHomePanel → conteúdos em profissional/panels/
+       └── HistoricoProfissional → ProfessionalLayout
+            ├── dados fictícios em data/profissional.js
+            └── componentes em profissional/historicoProfissional/
 ```
 
 `App.jsx` mantém `screen` com `useState` e passa ações às páginas por propriedades, como `onBack` e `onConfirmar`. Os identificadores das telas não são URLs. A seleção de profissional passou a usar `escolha-profissional`, evitando confusão com o futuro portal profissional.
 
-O portal profissional abre a home por `#profissional` e a agenda por `#agenda-profissional`, inclusive por acesso direto ou atualização. Os atalhos de histórico e perfil abrem seus painéis demonstrativos; `#inicio` retorna à página institucional. As demais telas continuam usando o estado de demonstração; uma implementação completa de rotas e do histórico do navegador ainda está pendente.
+O portal profissional abre a home por `#profissional`, a agenda por `#agenda-profissional` e o histórico por `#historico-profissional`, inclusive por acesso direto ou atualização. O perfil abre seu painel demonstrativo; `#inicio` retorna à página institucional. As demais telas continuam usando o estado de demonstração; uma implementação completa de rotas e do histórico do navegador ainda está pendente.
 
 `AppLayout` conserva a estrutura institucional e do paciente. A home profissional usa `ProfessionalLayout`, com navegação fixa e área de conteúdo próprias; o cabeçalho interno não reutiliza a navegação institucional.
 
@@ -90,6 +94,8 @@ O CSS continua global, sem CSS Modules. Use classes específicas ao contexto e e
 
 `AgendaProfissional.jsx` e `AgendaProfissional.css` implementam a página completa baseada no frame `2:424`. Seus blocos visuais ficam em `components/profissional/agendaProfissional/`. O `AgendaPreview` da home continua sendo uma amostra em um diálogo e não substitui essa página.
 
+`HistoricoProfissional.jsx` e `HistoricoProfissional.css` implementam o frame `2:754`. `HistoryFilters`, `HistoryCard` e `HistoryDetailDialog` ficam em `components/profissional/historicoProfissional/`; busca e filtros usam registros locais de `data/profissional.js`.
+
 Os painéis foram separados em `AgendaPreview`, `HistoryPreview`, `AvailabilityForm`, `ProfilePreview` e `TriagePanel`. `ProfessionalHomePanel` mantém abertura, fechamento e título do diálogo. O estado de disponibilidade, os horários salvos durante a sessão e a escolha do painel continuam sob responsabilidade de `HomeProfissional`.
 
 `HomeProfissional.jsx` continua identificando a página inicial. Para as próximas páginas completas, seguir os nomes `AgendaProfissional.jsx`, `HistoricoProfissional.jsx` e `PerfilProfissional.jsx`, sempre com o CSS correspondente. O sufixo `Preview` identifica apenas as amostras atuais; esses componentes não substituem as páginas planejadas.
@@ -120,8 +126,9 @@ Antes de padronizar os componentes, registrar as decisões sobre contraste dos b
 | `paciente/EscolhaProfissional.jsx` | Extensão do sistema, sem frame específico | Lista fixa; não guarda profissional/data/horário selecionados. |
 | `paciente/Agendamento.jsx` | Extensão do sistema, sem frame específico | Resumo fixo; ainda não usa a seleção do paciente. |
 | `paciente/Confirmacao.jsx` | Extensão do sistema, sem frame específico | Mensagem de confirmação; não cria registro de consulta. |
-| `profissional/HomeProfissional.jsx` | Home profissional, nó `1:147` | Composição visual implementada; atalhos usam dados fictícios e estado local. Histórico e perfil ainda não são páginas completas. |
+| `profissional/HomeProfissional.jsx` | Home profissional, nó `1:147` | Composição visual implementada; atalhos usam dados fictícios e estado local. Perfil ainda não é uma página completa. |
 | `profissional/AgendaProfissional.jsx` | Agenda profissional, nó `2:424` (estado alternativo `2:604`) | Seleção de dia, consultas e configuração de disponibilidade em estado local. Registros são demonstrativos. |
+| `profissional/HistoricoProfissional.jsx` | Histórico profissional, nó `2:754` | Busca, filtros, agrupamento por data e detalhes; registros e classificações são demonstrativos. |
 
 ## 6. Telas e experiências pendentes
 
@@ -137,7 +144,7 @@ Os nomes abaixo são propostas. Algumas experiências podem ser seções, etapas
 | Paciente | Histórico | Atalho já presente no protótipo; definir o recorte. O frame de histórico do Figma é profissional. |
 | Profissional | Home do profissional | Nó `1:147`: composição implementada; ligar disponibilidade e resumo aos registros persistentes. |
 | Profissional | Agenda | Implementada em `profissional/AgendaProfissional.jsx`; restam integração e persistência dos registros. |
-| Profissional | Histórico | Nó `2:754`: busca, filtros e atendimentos concluídos. |
+| Profissional | Histórico | Implementado em `profissional/HistoricoProfissional.jsx`; restam integrar e persistir atendimentos. |
 | Profissional | Perfil | Nó `2:902`: identificação, dados profissionais e clínicas vinculadas. |
 | Profissional | Detalhes do atendimento e leitura da pré-triagem | Requisito da jornada e ação dos cartões; composição de detalhes ainda não especificada. |
 | Profissional | Configuração da disponibilidade | Requisito da jornada; definir dias/horários e alimentar a oferta vista pelo paciente. |

@@ -46,8 +46,8 @@ export const professionalAppointments = [
 ]
 
 export const professionalHistory = [
-  { initials: 'MO', name: 'Marina Oliveira', detail: 'Consulta concluída', time: '08:30' },
-  { initials: 'CF', name: 'Carlos Ferreira', detail: 'Encaminhado à cardiologia', time: '10:00' },
-  { initials: 'AL', name: 'Ana Beatriz Lima', detail: 'Orientação e prescrição', time: '13:30' },
-  { initials: 'JS', name: 'João Pedro Santos', detail: 'Retorno em 30 dias', time: '15:00' },
+  { id: 'history-marina', initials: 'MO', name: 'Marina Oliveira', detail: 'Consulta concluída', time: '08:30', date: '18 de setembro', isThisMonth: true, isReturn: false },
+  { id: 'history-carlos', initials: 'CF', name: 'Carlos Ferreira', detail: 'Encaminhado à cardiologia', time: '10:00', date: '18 de setembro', isThisMonth: true, isReturn: false },
+  { id: 'history-ana', initials: 'AL', name: 'Ana Beatriz Lima', detail: 'Orientação e prescrição', time: '13:30', date: '18 de setembro', isThisMonth: true, isReturn: false },
+  { id: 'history-joao', initials: 'JS', name: 'João Pedro Santos', detail: 'Retorno em 30 dias', time: '15:00', date: '18 de setembro', isThisMonth: true, isReturn: true },
 ]

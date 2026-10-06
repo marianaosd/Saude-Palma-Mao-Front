@@ -14,6 +14,13 @@ import agendaHomeNav from '../../assets/icons/profissional/agenda-home-nav.svg'
 import agendaCalendarNav from '../../assets/icons/profissional/agenda-calendar-nav.svg'
 import agendaHistoryNav from '../../assets/icons/profissional/agenda-history-nav.svg'
 import agendaProfileNav from '../../assets/icons/profissional/agenda-profile-nav.svg'
+import historySearch from '../../assets/icons/profissional/history-search.svg'
+import historyCheck from '../../assets/icons/profissional/history-check.svg'
+import historyChevron from '../../assets/icons/profissional/history-chevron-right.svg'
+import historyHomeNav from '../../assets/icons/profissional/history-home-nav.svg'
+import historyAgendaNav from '../../assets/icons/profissional/history-agenda-nav.svg'
+import historyActiveNav from '../../assets/icons/profissional/history-active-nav.svg'
+import historyProfileNav from '../../assets/icons/profissional/history-profile-nav.svg'
 import './ProfessionalIcon.css'
 
 const icons = {
@@ -33,6 +40,13 @@ const icons = {
   agendaCalendarNav,
   agendaHistoryNav,
   agendaProfileNav,
+  historySearch,
+  historyCheck,
+  historyChevron,
+  historyHomeNav,
+  historyAgendaNav,
+  historyActiveNav,
+  historyProfileNav,
 }
 
 function ProfessionalIcon({ name }) {

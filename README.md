@@ -119,6 +119,10 @@ saude-palma-mao/
 │   │   │   │   ├── AgendaDaySelector.jsx/.css
 │   │   │   │   ├── AgendaAppointmentRow.jsx/.css
 │   │   │   │   └── AgendaAvailableSlot.jsx/.css
+│   │   │   ├── historicoProfissional/
+│   │   │   │   ├── HistoryFilters.jsx/.css
+│   │   │   │   ├── HistoryCard.jsx/.css
+│   │   │   │   └── HistoryDetailDialog.jsx/.css
 │   │   │   └── panels/     # Prévias e formulários da home
 │   │   │       ├── AgendaPreview.jsx
 │   │   │       ├── HistoryPreview.jsx
@@ -149,7 +153,9 @@ saude-palma-mao/
 │   │       ├── HomeProfissional.jsx
 │   │       ├── HomeProfissional.css
 │   │       ├── AgendaProfissional.jsx
-│   │       └── AgendaProfissional.css
+│   │       ├── AgendaProfissional.css
+│   │       ├── HistoricoProfissional.jsx
+│   │       └── HistoricoProfissional.css
 │   ├── assets/
 │   │   ├── fonts/          # Inter e Nunito locais
 │   │   └── icons/profissional/ # SVGs exportados do Figma
@@ -174,7 +180,7 @@ saude-palma-mao/
 └── README.md
 ```
 
-`node_modules/` é a pasta local de dependências e `dist/` é gerada pelo build. Ambas são ignoradas pelo Git. A home profissional está em `#profissional` e a agenda em `#agenda-profissional`; histórico e perfil completos continuam como próximas etapas.
+`node_modules/` é a pasta local de dependências e `dist/` é gerada pelo build. Ambas são ignoradas pelo Git. A home profissional está em `#profissional`, a agenda em `#agenda-profissional` e o histórico em `#historico-profissional`; o perfil completo é a próxima etapa.
 
 `EscolhaProfissional.jsx` pertence ao paciente: é a seleção de quem realizará o atendimento. Ela substitui o antigo nome `Profissional.jsx`, que poderia ser confundido com a área de trabalho do médico.
 
@@ -197,7 +203,7 @@ Como primeiro exercício, altere um texto em `src/pages/paciente/Paciente.jsx` e
 - `pages/institucional/`: apresentação pública do projeto.
 - `pages/auth/`: acesso e cadastro; o link para profissional abre a home demonstrativa.
 - `pages/paciente/`: tarefas realizadas pelo paciente, inclusive a escolha do profissional.
-- `pages/profissional/`: páginas completas do médico e seu CSS; atualmente a home e a agenda.
+- `pages/profissional/`: páginas completas do médico e seu CSS; atualmente a home, a agenda e o histórico.
 - `components/layout/`: estrutura externa às telas e navegação compartilhada.
 - `components/profissional/`: cartões, ícones e diálogo do portal; conteúdos do diálogo em `panels/`.
 - `components/ui/`: elementos compartilháveis, como etiquetas e futuros campos e botões.
@@ -205,11 +211,11 @@ Como primeiro exercício, altere um texto em `src/pages/paciente/Paciente.jsx` e
 
 **Padrão do projeto:** `pages/` contém somente páginas e seu CSS. Todos os componentes, inclusive os exclusivos do médico, ficam em `components/`. Não criar pastas `components/` dentro de `pages/`. O [AGENTS.md](AGENTS.md) orienta agentes e contribuidores a manter essa organização.
 
-Os dados profissionais, consultas e histórico são exemplos locais em `data/profissional.js`; os dias da agenda ficam em `data/agendaProfissional.js`. As páginas passam os registros aos componentes por propriedades; disponibilidade e consultas ainda não persistem nem se conectam a uma API. Chamadas futuras ficam em `services/`.
+Os dados profissionais, consultas e histórico são exemplos locais em `data/profissional.js`; os dias da agenda ficam em `data/agendaProfissional.js`. As páginas passam os registros aos componentes por propriedades; disponibilidade, histórico e consultas ainda não persistem nem se conectam a uma API. Chamadas futuras ficam em `services/`.
 
 O tema `.theme-figma` em `tokens.css` delimita os valores visuais do portal profissional; fontes e SVGs do Figma são carregados de `assets/`. `shared.css` reúne classes existentes e ainda não equivale à biblioteca completa proposta no style guide.
 
-A navegação profissional usa os hashes `#profissional` e `#agenda-profissional`; histórico e perfil abrem painéis demonstrativos. Ainda não há autenticação nem persistência; os estados locais são reiniciados ao recarregar.
+A navegação profissional usa os hashes `#profissional`, `#agenda-profissional` e `#historico-profissional`; perfil abre um painel demonstrativo. Ainda não há autenticação nem persistência; os estados locais são reiniciados ao recarregar.
 
 ## Como vamos evoluir
 
@@ -218,10 +224,10 @@ Esta é uma sequência sugerida para o grupo ajustar às aulas e às entregas, s
 | Etapa | Entrega proposta | Aprendizado principal | Situação |
 | --- | --- | --- | --- |
 | 1 — Base atual | Apresentação, organização por contexto e documentação | JSX, componentes, props, estado e CSS | Base organizada |
-| 2 — Validação e protótipos | Validar as dores, aplicar o style guide e completar as referências das telas | Requisitos e padrões visuais | Design documentado; home e agenda profissionais implementadas |
+| 2 — Validação e protótipos | Validar as dores, aplicar o style guide e completar as referências das telas | Requisitos e padrões visuais | Design documentado; home, agenda e histórico profissionais implementados |
 | 3 — Interface do paciente | Conectar acesso, pré-triagem e acompanhamento das consultas | Estado, eventos, formulários e navegação | Telas parciais; dados e validação pendentes |
 | 4 — Fluxo de agendamento | Preservar escolhas, confirmar e consultar agendamentos simulados | Composição de telas e estados de interface | Telas existentes; registros pendentes |
-| 5 — Profissional e administração | Portal profissional, detalhes de pré-triagem; gestão administrativa em recorte posterior | Reutilização e organização por perfil | Home e agenda profissionais implementadas; histórico e perfil pendentes |
+| 5 — Profissional e administração | Portal profissional, detalhes de pré-triagem; gestão administrativa em recorte posterior | Reutilização e organização por perfil | Home, agenda e histórico implementados; perfil pendente |
 | 6 — Integração fullstack | API Node.js, PostgreSQL, autenticação, permissões e persistência | Requisições, carregamento, erros e integração | Planejada |
 | 7 — Evolução e entrega | PWA, revisão de acessibilidade, testes dos fluxos e publicação | Qualidade e disponibilização da aplicação | Planejada |
 

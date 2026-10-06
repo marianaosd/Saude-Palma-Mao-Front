@@ -18,7 +18,7 @@ const quickActions = [
 ]
 
 function getInitialPanel() {
-  const panelType = window.location.hash.match(/^#profissional\/(historico|perfil)$/)?.[1]
+  const panelType = window.location.hash.match(/^#profissional\/(perfil)$/)?.[1]
   return panelType ? { type: panelType } : null
 }
 
@@ -40,8 +40,7 @@ function HomeProfissional() {
       return
     }
     if (destination === 'historico' || destination === 'perfil') {
-      setPanel({ type: destination })
-      window.location.hash = `#profissional/${destination}`
+      window.location.hash = destination === 'historico' ? '#historico-profissional' : '#profissional/perfil'
       return
     }
     setPanel({ type: destination })
@@ -49,7 +48,7 @@ function HomeProfissional() {
 
   function closePanel() {
     setPanel(null)
-    if (window.location.hash === '#profissional/historico' || window.location.hash === '#profissional/perfil') {
+    if (window.location.hash === '#profissional/perfil') {
       window.location.hash = '#profissional'
     }
   }
@@ -60,7 +59,7 @@ function HomeProfissional() {
 
   return (
     <ProfessionalLayout
-      activePage={panel?.type === 'historico' || panel?.type === 'perfil' ? panel.type : 'inicio'}
+      activePage={panel?.type === 'perfil' ? panel.type : 'inicio'}
       onNavigate={navigate}
     >
       <header className="professional-header">

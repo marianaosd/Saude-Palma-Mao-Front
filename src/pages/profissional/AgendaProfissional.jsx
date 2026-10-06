@@ -18,7 +18,9 @@ function AgendaProfissional() {
   function navigate(destination) {
     if (destination === 'inicio' || destination === 'agenda') {
       window.location.hash = destination === 'inicio' ? '#profissional' : '#agenda-profissional'
-    } else if (destination === 'historico' || destination === 'perfil') {
+    } else if (destination === 'historico') {
+      window.location.hash = '#historico-profissional'
+    } else if (destination === 'perfil') {
       window.location.hash = `#profissional/${destination}`
     } else {
       window.location.hash = '#profissional'

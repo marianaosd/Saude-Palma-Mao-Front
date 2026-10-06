@@ -1,0 +1,84 @@
+.professional-history {
+  min-height: calc(100dvh - var(--professional-nav-height) - env(safe-area-inset-bottom));
+  background: var(--color-background);
+}
+
+.professional-history__header {
+  padding: var(--space-5) var(--space-5) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.professional-history__header h1 {
+  margin: 0;
+  color: var(--color-text);
+  font: 400 1.25rem / 1.4 var(--font-heading);
+}
+
+.professional-history__search {
+  position: relative;
+  display: flex;
+  height: 44px;
+  align-items: center;
+  margin-top: var(--space-4);
+}
+
+.professional-history__search-icon {
+  position: absolute;
+  z-index: 1;
+  left: 12px;
+  display: flex;
+  pointer-events: none;
+}
+
+.professional-history__search input {
+  width: 100%;
+  height: 100%;
+  padding: var(--space-3) var(--space-3) var(--space-3) 40px;
+  border: 0;
+  border-radius: var(--radius-md);
+  outline-offset: 2px;
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+  font: 400 0.875rem / 1.5 var(--font-body);
+}
+
+.professional-history__search input::placeholder {
+  color: rgb(0 0 0 / 50%);
+  opacity: 1;
+}
+
+.professional-history__search input::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+.professional-history__main {
+  padding: var(--space-5);
+  outline: none;
+}
+
+.professional-history__group > h2 {
+  height: 36px;
+  margin: 0;
+  padding-top: var(--space-5);
+  color: var(--color-muted);
+  font: 400 0.75rem / 1.3334 var(--font-body);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.professional-history__list {
+  display: grid;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+}
+
+.professional-history__empty {
+  margin: var(--space-5) 0 0;
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  text-align: center;
+}

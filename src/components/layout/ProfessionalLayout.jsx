@@ -15,6 +15,13 @@ const agendaIcons = {
   perfil: 'agendaProfileNav',
 }
 
+const historyIcons = {
+  inicio: 'historyHomeNav',
+  agenda: 'historyAgendaNav',
+  historico: 'historyActiveNav',
+  perfil: 'historyProfileNav',
+}
+
 function ProfessionalLayout({ children, onNavigate, activePage = 'inicio' }) {
   return (
     <div className="professional-shell theme-figma">
@@ -31,7 +38,9 @@ function ProfessionalLayout({ children, onNavigate, activePage = 'inicio' }) {
             aria-current={id === activePage ? 'page' : undefined}
             onClick={() => onNavigate(id)}
           >
-            <ProfessionalIcon name={activePage === 'agenda' ? agendaIcons[id] : icon} />
+            <ProfessionalIcon
+              name={activePage === 'agenda' ? agendaIcons[id] : activePage === 'historico' ? historyIcons[id] : icon}
+            />
             <span>{label}</span>
           </button>
         ))}

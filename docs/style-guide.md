@@ -9,7 +9,7 @@ Referência visual e técnica para padronizar as próximas páginas do frontend.
 | Abrangência | As 13 telas da `Page 1`, incluindo os fluxos de paciente e profissional |
 | Método | Inspeção das imagens renderizadas, hierarquia, preenchimentos, textos, medidas, bordas e efeitos das camadas |
 | Stack do repositório | React, JavaScript/JSX, CSS e Vite |
-| Status | Design documentado; home profissional e agenda implementadas segundo os frames `1:147` e `2:424`; histórico e perfil pendentes |
+| Status | Design documentado; home, agenda e histórico implementados segundo os frames `1:147`, `2:424` e `2:754`; perfil pendente |
 
 ## 1. Como usar este documento
 
@@ -480,12 +480,14 @@ Implementação iniciada em **6 de outubro de 2026**. A página em `src/pages/pr
 
 A agenda do frame `2:424` está em `src/pages/profissional/AgendaProfissional.jsx`. `AgendaDaySelector`, `AgendaAppointmentRow` e `AgendaAvailableSlot` ficam em `components/profissional/agendaProfissional/`; o estado de dia selecionado e o diálogo de horários são coordenados pela página. Selecionar os dias 22 e 23 reproduz os dois estados do Figma; os demais dias mostram um estado vazio local. Os registros e horários são dados de demonstração.
 
+O histórico do frame `2:754` está em `src/pages/profissional/HistoricoProfissional.jsx`. `HistoryFilters`, `HistoryCard` e `HistoryDetailDialog` ficam em `components/profissional/historicoProfissional/`. Busca por nome/detalhe, filtro de mês e filtro de retornos operam sobre os registros fictícios em `data/profissional.js`; abrir um cartão mostra seus detalhes locais.
+
 - `tokens.css` mantém os tokens existentes do protótipo e acrescenta o escopo `.theme-figma` com os valores observados usados por esta página.
 - `fonts.css` declara Nunito 400 e Inter 400 como fontes locais; os arquivos e licenças estão em `src/assets/fonts/`.
 - `ProfessionalIcon.jsx` aponta para os SVGs originais do frame, guardados em `src/assets/icons/profissional/`, sem referências a URLs temporárias nem alterações às dimensões intrínsecas.
 - `AppointmentCard` e `PriorityTag` dividem a construção das consultas e suas etiquetas. Os registros fictícios do profissional, consultas e histórico estão em `src/data/profissional.js` e são passados pela página aos componentes.
 - `components/profissional/ProfessionalHomePanel.jsx` controla o diálogo; os conteúdos de agenda, histórico, horários, perfil e pré-triagem ficam em `components/profissional/panels/`. Todos usam `ProfessionalHomePanel.css`; não há componentes dentro de `pages/`. `AgendaPreview`, `HistoryPreview` e `ProfilePreview` identificam as amostras abertas pela home, sem representar páginas completas.
-- `App.jsx` abre a home profissional em `#profissional` e a agenda em `#agenda-profissional`, inclusive ao acessar ou atualizar essas URLs. O login de demonstração oferece o link “Entrar como profissional”.
+- `App.jsx` abre a home profissional em `#profissional`, a agenda em `#agenda-profissional` e o histórico em `#historico-profissional`, inclusive ao acessar ou atualizar essas URLs. O login de demonstração oferece o link “Entrar como profissional”.
 - A agenda mantém a abreviação do dia e a data completa no mesmo registro de demonstração; os textos dos dias e os horários da referência não são consultados de um calendário nem de uma API.
 - Os atalhos abrem painéis nativos acessíveis. Disponibilidade, amostras da agenda, pré-triagem de demonstração, horários locais, histórico e dados de perfil têm interações de demonstração; disponibilidade e horários não persistem nem chegam a um backend.
 - O fundo da marca e dos CTAs primários usa a cor original `#0D9488`, como no Figma. O contraste da marca e a possível proposta de separar o fundo de ação permanecem documentados na seção 11; o ajuste não foi incorporado à arte reproduzida.
@@ -495,7 +497,7 @@ Esta adoção ainda não conecta os registros ao percurso do paciente ou a uma A
 ### 13.3 Ordem sugerida
 
 1. Resolver as pendências de contraste, prioridade e estados que afetam componentes compartilhados.
-2. Construir as páginas completas de histórico e perfil profissionais e concluir a navegação por URL.
+2. Construir a página completa de perfil profissional e concluir a navegação por URL.
 3. Aplicar a identidade aprovada às telas de acesso e à home do paciente.
 4. Unificar os registros dos dois perfis e construir a consulta vinculada à pré-triagem.
 5. Implementar e validar as etapas restantes da pré-triagem e do agendamento do paciente.
