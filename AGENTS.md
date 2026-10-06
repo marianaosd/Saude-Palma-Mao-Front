@@ -15,7 +15,7 @@ Consultar os trechos pertinentes antes de criar ou alterar telas. Distinguir o q
 
 - `src/pages/<contexto>/`: somente páginas completas e o CSS dessas páginas. **Não criar pastas `components/` dentro de `pages/`.**
 - `src/components/profissional/`: componentes específicos do portal médico, mesmo que usados por uma única página.
-- `src/components/profissional/panels/`: conteúdos dos painéis demonstrativos abertos por `ProfessionalPanel`; não confundir esses conteúdos com páginas completas.
+- `src/components/profissional/panels/`: conteúdos dos painéis demonstrativos abertos por `ProfessionalHomePanel`; não confundir esses conteúdos com páginas completas.
 - `src/components/ui/`: elementos de interface compartilháveis entre contextos, como `PriorityTag` e futuros botões/campos.
 - `src/components/layout/`: estrutura externa às páginas e navegação de contexto, como `ProfessionalLayout`.
 - `src/data/`: registros fictícios de demonstração. Rótulos de interface e configurações visuais pequenas podem ficar junto do componente.
@@ -31,8 +31,10 @@ Uma nova agenda completa, por exemplo, deve ser `src/pages/profissional/AgendaPr
 - Estado de edição temporária pode ficar no formulário. Não criar estado global ou abstrações sem uma necessidade concreta.
 - Usar nomes de componentes/arquivos JSX em `PascalCase`, variáveis/funções em `camelCase`, aspas simples e ausência de ponto e vírgula.
 - Manter os nomes existentes e a organização por perfil. Não renomear todos os componentes só para traduzir nomes.
+- Manter `profissional` como nome da área. Usar `Home` nos componentes exclusivos da página inicial, como `ProfessionalHomePanel`, e `Preview` nas amostras de futuras páginas, como `AgendaPreview`, `HistoryPreview` e `ProfilePreview`.
+- Componentes reutilizáveis, como `AppointmentCard`, `ProfessionalIcon` e `ProfessionalLayout`, mantêm nomes independentes de uma página específica.
 - Separar componentes por responsabilidade quando isso facilitar a leitura; pequenos auxiliares privados podem ficar no arquivo que os utiliza.
-- Importar o CSS próprio pelo JSX do componente ou da página. Os conteúdos de `panels/` compartilham `ProfessionalPanel.css`, carregado pelo diálogo que os contém.
+- Importar o CSS próprio pelo JSX do componente ou da página. Os conteúdos de `panels/` compartilham `ProfessionalHomePanel.css`, carregado pelo diálogo que os contém.
 - Reutilizar o que já existe antes de criar novos componentes. Não criar pastas, páginas ou arquivos vazios para representar trabalho futuro.
 
 ## Design e escopo

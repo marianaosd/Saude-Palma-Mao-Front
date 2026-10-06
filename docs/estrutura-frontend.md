@@ -47,7 +47,7 @@ main.jsx
             ├── dados fictícios de data/profissional.js
             └── ProfessionalLayout
                  ├── conteúdo da página e AppointmentCard
-                 └── ProfessionalPanel → conteúdos em profissional/panels/
+                 └── ProfessionalHomePanel → conteúdos em profissional/panels/
 ```
 
 `App.jsx` mantém `screen` com `useState` e passa ações às páginas por propriedades, como `onBack` e `onConfirmar`. Os identificadores das telas não são URLs. A seleção de profissional passou a usar `escolha-profissional`, evitando confusão com o futuro portal profissional.
@@ -65,12 +65,12 @@ O portal profissional tem uma exceção: `#profissional` abre sua home, inclusiv
 - `components/layout/AppLayout.css`: estilos do cabeçalho, container, rodapé e atalho para o conteúdo.
 - Cada página importa seu CSS de mesmo nome. Login e cadastro importam o mesmo `Auth.css`.
 - Componentes com CSS próprio o importam no seu arquivo JSX: `ProfessionalIcon.css` pertence ao ícone, por exemplo, e não ao layout.
-- Os conteúdos de `components/profissional/panels/` usam as classes comuns de `ProfessionalPanel.css`, importado pelo diálogo que os contém. Não duplicar essa folha para cada conteúdo.
+- Os conteúdos de `components/profissional/panels/` usam as classes comuns de `ProfessionalHomePanel.css`, importado pelo diálogo que os contém. Não duplicar essa folha para cada conteúdo.
 - As media queries ficam junto das regras da página a que pertencem, nos arquivos correspondentes.
 
 O CSS continua global, sem CSS Modules. Use classes específicas ao contexto e evite seletores genéricos no CSS de páginas. Na escolha de profissional, o prefixo passou de `professional-` para `professional-selection-`, deixando claro a qual fluxo esses estilos pertencem.
 
-`ProfessionalLayout` possui composição e navegação próprias. `HomeProfissional.jsx` importa os dados de demonstração de `data/profissional.js` e os passa aos componentes por propriedades. `ProfessionalPanel` controla o diálogo e escolhe seu conteúdo; cada arquivo de `panels/` cuida de uma responsabilidade. Os componentes não importam páginas nem os registros fictícios diretamente. Rótulos de interface, como os títulos dos painéis, podem permanecer junto do componente.
+`ProfessionalLayout` possui composição e navegação próprias. `HomeProfissional.jsx` importa os dados de demonstração de `data/profissional.js` e os passa aos componentes por propriedades. `ProfessionalHomePanel` controla o diálogo e escolhe seu conteúdo; cada arquivo de `panels/` cuida de uma responsabilidade. Os componentes não importam páginas nem os registros fictícios diretamente. Rótulos de interface, como os títulos dos painéis, podem permanecer junto do componente.
 
 ### Convenções para o grupo
 
@@ -83,12 +83,15 @@ O CSS continua global, sem CSS Modules. Use classes específicas ao contexto e e
 7. Ao adicionar uma página, implementar sua entrada e saída na navegação e atualizar o inventário abaixo.
 8. Passar registros e ações por propriedades; concentrar os exemplos de dados em `data/`, mantendo o estado de tela na página e o estado de edição local no formulário.
 9. Consultar o [AGENTS.md](../AGENTS.md): ele registra esse padrão para as próximas alterações feitas por agentes no repositório.
+10. Manter `profissional` como nome da área. Usar `Home` em componentes exclusivos da página inicial e `Preview` nas amostras de futuras páginas. Componentes reutilizáveis mantêm nomes genéricos, como `AppointmentCard`, `ProfessionalIcon` e `ProfessionalLayout`.
 
 ### Exemplo para a próxima página profissional
 
-Uma agenda completa deverá entrar como `pages/profissional/AgendaProfissional.jsx` e `AgendaProfissional.css`. Seus blocos visuais devem reutilizar ou acrescentar componentes em `components/profissional/`. O `AgendaPanel` atual continua sendo uma amostra em um diálogo; sua presença não significa que a página Agenda esteja implementada.
+Uma agenda completa deverá entrar como `pages/profissional/AgendaProfissional.jsx` e `AgendaProfissional.css`. Seus blocos visuais devem reutilizar ou acrescentar componentes em `components/profissional/`. O `AgendaPreview` atual continua sendo uma amostra em um diálogo; sua presença não significa que a página Agenda esteja implementada.
 
-Os painéis foram separados em `AgendaPanel`, `HistoryPanel`, `AvailabilityForm`, `ProfilePanel` e `TriagePanel`. `ProfessionalPanel` mantém abertura, fechamento e título do diálogo. O estado de disponibilidade, os horários salvos durante a sessão e a escolha do painel continuam sob responsabilidade de `HomeProfissional`.
+Os painéis foram separados em `AgendaPreview`, `HistoryPreview`, `AvailabilityForm`, `ProfilePreview` e `TriagePanel`. `ProfessionalHomePanel` mantém abertura, fechamento e título do diálogo. O estado de disponibilidade, os horários salvos durante a sessão e a escolha do painel continuam sob responsabilidade de `HomeProfissional`.
+
+`HomeProfissional.jsx` continua identificando a página inicial. Para as próximas páginas completas, seguir os nomes `AgendaProfissional.jsx`, `HistoricoProfissional.jsx` e `PerfilProfissional.jsx`, sempre com o CSS correspondente. O sufixo `Preview` identifica apenas as amostras atuais; esses componentes não substituem as páginas planejadas.
 
 ## 4. O que o style guide define para os próximos passos
 

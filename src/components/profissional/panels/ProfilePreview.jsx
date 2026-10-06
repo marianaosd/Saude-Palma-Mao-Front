@@ -1,4 +1,4 @@
-function ProfilePanel({ professional }) {
+function ProfilePreview({ professional }) {
   return (
     <div className="professional-panel__profile">
       <span className="professional-panel__avatar">{professional.initials}</span>
@@ -10,4 +10,4 @@ function ProfilePanel({ professional }) {
   )
 }
 
-export default ProfilePanel
+export default ProfilePreview

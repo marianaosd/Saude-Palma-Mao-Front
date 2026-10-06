@@ -2,7 +2,7 @@ import { useState } from 'react'
 import ProfessionalLayout from '../../components/layout/ProfessionalLayout.jsx'
 import ProfessionalIcon from '../../components/profissional/ProfessionalIcon.jsx'
 import AppointmentCard from '../../components/profissional/AppointmentCard.jsx'
-import ProfessionalPanel from '../../components/profissional/ProfessionalPanel.jsx'
+import ProfessionalHomePanel from '../../components/profissional/ProfessionalHomePanel.jsx'
 import {
   appointmentDay,
   professional,
@@ -129,7 +129,7 @@ function HomeProfissional() {
       </main>
 
       {panel && (
-        <ProfessionalPanel
+        <ProfessionalHomePanel
           key={panel.type}
           panel={panel}
           professional={professional}

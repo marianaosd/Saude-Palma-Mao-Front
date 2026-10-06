@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
-import AgendaPanel from './panels/AgendaPanel.jsx'
-import HistoryPanel from './panels/HistoryPanel.jsx'
+import AgendaPreview from './panels/AgendaPreview.jsx'
+import HistoryPreview from './panels/HistoryPreview.jsx'
 import AvailabilityForm from './panels/AvailabilityForm.jsx'
-import ProfilePanel from './panels/ProfilePanel.jsx'
+import ProfilePreview from './panels/ProfilePreview.jsx'
 import TriagePanel from './panels/TriagePanel.jsx'
-import './ProfessionalPanel.css'
+import './ProfessionalHomePanel.css'
 
 const headings = {
   agenda: 'Agenda',
@@ -26,7 +26,7 @@ function PanelHeading({ title, onClose }) {
   )
 }
 
-function ProfessionalPanel({
+function ProfessionalHomePanel({
   panel,
   professional,
   appointments,
@@ -42,10 +42,10 @@ function ProfessionalPanel({
   }, [])
 
   let content
-  if (panel.type === 'agenda') content = <AgendaPanel appointments={appointments} />
-  else if (panel.type === 'historico') content = <HistoryPanel records={historyRecords} />
+  if (panel.type === 'agenda') content = <AgendaPreview appointments={appointments} />
+  else if (panel.type === 'historico') content = <HistoryPreview records={historyRecords} />
   else if (panel.type === 'horarios') content = <AvailabilityForm hours={hours} onSave={onSaveHours} />
-  else if (panel.type === 'perfil') content = <ProfilePanel professional={professional} />
+  else if (panel.type === 'perfil') content = <ProfilePreview professional={professional} />
   else if (panel.type === 'triagem') content = <TriagePanel appointment={panel.appointment} />
   else content = <p className="professional-panel__empty">Você está em dia.</p>
 
@@ -64,4 +64,4 @@ function ProfessionalPanel({
   )
 }
 
-export default ProfessionalPanel
+export default ProfessionalHomePanel

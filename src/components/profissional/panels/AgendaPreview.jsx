@@ -1,6 +1,6 @@
 import PriorityTag from '../../ui/PriorityTag.jsx'
 
-function AgendaPanel({ appointments }) {
+function AgendaPreview({ appointments }) {
   return (
     <>
       <p className="professional-panel__description">
@@ -22,4 +22,4 @@ function AgendaPanel({ appointments }) {
   )
 }
 
-export default AgendaPanel
+export default AgendaPreview

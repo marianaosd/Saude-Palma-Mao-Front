@@ -113,13 +113,13 @@ saude-palma-mao/
 │   │   │   ├── AppointmentCard.css
 │   │   │   ├── ProfessionalIcon.jsx
 │   │   │   ├── ProfessionalIcon.css
-│   │   │   ├── ProfessionalPanel.jsx
-│   │   │   ├── ProfessionalPanel.css
-│   │   │   └── panels/     # Conteúdos do diálogo profissional
-│   │   │       ├── AgendaPanel.jsx
-│   │   │       ├── HistoryPanel.jsx
+│   │   │   ├── ProfessionalHomePanel.jsx
+│   │   │   ├── ProfessionalHomePanel.css
+│   │   │   └── panels/     # Prévias e formulários da home
+│   │   │       ├── AgendaPreview.jsx
+│   │   │       ├── HistoryPreview.jsx
 │   │   │       ├── AvailabilityForm.jsx
-│   │   │       ├── ProfilePanel.jsx
+│   │   │       ├── ProfilePreview.jsx
 │   │   │       └── TriagePanel.jsx
 │   │   └── ui/
 │   │       ├── PriorityTag.jsx
@@ -170,6 +170,8 @@ saude-palma-mao/
 `node_modules/` é a pasta local de dependências e `dist/` é gerada pelo build. Ambas são ignoradas pelo Git. A home profissional está acessível em `#profissional`; as demais telas do portal continuam como próximas etapas.
 
 `EscolhaProfissional.jsx` pertence ao paciente: é a seleção de quem realizará o atendimento. Ela substitui o antigo nome `Profissional.jsx`, que poderia ser confundido com a área de trabalho do médico.
+
+Mantemos `profissional` como nome da área. `HomeProfissional` é a página inicial, e `ProfessionalHomePanel` é seu diálogo. `AgendaPreview`, `HistoryPreview` e `ProfilePreview` são amostras nesse diálogo; as páginas completas de agenda, histórico e perfil ainda serão desenvolvidas. Componentes reutilizáveis, como `AppointmentCard`, `ProfessionalIcon` e `ProfessionalLayout`, conservam nomes independentes da home.
 
 ## Por onde começar a aprender React
 

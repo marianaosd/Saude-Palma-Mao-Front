@@ -1,4 +1,4 @@
-function HistoryPanel({ records }) {
+function HistoryPreview({ records }) {
   return (
     <>
       <p className="professional-panel__description">18 de setembro</p>
@@ -17,4 +17,4 @@ function HistoryPanel({ records }) {
   )
 }
 
-export default HistoryPanel
+export default HistoryPreview
