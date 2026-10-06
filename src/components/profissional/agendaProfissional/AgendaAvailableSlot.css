@@ -1,0 +1,22 @@
+.agenda-available-slot {
+  display: flex;
+  width: 100%;
+  min-height: 46px;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px dashed var(--color-primary-dark);
+  border-radius: var(--radius-md);
+  background: rgb(240 253 249 / 50%);
+  color: var(--color-primary-dark);
+}
+
+.agenda-available-slot > time {
+  flex: 0 0 44px;
+  color: var(--color-primary-dark);
+  font: 400 0.875rem / 1.4286 var(--font-heading);
+}
+
+.agenda-available-slot > span {
+  font: 400 0.75rem / 1.3334 var(--font-body);
+}

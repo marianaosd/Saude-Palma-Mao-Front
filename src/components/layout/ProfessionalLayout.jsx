@@ -8,7 +8,14 @@ const destinations = [
   { id: 'perfil', label: 'Perfil', icon: 'profileNav' },
 ]
 
-function ProfessionalLayout({ children, onNavigate }) {
+const agendaIcons = {
+  inicio: 'agendaHomeNav',
+  agenda: 'agendaCalendarNav',
+  historico: 'agendaHistoryNav',
+  perfil: 'agendaProfileNav',
+}
+
+function ProfessionalLayout({ children, onNavigate, activePage = 'inicio' }) {
   return (
     <div className="professional-shell theme-figma">
       <a className="professional-skip-link" href="#professional-content">
@@ -20,11 +27,11 @@ function ProfessionalLayout({ children, onNavigate }) {
           <button
             key={id}
             type="button"
-            className={`professional-bottom-nav__item${id === 'inicio' ? ' professional-bottom-nav__item--active' : ''}`}
-            aria-current={id === 'inicio' ? 'page' : undefined}
+            className={`professional-bottom-nav__item${id === activePage ? ' professional-bottom-nav__item--active' : ''}`}
+            aria-current={id === activePage ? 'page' : undefined}
             onClick={() => onNavigate(id)}
           >
-            <ProfessionalIcon name={icon} />
+            <ProfessionalIcon name={activePage === 'agenda' ? agendaIcons[id] : icon} />
             <span>{label}</span>
           </button>
         ))}

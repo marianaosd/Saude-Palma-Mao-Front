@@ -17,19 +17,41 @@ const quickActions = [
   { id: 'historico', icon: 'historyAction', label: 'Histórico' },
 ]
 
+function getInitialPanel() {
+  const panelType = window.location.hash.match(/^#profissional\/(historico|perfil)$/)?.[1]
+  return panelType ? { type: panelType } : null
+}
+
 function HomeProfissional() {
   const [available, setAvailable] = useState(true)
-  const [panel, setPanel] = useState(null)
+  const [panel, setPanel] = useState(getInitialPanel)
   const [hours, setHours] = useState({ start: '08:00', end: '17:00' })
   const upcomingAppointments = professionalAppointments.slice(0, 3)
 
   function navigate(destination) {
     if (destination === 'inicio') {
+      if (window.location.hash !== '#profissional') window.location.hash = '#profissional'
       document.getElementById('professional-content').focus({ preventScroll: true })
       window.scrollTo({ top: 0, behavior: 'instant' })
       return
     }
+    if (destination === 'agenda') {
+      window.location.hash = '#agenda-profissional'
+      return
+    }
+    if (destination === 'historico' || destination === 'perfil') {
+      setPanel({ type: destination })
+      window.location.hash = `#profissional/${destination}`
+      return
+    }
     setPanel({ type: destination })
+  }
+
+  function closePanel() {
+    setPanel(null)
+    if (window.location.hash === '#profissional/historico' || window.location.hash === '#profissional/perfil') {
+      window.location.hash = '#profissional'
+    }
   }
 
   function viewTriage(appointment) {
@@ -37,7 +59,10 @@ function HomeProfissional() {
   }
 
   return (
-    <ProfessionalLayout onNavigate={navigate}>
+    <ProfessionalLayout
+      activePage={panel?.type === 'historico' || panel?.type === 'perfil' ? panel.type : 'inicio'}
+      onNavigate={navigate}
+    >
       <header className="professional-header">
         <div className="professional-header__identity">
           <div className="professional-header__person">
@@ -137,7 +162,7 @@ function HomeProfissional() {
           historyRecords={professionalHistory}
           hours={hours}
           onSaveHours={setHours}
-          onClose={() => setPanel(null)}
+          onClose={closePanel}
         />
       )}
     </ProfessionalLayout>

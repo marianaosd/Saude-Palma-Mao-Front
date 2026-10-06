@@ -8,6 +8,12 @@ import homeActive from '../../assets/icons/profissional/home-active.svg'
 import calendarNav from '../../assets/icons/profissional/calendar-nav.svg'
 import historyNav from '../../assets/icons/profissional/history-nav.svg'
 import profileNav from '../../assets/icons/profissional/profile-nav.svg'
+import agendaSettings from '../../assets/icons/profissional/agenda-settings-white.svg'
+import agendaSlotPlus from '../../assets/icons/profissional/agenda-slot-plus.svg'
+import agendaHomeNav from '../../assets/icons/profissional/agenda-home-nav.svg'
+import agendaCalendarNav from '../../assets/icons/profissional/agenda-calendar-nav.svg'
+import agendaHistoryNav from '../../assets/icons/profissional/agenda-history-nav.svg'
+import agendaProfileNav from '../../assets/icons/profissional/agenda-profile-nav.svg'
 import './ProfessionalIcon.css'
 
 const icons = {
@@ -21,6 +27,12 @@ const icons = {
   calendarNav,
   historyNav,
   profileNav,
+  agendaSettings,
+  agendaSlotPlus,
+  agendaHomeNav,
+  agendaCalendarNav,
+  agendaHistoryNav,
+  agendaProfileNav,
 }
 
 function ProfessionalIcon({ name }) {
