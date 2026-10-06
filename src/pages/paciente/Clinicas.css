@@ -1,0 +1,106 @@
+.clinics-page {
+  padding-block: 3rem 5rem;
+}
+
+.clinics-header {
+  max-width: 760px;
+  margin-bottom: 2.5rem;
+}
+
+.clinics-header .back-home-button {
+  width: auto;
+  margin: 0 0 2rem;
+  padding: 0;
+}
+
+.clinics-header h1 {
+  margin-bottom: 1rem;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.clinics-header p:not(.eyebrow) {
+  margin-bottom: 0;
+  color: var(--color-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.clinics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.clinic-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background: var(--color-surface);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.clinic-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(28, 25, 23, 0.06);
+}
+
+.clinic-card h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.4rem;
+}
+
+.clinic-card p {
+  margin-bottom: 0.5rem;
+  color: var(--color-muted);
+}
+
+.clinic-info {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.clinic-card .primary-button {
+  flex-shrink: 0;
+  width: auto;
+  min-width: 180px;
+  margin-top: 0;
+}
+
+@media (max-width: 800px) {
+
+  .clinic-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .clinic-card .primary-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+
+  .clinics-page {
+    padding-block: 2rem 4rem;
+  }
+
+  .clinics-header {
+    margin-bottom: 2rem;
+  }
+
+  .clinics-header h1 {
+    font-size: 2.25rem;
+  }
+
+  .clinic-card {
+    padding: 1.5rem;
+  }
+}

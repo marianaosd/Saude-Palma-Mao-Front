@@ -65,7 +65,7 @@ A persona e a jornada do administrador ainda precisam ser detalhadas pelo grupo.
 
 ## Limite desta entrega e recorte sugerido
 
-Nesta entrega existe apenas a base do frontend e uma página de apresentação. Todos os fluxos descritos acima são planejados.
+O frontend possui a página institucional e telas navegáveis de acesso e da jornada do paciente até a confirmação. Elas ainda usam conteúdo fixo e não completam os fluxos de cadastro, pré-triagem ou agendamento. O portal profissional ainda será desenvolvido. Consulte o [inventário atual e as próximas entregas](estrutura-frontend.md) e a [referência visual](style-guide.md).
 
 Como primeiro recorte, sugerimos prototipar a jornada do paciente com um formulário de pré-triagem e um agendamento simulado. O grupo deverá validar esse recorte com as aulas e com os possíveis usuários antes de tratá-lo como escopo fechado.
 

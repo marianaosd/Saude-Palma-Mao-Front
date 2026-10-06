@@ -1,0 +1,195 @@
+.patient-page {
+  padding-block: 4rem 5rem;
+}
+
+.patient-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.patient-header h1 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.patient-header p:not(.eyebrow) {
+  margin-bottom: 0;
+  color: var(--color-muted);
+  font-size: 1.05rem;
+}
+
+.patient-back-button {
+  width: auto;
+  margin-top: 0;
+  padding-inline: 0;
+}
+
+.triage-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2rem;
+  border-radius: 1.25rem;
+  background: var(--color-primary-light);
+}
+
+.triage-card h2 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  line-height: 1.2;
+}
+
+.triage-card p {
+  max-width: 650px;
+  margin-bottom: 0;
+  color: var(--color-muted);
+  line-height: 1.7;
+}
+
+.triage-button {
+  flex-shrink: 0;
+  width: auto;
+  min-width: 210px;
+  margin-top: 0;
+}
+
+.quick-actions {
+  padding-block: 4rem;
+}
+
+.quick-actions .section-heading {
+  margin-bottom: 2rem;
+}
+
+.quick-actions .section-heading h2 {
+  margin-bottom: 0;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+}
+
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.quick-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 150px;
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-align: left;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.quick-action:hover,
+.quick-action:focus-visible {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(28, 25, 23, 0.06);
+}
+
+.quick-action strong {
+  margin-bottom: 0.6rem;
+  font-size: 1.05rem;
+}
+
+.quick-action span {
+  color: var(--color-muted);
+  line-height: 1.6;
+}
+
+.patient-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.info-card {
+  padding: 1.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background: var(--color-surface);
+}
+
+.info-card h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.4rem;
+  line-height: 1.25;
+}
+
+.info-card p:not(.eyebrow) {
+  color: var(--color-muted);
+  line-height: 1.6;
+}
+
+.appointment-status {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  color: var(--color-primary-dark);
+  background: var(--color-primary-light);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+@media (max-width: 800px) {
+
+  .patient-header {
+    flex-direction: column;
+  }
+
+  .patient-back-button {
+    width: auto;
+  }
+
+  .triage-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .triage-button {
+    width: 100%;
+  }
+
+  .quick-actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .patient-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+
+  .patient-page {
+    padding-block: 3rem 4rem;
+  }
+
+  .triage-card {
+    padding: 1.5rem;
+  }
+
+  .quick-actions {
+    padding-block: 3rem;
+  }
+
+  .info-card {
+    padding: 1.5rem;
+  }
+}
