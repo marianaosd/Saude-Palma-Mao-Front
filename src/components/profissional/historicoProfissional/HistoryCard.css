@@ -1,0 +1,66 @@
+.professional-history-card {
+  display: flex;
+  width: 100%;
+  min-height: 97px;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-align: left;
+}
+
+.professional-history-card:hover {
+  border-color: var(--color-primary-border);
+}
+
+.professional-history-card__avatar {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  font: 400 0.75rem / 1.3334 var(--font-heading);
+}
+
+.professional-history-card__details {
+  display: grid;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.professional-history-card__details > strong {
+  overflow: hidden;
+  font: 400 0.875rem / 1.4286 var(--font-heading);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.professional-history-card__description {
+  overflow: hidden;
+  padding-top: 4px;
+  color: var(--color-muted);
+  font: 400 0.75rem / 1.3334 var(--font-body);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.professional-history-card__completion {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding-top: var(--space-2);
+  color: var(--color-primary-dark);
+  font: 400 0.625rem / 1.5 var(--font-body);
+}
+
+.professional-history-card__chevron {
+  display: flex;
+  flex: 0 0 auto;
+  padding-top: var(--space-3);
+}

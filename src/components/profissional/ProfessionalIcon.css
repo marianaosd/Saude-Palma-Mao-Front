@@ -1,0 +1,5 @@
+.professional-icon {
+  display: block;
+  flex-shrink: 0;
+  /* Tamanho intrínseco do SVG: 20px ou 24px conforme o asset do Figma. */
+}

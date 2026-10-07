@@ -1,0 +1,57 @@
+.agenda-appointment-row {
+  display: flex;
+  width: 100%;
+  min-height: 70px;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-align: left;
+}
+
+.agenda-appointment-row:hover {
+  border-color: var(--color-primary-border);
+}
+
+.agenda-appointment-row__time {
+  flex: 0 0 44px;
+  color: var(--color-primary-dark);
+  font: 400 0.875rem / 1.4286 var(--font-heading);
+}
+
+.agenda-appointment-row__marker {
+  width: 4px;
+  height: 44px;
+  flex: 0 0 4px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-marker);
+}
+
+.agenda-appointment-row__details {
+  display: grid;
+  min-width: 0;
+  flex: 1 1 auto;
+  gap: 4px;
+}
+
+.agenda-appointment-row__details > strong {
+  overflow: hidden;
+  font: 400 0.875rem / 1.4286 var(--font-heading);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.agenda-appointment-row__details > span {
+  overflow: hidden;
+  color: var(--color-muted);
+  font: 400 0.6875rem / 1.5 var(--font-body);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.agenda-appointment-row .priority-tag {
+  flex-shrink: 0;
+}

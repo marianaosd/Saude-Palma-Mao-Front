@@ -1,5 +1,7 @@
 /* Valores efetivos do protótipo atual. Migração visual: docs/style-guide.md. */
 :root {
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Nunito', system-ui, sans-serif;
   --color-background: #f5f5f4;
   --color-surface: #ffffff;
   --color-primary: #0d9488;
@@ -9,4 +11,57 @@
   --color-muted: #57534e;
   --color-border: #e7e5e4;
   --color-accent: #f97316;
+}
+
+/* Tema do Figma: adoção gradual nos novos layouts, sem alterar o protótipo legado. */
+.theme-figma {
+  --color-background: #fafaf9;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f5f5f4;
+  --color-primary: #0d9488;
+  --color-primary-dark: #0f766e;
+  --color-primary-light: #f0fdf9;
+  --color-primary-soft: #ccfbef;
+  --color-primary-border: #99f6e0;
+  --color-primary-marker: #2dd4bf;
+  --color-text: #1c1917;
+  --color-text-secondary: #44403c;
+  --color-muted: #78716c;
+  --color-border: #e7e5e4;
+  --color-ink: #000000;
+  --color-on-primary: #ffffff;
+  --color-available: #00bc7d;
+  --color-overlay-soft: rgb(255 255 255 / 15%);
+  --color-overlay: rgb(255 255 255 / 20%);
+  --priority-urgent-background: #fff7ed;
+  --priority-urgent-border: #ffd6a8;
+  --priority-urgent-text: #ca3500;
+  --priority-emergency-background: #fef2f2;
+  --priority-emergency-border: #ffc9c9;
+  --priority-emergency-text: #c10007;
+  --priority-moderate-background: #ecfdf5;
+  --priority-moderate-border: #a4f4cf;
+  --priority-moderate-text: #007a55;
+  --space-0-5: 0.125rem;
+  --space-1: 0.25rem;
+  --space-1-5: 0.375rem;
+  --space-2: 0.5rem;
+  --space-2-5: 0.625rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 1.75rem;
+  --space-8: 2rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-header: 1.5rem;
+  --radius-pill: 9999px;
+  --border-width: 1px;
+  --professional-shell-width: 402px;
+  --professional-nav-height: 68px;
+  --shadow-sm:
+    0 1px 2px -1px rgb(0 0 0 / 10%),
+    0 1px 3px 0 rgb(0 0 0 / 10%);
 }

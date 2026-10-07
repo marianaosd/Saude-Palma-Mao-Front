@@ -1,0 +1,37 @@
+.priority-tag {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--space-1-5);
+  padding: var(--space-1) var(--space-2-5);
+  border: var(--border-width) solid;
+  border-radius: var(--radius-pill);
+  font: 400 0.625rem / 1.5 var(--font-body);
+  white-space: nowrap;
+}
+
+.priority-tag--urgent {
+  color: var(--priority-urgent-text);
+  background: var(--priority-urgent-background);
+  border-color: var(--priority-urgent-border);
+}
+
+.priority-tag--emergency {
+  color: var(--priority-emergency-text);
+  background: var(--priority-emergency-background);
+  border-color: var(--priority-emergency-border);
+}
+
+.priority-tag--moderate {
+  color: var(--priority-moderate-text);
+  background: var(--priority-moderate-background);
+  border-color: var(--priority-moderate-border);
+}
+
+.priority-tag__dot {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: currentColor;
+}
