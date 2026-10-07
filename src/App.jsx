@@ -1,102 +1,88 @@
 import { useState } from 'react'
-import Header from './components/Header.jsx'
-import Home from './pages/Home.jsx'
-import Login from './pages/Login.jsx'
-import Cadastro from './pages/Cadastro.jsx'
-import Paciente from './pages/Paciente.jsx'
-import Triagem from './pages/Triagem.jsx'
-import Resultado from './pages/Resultado.jsx'
-import Clinicas from './pages/Clinicas.jsx'
-import Profissional from './pages/Profissional.jsx'
-import Agendamento from './pages/Agendamento.jsx'
-import Confirmacao from './pages/Confirmacao.jsx'
-import './App.css'
+import AppLayout from './components/layout/AppLayout.jsx'
+import Home from './pages/institucional/Home.jsx'
+import Login from './pages/auth/Login.jsx'
+import Cadastro from './pages/auth/Cadastro.jsx'
+import Paciente from './pages/paciente/Paciente.jsx'
+import Triagem from './pages/paciente/Triagem.jsx'
+import Resultado from './pages/paciente/Resultado.jsx'
+import Clinicas from './pages/paciente/Clinicas.jsx'
+import EscolhaProfissional from './pages/paciente/EscolhaProfissional.jsx'
+import Agendamento from './pages/paciente/Agendamento.jsx'
+import Confirmacao from './pages/paciente/Confirmacao.jsx'
 
 function App() {
   const [screen, setScreen] = useState('home')
 
   return (
-    <>
-      <a className="skip-link" href="#conteudo">
-        Pular para o conteúdo
-      </a>
+    <AppLayout onLogin={() => setScreen('login')}>
+      {screen === 'home' && (
+        <Home onLogin={() => setScreen('login')} />
+      )}
 
-      <Header onLogin={() => setScreen('login')} />
+      {screen === 'login' && (
+        <Login
+          onBack={() => setScreen('home')}
+          onCadastro={() => setScreen('cadastro')}
+          onLogin={() => setScreen('paciente')}
+        />
+      )}
 
-      <main id="conteudo" className="container" tabIndex={-1}>
-        {screen === 'home' && (
-          <Home onLogin={() => setScreen('login')} />
-        )}
+      {screen === 'cadastro' && (
+        <Cadastro
+          onBack={() => setScreen('login')}
+        />
+      )}
 
-        {screen === 'login' && (
-          <Login
-            onBack={() => setScreen('home')}
-            onCadastro={() => setScreen('cadastro')}
-            onLogin={() => setScreen('paciente')}
-          />
-        )}
+      {screen === 'paciente' && (
+        <Paciente
+          onTriagem={() => setScreen('triagem')}
+          onBack={() => setScreen('home')}
+        />
+      )}
 
-        {screen === 'cadastro' && (
-          <Cadastro
-            onBack={() => setScreen('login')}
-          />
-        )}
+      {screen === 'triagem' && (
+        <Triagem
+          onBack={() => setScreen('paciente')}
+          onResultado={() => setScreen('resultado')}
+        />
+      )}
 
-        {screen === 'paciente' && (
-          <Paciente
-            onTriagem={() => setScreen('triagem')}
-            onBack={() => setScreen('home')}
-          />
-        )}
+      {screen === 'resultado' && (
+        <Resultado
+          onBack={() => setScreen('triagem')}
+          onClinicas={() => setScreen('clinicas')}
+        />
+      )}
 
-        {screen === 'triagem' && (
-          <Triagem
-            onBack={() => setScreen('paciente')}
-            onResultado={() => setScreen('resultado')}
-          />
-        )}
+      {screen === 'clinicas' && (
+        <Clinicas
+          onBack={() => setScreen('resultado')}
+          onSelecionar={() => setScreen('escolha-profissional')}
+        />
+      )}
 
-        {screen === 'resultado' && (
-          <Resultado
-            onBack={() => setScreen('triagem')}
-            onClinicas={() => setScreen('clinicas')}
-          />
-        )}
+      {screen === 'escolha-profissional' && (
+        <EscolhaProfissional
+          onBack={() => setScreen('clinicas')}
+          onAgendar={() => setScreen('agendamento')}
+        />
+      )}
 
-        {screen === 'clinicas' && (
-          <Clinicas
-            onBack={() => setScreen('resultado')}
-            onSelecionar={() => setScreen('profissional')}
-          />
-        )}
+      {screen === 'agendamento' && (
+        <Agendamento
+          onBack={() => setScreen('escolha-profissional')}
+          onConfirmar={() => setScreen('confirmacao')}
+        />
+      )}
 
-        {screen === 'profissional' && (
-          <Profissional
-            onBack={() => setScreen('clinicas')}
-            onAgendar={() => setScreen('agendamento')}
-          />
-        )}
-
-        {screen === 'agendamento' && (
-          <Agendamento
-            onBack={() => setScreen('profissional')}
-            onConfirmar={() => setScreen('confirmacao')}
-          />
-        )}
-
-        {screen === 'confirmacao' && (
-          <Confirmacao
-            onPaciente={() => setScreen('paciente')}
-            onHome={() => setScreen('home')}
-          />
-        )}
-      </main>
-
-      <footer className="site-footer container">
-        <p>Saúde na Palma da Mão</p>
-        <p>Projeto Integrador · 3º período</p>
-      </footer>
-    </>
+      {screen === 'confirmacao' && (
+        <Confirmacao
+          onPaciente={() => setScreen('paciente')}
+          onHome={() => setScreen('home')}
+        />
+      )}
+    </AppLayout>
   )
 }
 

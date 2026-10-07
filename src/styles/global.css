@@ -5,18 +5,31 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  --color-primary: #146b5c;
-  --color-muted: #516963;
-  --color-border: #d6e3de;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   line-height: 1.6;
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+button,
+input,
+a {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
 }
 
 a {

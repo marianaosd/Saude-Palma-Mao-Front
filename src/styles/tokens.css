@@ -1,0 +1,12 @@
+/* Valores efetivos do protótipo atual. Migração visual: docs/style-guide.md. */
+:root {
+  --color-background: #f5f5f4;
+  --color-surface: #ffffff;
+  --color-primary: #0d9488;
+  --color-primary-dark: #0f766e;
+  --color-primary-light: #e8f2ed;
+  --color-text: #1c1917;
+  --color-muted: #57534e;
+  --color-border: #e7e5e4;
+  --color-accent: #f97316;
+}

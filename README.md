@@ -15,12 +15,14 @@ Este repositório é o ponto de partida do **frontend em React**. Nesta etapa, o
 ## O que existe hoje
 
 - React com JavaScript, Vite e ESLint configurados.
-- Página inicial em português com a proposta e os três perfis do sistema.
-- Componentes reutilizáveis, página e conteúdo de apresentação em pastas separadas.
-- Estilos para telas menores, navegação por âncoras, foco visível e atalho para pular ao conteúdo.
-- Documentação inicial com instruções para executar e uma sequência de evolução.
+- Página institucional e nove telas de protótipo: login, cadastro, área do paciente, pré-triagem, resultado, clínicas, escolha de profissional, agendamento e confirmação.
+- Páginas agrupadas por contexto, CSS junto das telas e layout compartilhado separado da navegação.
+- Tokens atuais centralizados e estilos globais carregados pelo ponto de entrada.
+- Style guide baseado no Figma e documentação da estrutura e das próximas entregas.
 
-A página atual é uma apresentação estática. **Ainda não há cadastro, login, pré-triagem, classificação de prioridade, agendamento, API, banco de dados ou PWA.** Nenhuma informação de paciente é coletada ou armazenada.
+**Existe navegação de demonstração, mas os fluxos ainda não estão completos.** O login apenas troca de tela; as respostas e escolhas não são compartilhadas; a confirmação não registra uma consulta. Cadastro, autenticação, portal profissional, API, banco de dados e PWA ainda precisam de implementação funcional.
+
+A reorganização preservou o protótipo existente. As limitações conhecidas, inclusive o tratamento pendente do envio do cadastro e o resultado fixo da pré-triagem, estão em [Estrutura do frontend e próximas entregas](docs/estrutura-frontend.md). Use somente dados fictícios.
 
 ## A proposta completa
 
@@ -33,6 +35,10 @@ A página atual é uma apresentação estática. **Ainda não há cadastro, logi
 O objetivo futuro é disponibilizar uma PWA, uma aplicação web que possa ser instalada em dispositivos compatíveis. A pré-triagem será orientativa e deverá apoiar a avaliação profissional, sem apresentar seu resultado como diagnóstico.
 
 As personas, jornadas e funcionalidades previstas estão em [Visão geral e planejamento](docs/visao-geral.md).
+
+O [Style guide do frontend](docs/style-guide.md) documenta o design do Figma: cores, tipografia, espaçamentos, componentes e orientações para padronizar as páginas. O guia distingue os valores observados no design das propostas de implementação e dos ajustes ainda pendentes.
+
+A [Estrutura do frontend e próximas entregas](docs/estrutura-frontend.md) explica onde colocar cada arquivo, quais telas existem e o que falta nos fluxos de paciente e profissional.
 
 ## Tecnologias
 
@@ -89,67 +95,93 @@ O `preview` serve para conferência local. A publicação da aplicação será d
 ```text
 saude-palma-mao/
 ├── docs/
-│   └── visao-geral.md       # Problema, personas, jornadas e escopo futuro
+│   ├── estrutura-frontend.md # Organização, inventário e próximas entregas
+│   ├── style-guide.md       # Referência visual extraída do Figma
+│   └── visao-geral.md       # Problema, personas e jornadas
 ├── public/
-│   └── favicon.svg         # Ícone utilizado na aba e no cabeçalho
+│   └── favicon.svg
 ├── src/
 │   ├── components/
-│   │   ├── Header.jsx      # Marca e navegação da página
-│   │   └── ProfileCard.jsx # Cartão reutilizável de perfil
-│   ├── data/
-│   │   └── profiles.js     # Conteúdo estático dos perfis previstos
+│   │   └── layout/
+│   │       ├── AppLayout.jsx # Cabeçalho, conteúdo, rodapé e atalho acessível
+│   │       ├── AppLayout.css
+│   │       └── Header.jsx
 │   ├── pages/
-│   │   └── Home.jsx        # Página de apresentação
-│   ├── App.jsx             # Composição principal da aplicação
-│   ├── App.css             # Estilos da página e dos componentes atuais
-│   ├── index.css           # Estilos globais e variáveis de cores
-│   └── main.jsx            # Ponto de entrada do React
-├── .gitignore              # Arquivos locais que não devem ser versionados
-├── .nvmrc                  # Versão de referência do Node.js
-├── eslint.config.js        # Regras de análise do código
-├── index.html              # Documento HTML que recebe a aplicação
-├── package.json            # Dependências e comandos
-├── package-lock.json       # Versões fixadas das dependências
-├── vite.config.js          # Configuração do Vite
+│   │   ├── institucional/
+│   │   │   ├── Home.jsx
+│   │   │   └── Home.css
+│   │   ├── auth/
+│   │   │   ├── Login.jsx
+│   │   │   ├── Cadastro.jsx
+│   │   │   └── Auth.css     # Estilos compartilhados das telas de acesso
+│   │   └── paciente/
+│   │       ├── Paciente.jsx
+│   │       ├── Triagem.jsx
+│   │       ├── Resultado.jsx
+│   │       ├── Clinicas.jsx
+│   │       ├── EscolhaProfissional.jsx
+│   │       ├── Agendamento.jsx
+│   │       ├── Confirmacao.jsx
+│   │       └── …           # Cada JSX desta pasta tem seu CSS de mesmo nome
+│   ├── styles/
+│   │   ├── tokens.css      # Valores efetivos do protótipo atual
+│   │   ├── global.css      # Base HTML, tipografia atual e foco
+│   │   └── shared.css      # Classes recorrentes de botões e textos
+│   ├── App.jsx             # Estado da tela e transições do protótipo
+│   └── main.jsx            # Entrada React e importação dos estilos comuns
+├── .gitignore
+├── .nvmrc
+├── eslint.config.js
+├── index.html
+├── package.json
+├── package-lock.json
+├── vite.config.js
 └── README.md
 ```
 
-`node_modules/` é a pasta local de dependências e `dist/` é gerada pelo build. Ambas são ignoradas pelo Git.
+`node_modules/` é a pasta local de dependências e `dist/` é gerada pelo build. Ambas são ignoradas pelo Git. A futura pasta `pages/profissional/` será criada ao implementar o portal profissional.
+
+`EscolhaProfissional.jsx` pertence ao paciente: é a seleção de quem realizará o atendimento. Ela substitui o antigo nome `Profissional.jsx`, que poderia ser confundido com a área de trabalho do médico.
 
 ## Por onde começar a aprender React
 
-O fluxo inicial é: `index.html` → `src/main.jsx` → `src/App.jsx` → `src/pages/Home.jsx`.
+O fluxo inicial é: `index.html` → `src/main.jsx` → `src/App.jsx` → layout e página selecionada.
 
-1. **`index.html`** contém o elemento `root` e carrega `main.jsx`. O conteúdo das telas será escrito nos componentes React.
-2. **`main.jsx`** monta a aplicação dentro de `root` e importa os estilos globais.
-3. **`App.jsx`** reúne cabeçalho, conteúdo principal e rodapé.
-4. **`Home.jsx`** organiza a tela e transforma a lista de perfis em cartões usando `map`.
-5. **`ProfileCard.jsx`** recebe `title`, `description` e `features` como propriedades (*props*). Assim, o mesmo componente apresenta conteúdos diferentes.
+1. **`index.html`** contém o elemento `root` e carrega `main.jsx`.
+2. **`main.jsx`** importa os estilos comuns e monta a aplicação dentro de `root`.
+3. **`App.jsx`** usa `useState` para escolher a tela; as funções passadas por propriedades (*props*) permitem avançar e voltar.
+4. **`AppLayout.jsx`** recebe o conteúdo em `children` e reúne os elementos externos às páginas.
+5. **As páginas** compõem o conteúdo e importam seu CSS. Login e cadastro compartilham `Auth.css`.
 
-Como primeiro exercício, altere um texto em `src/data/profiles.js` e observe o resultado. Depois, experimente adicionar uma nova propriedade ao cartão. Estado com `useState`, eventos e formulários entrarão nas próximas etapas, quando houver interação para implementar.
+Como primeiro exercício, altere um texto em `src/pages/paciente/Paciente.jsx` e observe o resultado. Depois, acompanhe a propriedade `onTriagem` até `App.jsx` para entender como um clique altera a tela. Os formulários ainda precisam de estado, validação e integração dos dados.
 
 ### Onde colocar código novo
 
-- `components/`: elementos reutilizáveis, como cabeçalho, cartões e, futuramente, campos de formulário.
-- `pages/`: componentes que representam telas completas.
-- `data/`: conteúdo estático de apresentação; futuros dados de demonstração devem ser fictícios e identificados como simulados.
-- `index.css`: estilos globais; `App.css`: estilos da interface inicial. Conforme as telas crescerem, seus estilos podem ficar ao lado dos respectivos componentes.
+- `pages/institucional/`: apresentação pública do projeto.
+- `pages/auth/`: acesso e cadastro; futuramente escolha de perfil e recuperação de acesso.
+- `pages/paciente/`: tarefas realizadas pelo paciente, inclusive a escolha do profissional.
+- `components/layout/`: estrutura externa às telas e navegação compartilhada.
+- `styles/`: tokens e regras comuns. Estilos exclusivos ficam junto da página.
 
-Novas pastas devem surgir quando houver necessidade. Por exemplo, `services/` poderá reunir as chamadas à API quando começar a integração. Ainda não há roteador, autenticação, estado global ou cliente de API instalado.
+Quando o portal profissional começar, suas telas ficarão em `pages/profissional/`. Componentes de interface reutilizáveis poderão ser extraídos para `components/ui/`; dados simulados para `data/`; chamadas à futura API para `services/`. Criar essas pastas quando houver código para elas.
+
+Os valores de `tokens.css` preservam o visual atual: a migração para Nunito/Inter, cores e componentes do Figma é a próxima etapa visual. `shared.css` reúne classes existentes e ainda não equivale à biblioteca de componentes proposta no style guide.
+
+A navegação usa estado local, sem roteador por URL, autenticação ou persistência. Atualizar a página reinicia o protótipo.
 
 ## Como vamos evoluir
 
 Esta é uma sequência sugerida para o grupo ajustar às aulas e às entregas, sem prazos ou responsáveis definidos nesta base.
 
-| Etapa | Entrega proposta | Aprendizado principal |
-| --- | --- | --- |
-| 1 — Base atual | Apresentação, organização inicial e documentação | JSX, componentes, props, listas e CSS |
-| 2 — Validação e protótipos | Conversar com possíveis usuários, revisar as dores e desenhar o fluxo do paciente | Requisitos e organização das telas |
-| 3 — Interface do paciente | Telas de cadastro/login e formulário de pré-triagem com dados fictícios | Estado, eventos, formulários e navegação |
-| 4 — Fluxo de agendamento | Busca, escolha de horário e confirmação simuladas | Composição de telas, validação e estados de interface |
-| 5 — Profissional e administração | Agenda, consulta da pré-triagem e telas de gestão simuladas | Reutilização de componentes e organização por perfil |
-| 6 — Integração fullstack | API Node.js, PostgreSQL, autenticação, permissões e persistência | Requisições, carregamento, erros e integração |
-| 7 — Evolução e entrega | PWA, revisão de acessibilidade, testes dos fluxos e publicação | Qualidade e disponibilização da aplicação |
+| Etapa | Entrega proposta | Aprendizado principal | Situação |
+| --- | --- | --- | --- |
+| 1 — Base atual | Apresentação, organização por contexto e documentação | JSX, componentes, props, estado e CSS | Base organizada |
+| 2 — Validação e protótipos | Validar as dores, aplicar o style guide e completar as referências das telas | Requisitos e padrões visuais | Design documentado; aplicação visual pendente |
+| 3 — Interface do paciente | Conectar acesso, pré-triagem e acompanhamento das consultas | Estado, eventos, formulários e navegação | Telas parciais; dados e validação pendentes |
+| 4 — Fluxo de agendamento | Preservar escolhas, confirmar e consultar agendamentos simulados | Composição de telas e estados de interface | Telas existentes; registros pendentes |
+| 5 — Profissional e administração | Portal profissional, agenda e leitura da pré-triagem; gestão administrativa em recorte posterior | Reutilização e organização por perfil | Portal profissional ainda não implementado |
+| 6 — Integração fullstack | API Node.js, PostgreSQL, autenticação, permissões e persistência | Requisições, carregamento, erros e integração | Planejada |
+| 7 — Evolução e entrega | PWA, revisão de acessibilidade, testes dos fluxos e publicação | Qualidade e disponibilização da aplicação | Planejada |
 
 O primeiro recorte funcional sugerido é o percurso do paciente: informar a necessidade, preencher um formulário, consultar opções e simular um agendamento. O grupo ainda deve validar esse recorte. Chatbot, classificação de prioridade, notificações e contato de emergência precisam de requisitos próprios antes da implementação.
 
@@ -157,7 +189,7 @@ O primeiro recorte funcional sugerido é o percurso do paciente: informar a nece
 
 1. Combinar uma tarefa pequena, com um responsável e um resultado esperado, antes de começar.
 2. Ao configurar o repositório compartilhado, usar uma branch por tarefa, como `feat/formulario-pre-triagem` ou `docs/atualizar-readme`.
-3. Usar nomes de componentes em `PascalCase`, como `ProfileCard.jsx`, e variáveis/funções em `camelCase`. Manter o padrão existente de aspas simples e ausência de ponto e vírgula.
+3. Usar nomes de componentes em `PascalCase`, como `AppLayout.jsx`, e variáveis/funções em `camelCase`. Manter o padrão existente de aspas simples e ausência de ponto e vírgula.
 4. Verificar a tela em largura de celular e desktop e navegar pelos links usando o teclado. Executar `npm run lint` e `npm run build` antes de entregar a alteração.
 5. Abrir um pull request com o que mudou, como foi conferido e imagens quando úteis. Pedir revisão a outro integrante antes de integrar à branch principal.
 6. Atualizar a documentação quando uma funcionalidade ou decisão técnica mudar.
