@@ -180,7 +180,7 @@ saude-palma-mao/
 └── README.md
 ```
 
-`node_modules/` é a pasta local de dependências e `dist/` é gerada pelo build. Ambas são ignoradas pelo Git. A home profissional está em `#profissional`, a agenda em `#agenda-profissional` e o histórico em `#historico-profissional`; o perfil completo é a próxima etapa.
+`node_modules/` é a pasta local de dependências e `dist/` é gerada pelo build. Ambas são ignoradas pelo Git. A home profissional está em `#profissional`, a agenda em `#agenda-profissional`, o histórico em `#historico-profissional` e o perfil em `#perfil-profissional`.
 
 `EscolhaProfissional.jsx` pertence ao paciente: é a seleção de quem realizará o atendimento. Ela substitui o antigo nome `Profissional.jsx`, que poderia ser confundido com a área de trabalho do médico.
 
@@ -215,7 +215,7 @@ Os dados profissionais, consultas e histórico são exemplos locais em `data/pro
 
 O tema `.theme-figma` em `tokens.css` delimita os valores visuais do portal profissional; fontes e SVGs do Figma são carregados de `assets/`. `shared.css` reúne classes existentes e ainda não equivale à biblioteca completa proposta no style guide.
 
-A navegação profissional usa os hashes `#profissional`, `#agenda-profissional` e `#historico-profissional`; perfil abre um painel demonstrativo. Ainda não há autenticação nem persistência; os estados locais são reiniciados ao recarregar.
+A navegação profissional usa os hashes `#profissional`, `#agenda-profissional`, `#historico-profissional` e `#perfil-profissional`. A edição do perfil e o cadastro de clínicas permanecem em estado local demonstrativo. Ainda não há autenticação nem persistência; os estados locais são reiniciados ao recarregar.
 
 ## Como vamos evoluir
 
@@ -224,10 +224,10 @@ Esta é uma sequência sugerida para o grupo ajustar às aulas e às entregas, s
 | Etapa | Entrega proposta | Aprendizado principal | Situação |
 | --- | --- | --- | --- |
 | 1 — Base atual | Apresentação, organização por contexto e documentação | JSX, componentes, props, estado e CSS | Base organizada |
-| 2 — Validação e protótipos | Validar as dores, aplicar o style guide e completar as referências das telas | Requisitos e padrões visuais | Design documentado; home, agenda e histórico profissionais implementados |
+| 2 — Validação e protótipos | Validar as dores, aplicar o style guide e completar as referências das telas | Requisitos e padrões visuais | Design documentado; home, agenda, histórico e perfil profissionais implementados |
 | 3 — Interface do paciente | Conectar acesso, pré-triagem e acompanhamento das consultas | Estado, eventos, formulários e navegação | Telas parciais; dados e validação pendentes |
 | 4 — Fluxo de agendamento | Preservar escolhas, confirmar e consultar agendamentos simulados | Composição de telas e estados de interface | Telas existentes; registros pendentes |
-| 5 — Profissional e administração | Portal profissional, detalhes de pré-triagem; gestão administrativa em recorte posterior | Reutilização e organização por perfil | Home, agenda e histórico implementados; perfil pendente |
+| 5 — Profissional e administração | Portal profissional, detalhes de pré-triagem; gestão administrativa em recorte posterior | Reutilização e organização por perfil | Home, agenda, histórico e perfil implementados; integração e persistência pendentes |
 | 6 — Integração fullstack | API Node.js, PostgreSQL, autenticação, permissões e persistência | Requisições, carregamento, erros e integração | Planejada |
 | 7 — Evolução e entrega | PWA, revisão de acessibilidade, testes dos fluxos e publicação | Qualidade e disponibilização da aplicação | Planejada |
 

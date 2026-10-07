@@ -40,7 +40,7 @@ function HomeProfissional() {
       return
     }
     if (destination === 'historico' || destination === 'perfil') {
-      window.location.hash = destination === 'historico' ? '#historico-profissional' : '#profissional/perfil'
+      window.location.hash = destination === 'historico' ? '#historico-profissional' : '#perfil-profissional'
       return
     }
     setPanel({ type: destination })

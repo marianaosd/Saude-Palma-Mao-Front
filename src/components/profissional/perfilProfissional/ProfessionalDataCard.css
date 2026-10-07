@@ -1,0 +1,42 @@
+.professional-data-card {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.professional-data-card h2 {
+  margin: 0;
+  color: var(--color-text);
+  font: 400 0.875rem / 1.4286 var(--font-heading);
+}
+
+.professional-data-card__fields {
+  display: grid;
+  margin: var(--space-4) 0 0;
+}
+
+.professional-data-card__field {
+  display: grid;
+  min-height: 64px;
+  align-content: start;
+  padding-top: var(--space-4);
+}
+
+.professional-data-card__field:first-child {
+  min-height: 48px;
+  padding-top: 0;
+}
+
+.professional-data-card__field dt {
+  color: var(--color-ink);
+  font: 400 0.625rem / 1.5 var(--font-body);
+  text-transform: uppercase;
+}
+
+.professional-data-card__field dd {
+  overflow-wrap: anywhere;
+  margin: 4px 0 0;
+  color: var(--color-ink);
+  font: 400 0.875rem / 1.4286 var(--font-body);
+}

@@ -4,7 +4,7 @@ Organização registrada em **6 de outubro de 2026**, após a análise do [style
 
 ## 1. Objetivo desta etapa
 
-Preparar o código existente para desenvolver os fluxos de paciente e profissional em grupo. A home do profissional (`1:147`), a agenda (`2:424`) e o histórico (`2:754`) estão conectados à aplicação. O perfil completo e os fluxos de acesso ainda precisam de implementação.
+Preparar o código existente para desenvolver os fluxos de paciente e profissional em grupo. A home do profissional (`1:147`), a agenda (`2:424`), o histórico (`2:754`) e o perfil (`2:902`) estão conectados à aplicação. Os fluxos de acesso ainda precisam de implementação.
 
 A escolha de atendimento do paciente continua em `pages/paciente/EscolhaProfissional.jsx`. No portal médico, as páginas compõem componentes de `components/profissional/`; os painéis de demonstração foram retirados de `pages/profissional/components/`. Esta organização preserva os textos, o design e os comportamentos existentes.
 
@@ -15,14 +15,15 @@ A escolha de atendimento do paciente continua em `pages/paciente/EscolhaProfissi
 | `src/pages/institucional/` | Apresentação pública do projeto. |
 | `src/pages/auth/` | Login e cadastro compartilhados pelos futuros perfis. Ter a opção de perfil na tela não significa que a autenticação esteja implementada. |
 | `src/pages/paciente/` | Área do paciente, pré-triagem, resultado e escolha/agendamento de atendimento. |
-| `src/pages/profissional/` | Páginas completas e seu CSS; atualmente a home `1:147`, a agenda `2:424` e o histórico `2:754`. |
+| `src/pages/profissional/` | Páginas completas e seu CSS: home `1:147`, agenda `2:424`, histórico `2:754` e perfil `2:902`. |
 | `src/components/layout/` | Estrutura externa às páginas: cabeçalho, conteúdo principal, rodapé e navegação por contexto. |
-| `src/components/profissional/` | Componentes do portal médico: cartão de consulta, ícone e diálogo profissional. |
+| `src/components/profissional/` | Componentes reutilizáveis do portal médico. |
+| `src/components/profissional/perfilProfissional/` | Cartões de dados e clínicas, diálogo e formulários do perfil. |
 | `src/components/profissional/agendaProfissional/` | Seletor de dia, linha de consulta e faixa de horário livre da agenda. |
 | `src/components/profissional/historicoProfissional/` | Filtros, cartão de atendimento e diálogo de detalhe do histórico. |
 | `src/components/profissional/panels/` | Conteúdos internos do diálogo: agenda, histórico, horários, perfil e pré-triagem. Não são páginas completas. |
 | `src/components/ui/` | Elementos visuais compartilháveis entre os perfis, como `PriorityTag`. |
-| `src/data/` | Registros fictícios do profissional, consultas e histórico usados na demonstração. |
+| `src/data/` | Dados fictícios do profissional, consultas, histórico e clínicas usados nas demonstrações. |
 | `src/assets/` | SVGs, fontes e respectivas licenças. |
 | `src/styles/` | Tokens atuais, estilos globais e classes visuais recorrentes. |
 | `public/` | Arquivos públicos utilizados diretamente, como o favicon. |
@@ -57,7 +58,7 @@ main.jsx
 
 `App.jsx` mantém `screen` com `useState` e passa ações às páginas por propriedades, como `onBack` e `onConfirmar`. Os identificadores das telas não são URLs. A seleção de profissional passou a usar `escolha-profissional`, evitando confusão com o futuro portal profissional.
 
-O portal profissional abre a home por `#profissional`, a agenda por `#agenda-profissional` e o histórico por `#historico-profissional`, inclusive por acesso direto ou atualização. O perfil abre seu painel demonstrativo; `#inicio` retorna à página institucional. As demais telas continuam usando o estado de demonstração; uma implementação completa de rotas e do histórico do navegador ainda está pendente.
+O portal profissional abre a home por `#profissional`, a agenda por `#agenda-profissional`, o histórico por `#historico-profissional` e o perfil por `#perfil-profissional`, inclusive por acesso direto ou atualização. Editar os dados e adicionar clínicas são interações locais de demonstração; `#inicio` retorna à página institucional. As demais telas continuam usando o estado de demonstração; uma implementação completa de rotas e do histórico do navegador ainda está pendente.
 
 `AppLayout` conserva a estrutura institucional e do paciente. A home profissional usa `ProfessionalLayout`, com navegação fixa e área de conteúdo próprias; o cabeçalho interno não reutiliza a navegação institucional.
 
@@ -98,7 +99,7 @@ O CSS continua global, sem CSS Modules. Use classes específicas ao contexto e e
 
 Os painéis foram separados em `AgendaPreview`, `HistoryPreview`, `AvailabilityForm`, `ProfilePreview` e `TriagePanel`. `ProfessionalHomePanel` mantém abertura, fechamento e título do diálogo. O estado de disponibilidade, os horários salvos durante a sessão e a escolha do painel continuam sob responsabilidade de `HomeProfissional`.
 
-`HomeProfissional.jsx` continua identificando a página inicial. Para as próximas páginas completas, seguir os nomes `AgendaProfissional.jsx`, `HistoricoProfissional.jsx` e `PerfilProfissional.jsx`, sempre com o CSS correspondente. O sufixo `Preview` identifica apenas as amostras atuais; esses componentes não substituem as páginas planejadas.
+`HomeProfissional.jsx` continua identificando a página inicial. Para as páginas completas, seguir os nomes `AgendaProfissional.jsx`, `HistoricoProfissional.jsx` e `PerfilProfissional.jsx`, sempre com o CSS correspondente. O sufixo `Preview` identifica apenas as amostras atuais; esses componentes não substituem as páginas planejadas.
 
 ## 4. O que o style guide define para os próximos passos
 
@@ -129,6 +130,7 @@ Antes de padronizar os componentes, registrar as decisões sobre contraste dos b
 | `profissional/HomeProfissional.jsx` | Home profissional, nó `1:147` | Composição visual implementada; atalhos usam dados fictícios e estado local. Perfil ainda não é uma página completa. |
 | `profissional/AgendaProfissional.jsx` | Agenda profissional, nó `2:424` (estado alternativo `2:604`) | Seleção de dia, consultas e configuração de disponibilidade em estado local. Registros são demonstrativos. |
 | `profissional/HistoricoProfissional.jsx` | Histórico profissional, nó `2:754` | Busca, filtros, agrupamento por data e detalhes; registros e classificações são demonstrativos. |
+| `profissional/PerfilProfissional.jsx` | Perfil profissional, nó `2:902` | Dados profissionais, edição demonstrativa e clínicas vinculadas; alterações não persistem. |
 
 ## 6. Telas e experiências pendentes
 
@@ -145,7 +147,6 @@ Os nomes abaixo são propostas. Algumas experiências podem ser seções, etapas
 | Profissional | Home do profissional | Nó `1:147`: composição implementada; ligar disponibilidade e resumo aos registros persistentes. |
 | Profissional | Agenda | Implementada em `profissional/AgendaProfissional.jsx`; restam integração e persistência dos registros. |
 | Profissional | Histórico | Implementado em `profissional/HistoricoProfissional.jsx`; restam integrar e persistir atendimentos. |
-| Profissional | Perfil | Nó `2:902`: identificação, dados profissionais e clínicas vinculadas. |
 | Profissional | Detalhes do atendimento e leitura da pré-triagem | Requisito da jornada e ação dos cartões; composição de detalhes ainda não especificada. |
 | Profissional | Configuração da disponibilidade | Requisito da jornada; definir dias/horários e alimentar a oferta vista pelo paciente. |
 | Experiência geral | Confirmações e lembretes | Definir canais e estados; não pressupõe uma página exclusiva. |
@@ -155,7 +156,7 @@ A área administrativa e a PWA permanecem na visão completa do produto. Não s�
 ## 7. Sequência sugerida de desenvolvimento
 
 1. **Tratar limitações imediatas:** interceptar o envio do cadastro e validar os campos; explicitar a simulação do resultado da triagem.
-2. **Completar o portal profissional:** agenda, histórico, perfil, detalhes da consulta e leitura da pré-triagem. Ligar os controles locais aos registros escolhidos.
+2. **Integrar o portal profissional:** ligar home, agenda, histórico e perfil aos registros persistentes; especificar detalhes da consulta e leitura da pré-triagem. Ligar os controles locais aos registros escolhidos.
 3. **Conectar o paciente:** acesso por perfil, etapas da triagem e seleção de clínica/profissional/horário. Criar “Meus agendamentos” e seus detalhes.
 4. **Padronizar as páginas restantes:** resolver pendências de contraste/seleção, aplicar os tokens e conectar os elementos que serão compartilhados.
 5. **Completar a navegação:** rotas por URL e histórico do navegador para os fluxos restantes. Definir o que persiste antes de adicionar armazenamento.

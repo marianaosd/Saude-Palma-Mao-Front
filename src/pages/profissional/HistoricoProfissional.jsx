@@ -37,7 +37,7 @@ function HistoricoProfissional() {
   function navigate(destination) {
     if (destination === 'inicio') window.location.hash = '#profissional'
     else if (destination === 'agenda') window.location.hash = '#agenda-profissional'
-    else if (destination === 'perfil') window.location.hash = '#profissional/perfil'
+    else if (destination === 'perfil') window.location.hash = '#perfil-profissional'
   }
 
   return (

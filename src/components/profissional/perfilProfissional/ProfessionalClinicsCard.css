@@ -1,0 +1,75 @@
+.professional-clinics-card {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.professional-clinics-card__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.professional-clinics-card__heading h2 {
+  margin: 0;
+  color: var(--color-text);
+  font: 400 0.875rem / 1.4286 var(--font-heading);
+}
+
+.professional-clinics-card__heading p {
+  margin: 4px 0 0;
+  color: var(--color-muted);
+  font: 400 0.6875rem / 1.5 var(--font-body);
+}
+
+.professional-clinics-card__add,
+.professional-clinics-card__icon {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-light);
+}
+
+.professional-clinics-card__list {
+  display: grid;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.professional-clinics-card__clinic {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+}
+
+.professional-clinics-card__clinic + .professional-clinics-card__clinic {
+  border-top: 1px solid var(--color-surface-muted);
+}
+
+.professional-clinics-card__details {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.professional-clinics-card__details > strong {
+  overflow: hidden;
+  color: var(--color-ink);
+  font: 400 0.75rem / 1.3334 var(--font-body);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.professional-clinics-card__details > span {
+  color: var(--color-ink);
+  font: 400 0.625rem / 1.5 var(--font-body);
+}

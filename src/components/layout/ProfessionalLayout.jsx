@@ -22,6 +22,13 @@ const historyIcons = {
   perfil: 'historyProfileNav',
 }
 
+const profileIcons = {
+  inicio: 'profileHomeNav',
+  agenda: 'profileAgendaNav',
+  historico: 'profileHistoryNav',
+  perfil: 'profileActiveNav',
+}
+
 function ProfessionalLayout({ children, onNavigate, activePage = 'inicio' }) {
   return (
     <div className="professional-shell theme-figma">
@@ -39,7 +46,13 @@ function ProfessionalLayout({ children, onNavigate, activePage = 'inicio' }) {
             onClick={() => onNavigate(id)}
           >
             <ProfessionalIcon
-              name={activePage === 'agenda' ? agendaIcons[id] : activePage === 'historico' ? historyIcons[id] : icon}
+              name={activePage === 'agenda'
+                ? agendaIcons[id]
+                : activePage === 'historico'
+                  ? historyIcons[id]
+                  : activePage === 'perfil'
+                    ? profileIcons[id]
+                    : icon}
             />
             <span>{label}</span>
           </button>

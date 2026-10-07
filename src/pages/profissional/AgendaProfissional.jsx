@@ -21,7 +21,7 @@ function AgendaProfissional() {
     } else if (destination === 'historico') {
       window.location.hash = '#historico-profissional'
     } else if (destination === 'perfil') {
-      window.location.hash = `#profissional/${destination}`
+      window.location.hash = '#perfil-profissional'
     } else {
       window.location.hash = '#profissional'
     }

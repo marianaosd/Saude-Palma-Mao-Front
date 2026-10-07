@@ -13,10 +13,13 @@ import Confirmacao from './pages/paciente/Confirmacao.jsx'
 import HomeProfissional from './pages/profissional/HomeProfissional.jsx'
 import AgendaProfissional from './pages/profissional/AgendaProfissional.jsx'
 import HistoricoProfissional from './pages/profissional/HistoricoProfissional.jsx'
+import PerfilProfissional from './pages/profissional/PerfilProfissional.jsx'
 
 function App() {
   const [screen, setScreen] = useState(() => (
-    window.location.hash === '#historico-profissional'
+    window.location.hash === '#perfil-profissional'
+      ? 'perfil-profissional'
+      : window.location.hash === '#historico-profissional'
       ? 'historico-profissional'
       : window.location.hash === '#agenda-profissional'
       ? 'agenda-profissional'
@@ -27,7 +30,9 @@ function App() {
 
   useEffect(() => {
     function syncScreenFromHash() {
-      if (window.location.hash === '#historico-profissional') {
+      if (window.location.hash === '#perfil-profissional') {
+        setScreen('perfil-profissional')
+      } else if (window.location.hash === '#historico-profissional') {
         setScreen('historico-profissional')
       } else if (window.location.hash === '#agenda-profissional') {
         setScreen('agenda-profissional')
@@ -45,6 +50,7 @@ function App() {
   if (screen === 'profissional') return <HomeProfissional />
   if (screen === 'agenda-profissional') return <AgendaProfissional />
   if (screen === 'historico-profissional') return <HistoricoProfissional />
+  if (screen === 'perfil-profissional') return <PerfilProfissional />
 
   return (
     <AppLayout onLogin={() => setScreen('login')}>

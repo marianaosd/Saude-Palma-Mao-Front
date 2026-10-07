@@ -21,6 +21,14 @@ import historyHomeNav from '../../assets/icons/profissional/history-home-nav.svg
 import historyAgendaNav from '../../assets/icons/profissional/history-agenda-nav.svg'
 import historyActiveNav from '../../assets/icons/profissional/history-active-nav.svg'
 import historyProfileNav from '../../assets/icons/profissional/history-profile-nav.svg'
+import profileEdit from '../../assets/icons/profissional/profile-edit.svg'
+import profileClinicAdd from '../../assets/icons/profissional/profile-clinic-add.svg'
+import profileClinicBuilding from '../../assets/icons/profissional/profile-clinic-building.svg'
+import profileLogout from '../../assets/icons/profissional/profile-logout.svg'
+import profileHomeNav from '../../assets/icons/profissional/profile-home-nav.svg'
+import profileAgendaNav from '../../assets/icons/profissional/profile-agenda-nav.svg'
+import profileHistoryNav from '../../assets/icons/profissional/profile-history-nav.svg'
+import profileActiveNav from '../../assets/icons/profissional/profile-active-nav.svg'
 import './ProfessionalIcon.css'
 
 const icons = {
@@ -47,6 +55,14 @@ const icons = {
   historyAgendaNav,
   historyActiveNav,
   historyProfileNav,
+  profileEdit,
+  profileClinicAdd,
+  profileClinicBuilding,
+  profileLogout,
+  profileHomeNav,
+  profileAgendaNav,
+  profileHistoryNav,
+  profileActiveNav,
 }
 
 function ProfessionalIcon({ name }) {

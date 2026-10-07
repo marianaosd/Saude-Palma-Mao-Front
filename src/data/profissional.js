@@ -3,9 +3,15 @@ export const professional = {
   name: 'Dr. Rafael Mendes',
   initials: 'RM',
   specialty: 'Clínico Geral',
+  secondarySpecialty: 'Medicina da Família',
   registration: 'CRM 142.889',
   email: 'rafael.mendes@saude.com.br',
 }
+
+export const professionalClinics = [
+  { id: 'saude-total-centro', name: 'Clínica Saúde Total — Centro', days: 'Seg, Qua e Sex' },
+  { id: 'bem-estar-jardins', name: 'Unidade Bem-Estar — Jardins', days: 'Ter e Qui' },
+]
 
 export const appointmentDay = 'Segunda-feira, 22 de setembro'
 
