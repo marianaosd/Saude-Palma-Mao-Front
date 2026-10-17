@@ -1,6 +1,32 @@
+import { useEffect, useState } from 'react'
+import { api } from '../../services/api.js'
 import './Clinicas.css'
 
 function Clinicas({ onBack, onSelecionar }) {
+  const [clinicas, setClinicas] = useState([])
+  const [erro, setErro] = useState('')
+  const [carregando, setCarregando] = useState(true)
+
+  useEffect(() => {
+    let ativo = true
+
+    async function carregar() {
+      try {
+        const dados = await api('/clinicas')
+        if (ativo) {
+          setClinicas(dados.filter((clinica) => clinica.status !== false))
+        }
+      } catch (error) {
+        if (ativo) setErro(error.message)
+      } finally {
+        if (ativo) setCarregando(false)
+      }
+    }
+
+    carregar()
+    return () => { ativo = false }
+  }, [])
+
   return (
     <section className="clinics-page" aria-labelledby="clinics-title">
       <div className="clinics-header">
@@ -24,72 +50,41 @@ function Clinicas({ onBack, onSelecionar }) {
         </p>
       </div>
 
+      {erro && <p className="app-feedback error" role="alert">{erro}</p>}
+
+      {carregando && <p className="app-empty">Carregando clínicas...</p>}
+
+      {!carregando && clinicas.length === 0 && (
+        <p className="app-empty">
+          Nenhuma clínica cadastrada no momento. Peça para a equipe incluir
+          unidades no backend para continuar o agendamento.
+        </p>
+      )}
+
       <div className="clinics-list">
-        <article className="clinic-card">
-          <div>
-            <span className="card-label">Clínica</span>
+        {clinicas.map((clinica) => (
+          <article className="clinic-card" key={clinica.id}>
+            <div>
+              <span className="card-label">Clínica</span>
 
-            <h2>Centro Médico Recife</h2>
+              <h2>{clinica.nome}</h2>
 
-            <p>Boa Vista · Recife</p>
+              <p>{clinica.endereco}</p>
 
-            <span className="clinic-info">
-              Atendimento clínico geral
-            </span>
-          </div>
+              <span className="clinic-info">
+                {clinica.horario_funcionamento || clinica.telefone || 'Atendimento disponível'}
+              </span>
+            </div>
 
-          <button
-            type="button"
-            className="primary-button"
-            onClick={onSelecionar}
-          >
-            Ver profissionais
-          </button>
-        </article>
-
-        <article className="clinic-card">
-          <div>
-            <span className="card-label">Clínica</span>
-
-            <h2>Clínica Saúde Recife</h2>
-
-            <p>Ilha do Leite · Recife</p>
-
-            <span className="clinic-info">
-              Atendimento clínico geral
-            </span>
-          </div>
-
-          <button
-            type="button"
-            className="primary-button"
-            onClick={onSelecionar}
-          >
-            Ver profissionais
-          </button>
-        </article>
-
-        <article className="clinic-card">
-          <div>
-            <span className="card-label">Clínica</span>
-
-            <h2>Centro de Saúde Boa Viagem</h2>
-
-            <p>Boa Viagem · Recife</p>
-
-            <span className="clinic-info">
-              Atendimento clínico geral
-            </span>
-          </div>
-
-          <button
-            type="button"
-            className="primary-button"
-            onClick={onSelecionar}
-          >
-            Ver profissionais
-          </button>
-        </article>
+            <button
+              type="button"
+              className="primary-button"
+              onClick={() => onSelecionar(clinica)}
+            >
+              Ver profissionais
+            </button>
+          </article>
+        ))}
       </div>
     </section>
   )

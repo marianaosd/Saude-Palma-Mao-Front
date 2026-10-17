@@ -1,6 +1,9 @@
+import { humanizarAcao } from '../../services/agenda.js'
 import './Resultado.css'
 
-function Resultado({ onBack, onClinicas }) {
+function Resultado({ onBack, onClinicas, categoria }) {
+  const orientacao = humanizarAcao(categoria?.acao_imediata)
+
   return (
     <section className="result-page" aria-labelledby="result-title">
       <div className="result-card">
@@ -15,19 +18,16 @@ function Resultado({ onBack, onClinicas }) {
         </h1>
 
         <p className="result-description">
-          Com base nas respostas informadas, recomendamos procurar
-          atendimento em uma unidade de saúde.
+          Com base na categoria que você escolheu, este é o próximo passo
+          sugerido. Esta orientação não é um diagnóstico médico.
         </p>
 
         <div className="result-priority">
           <span className="card-label">Orientação</span>
 
-          <h2>Atendimento moderado</h2>
+          <h2>{categoria?.nome_categoria || 'Pré-triagem registrada'}</h2>
 
-          <p>
-            Você pode buscar uma consulta em uma clínica ou unidade
-            de atendimento de sua preferência.
-          </p>
+          <p>{orientacao}.</p>
         </div>
 
         <div className="result-warning">

@@ -1,6 +1,6 @@
 import './Confirmacao.css'
 
-function Confirmacao({ onPaciente, onHome }) {
+function Confirmacao({ onPaciente, onHome, clinica, profissional, especialidade, slot }) {
   return (
     <section
       className="confirmation-page"
@@ -26,25 +26,25 @@ function Confirmacao({ onPaciente, onHome }) {
           <div className="confirmation-detail">
             <span className="card-label">Profissional</span>
 
-            <h2>Dr. Rafael Almeida</h2>
+            <h2>{profissional?.nome}</h2>
 
-            <p>Clínico Geral</p>
+            <p>{especialidade}</p>
           </div>
 
           <div className="confirmation-detail">
             <span className="card-label">Local</span>
 
-            <h2>Centro Médico Recife</h2>
+            <h2>{clinica?.nome}</h2>
 
-            <p>Boa Vista · Recife</p>
+            <p>{clinica?.endereco}</p>
           </div>
 
           <div className="confirmation-detail">
             <span className="card-label">Data e horário</span>
 
-            <h2>Hoje · 14:00</h2>
+            <h2>{slot?.rotulo}</h2>
 
-            <p>Atendimento clínico geral</p>
+            <p>Atendimento clínico</p>
           </div>
         </div>
 
