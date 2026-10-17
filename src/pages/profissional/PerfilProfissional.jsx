@@ -8,7 +8,7 @@ import ProfessionalProfileEditor from '../../components/profissional/perfilProfi
 import { professional as initialProfessional, professionalClinics as initialClinics } from '../../data/profissional.js'
 import './PerfilProfissional.css'
 
-function PerfilProfissional() {
+function PerfilProfissional({ onLogout }) {
   const [profile, setProfile] = useState(initialProfessional)
   const [clinics, setClinics] = useState(initialClinics)
   const [dialog, setDialog] = useState(null)
@@ -47,7 +47,7 @@ function PerfilProfissional() {
         <main className="professional-profile__main" id="professional-content" tabIndex={-1}>
           <ProfessionalDataCard professional={profile} />
           <ProfessionalClinicsCard clinics={clinics} onAddClinic={() => setDialog('clinic')} />
-          <button className="professional-profile__logout" type="button" onClick={() => { window.location.hash = '#inicio' }}>
+          <button className="professional-profile__logout" type="button" onClick={onLogout}>
             <ProfessionalIcon name="profileLogout" />
             <span>Sair da conta</span>
           </button>
