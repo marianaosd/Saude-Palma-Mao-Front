@@ -1,5 +1,4 @@
-
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import ProfessionalLayout from '../../components/layout/ProfessionalLayout.jsx'
 import ProfessionalIcon from '../../components/profissional/ProfessionalIcon.jsx'
 import AgendaAppointmentRow from '../../components/profissional/agendaProfissional/AgendaAppointmentRow.jsx'
@@ -9,109 +8,92 @@ import ProfessionalHomePanel from '../../components/profissional/ProfessionalHom
 import { api } from '../../services/api.js'
 import './AgendaProfissional.css'
 
-// ─── Helpers de data ────────────────────────────────────────────────────────
+// ─── helpers de data ─────────────────────────────────────────────────────────
 
 const DIAS_SEMANA_ABREV = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB']
-
-const DIAS_SEMANA_NOME = [
-  'Domingo',
-  'Segunda-feira',
-  'Terça-feira',
-  'Quarta-feira',
-  'Quinta-feira',
-  'Sexta-feira',
-  'Sábado',
+const DIAS_SEMANA_NOME  = [
+  'Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira',
+  'Quinta-feira', 'Sexta-feira', 'Sábado',
 ]
-
 const MESES_NOME = [
-  'Janeiro',
-  'Fevereiro',
-  'Março',
-  'Abril',
-  'Maio',
-  'Junho',
-  'Julho',
-  'Agosto',
-  'Setembro',
-  'Outubro',
-  'Novembro',
-  'Dezembro',
+  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
 ]
 
-// Converte YYYY-MM-DD em uma data local sem deslocamento de fuso horário.
+// Converte 'YYYY-MM-DD' em Date local, sem deslocamento de fuso horário.
 function parseDateLocal(dateStr) {
   const [year, month, day] = String(dateStr).slice(0, 10).split('-').map(Number)
   return new Date(year, month - 1, day)
 }
 
-// Calcula as iniciais de um nome completo.
+// Calcula as iniciais de um nome completo (até 2 letras).
 function calcularIniciais(nomeCompleto) {
   const partes = String(nomeCompleto || '').trim().split(/\s+/).filter(Boolean)
-
   if (partes.length === 0) return '?'
   if (partes.length === 1) return partes[0][0].toUpperCase()
-
-  return (
-    partes[0][0] + partes[partes.length - 1][0]
-  ).toUpperCase()
+  return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase()
 }
 
-// Converte HH:MM:SS para HH:MM.
+// Fatia 'HH:MM:SS' para 'HH:MM'; já aceita 'HH:MM'.
 function formatarHorario(horario) {
   return String(horario || '').slice(0, 5)
 }
 
-// Monta os cinco dias úteis da semana que contém a data informada.
+// Formata uma Date como 'YYYY-MM-DD' (data local, sem UTC).
+function formatarDataLocal(data) {
+  const yyyy = data.getFullYear()
+  const mm   = String(data.getMonth() + 1).padStart(2, '0')
+  const dd   = String(data.getDate()).padStart(2, '0')
+  return `${yyyy}-${mm}-${dd}`
+}
+
+// Retorna a data de hoje como 'YYYY-MM-DD'.
+function dataHojeStr() {
+  return formatarDataLocal(new Date())
+}
+
+// Monta os cinco dias úteis (seg–sex) da semana que contém refDate.
 function diasDaSemana(refDate) {
   const dow = refDate.getDay()
   const diffParaSeg = dow === 0 ? -6 : 1 - dow
-
   const segunda = new Date(refDate)
   segunda.setDate(refDate.getDate() + diffParaSeg)
 
   return Array.from({ length: 5 }, (_, i) => {
     const data = new Date(segunda)
     data.setDate(segunda.getDate() + i)
-
-    const yyyy = data.getFullYear()
-    const mm = String(data.getMonth() + 1).padStart(2, '0')
-    const dd = String(data.getDate()).padStart(2, '0')
-
     return {
-      id: `${yyyy}-${mm}-${dd}`,
-      weekday: DIAS_SEMANA_ABREV[data.getDay()],
-      weekdayName: DIAS_SEMANA_NOME[data.getDay()],
-      date: data.getDate(),
+      id:           formatarDataLocal(data),
+      weekday:      DIAS_SEMANA_ABREV[data.getDay()],
+      weekdayName:  DIAS_SEMANA_NOME[data.getDay()],
+      date:         data.getDate(),
       appointments: [],
       availableSlots: [],
     }
   })
 }
 
-// Transforma os agendamentos da API nos dados esperados pela agenda.
-function transformarAgendamentos(agendamentos) {
-  // CORREÇÃO: abre a semana atual, em vez da semana do agendamento mais antigo.
-  const dias = diasDaSemana(new Date())
+// Recebe a lista bruta da API e a data de referência da semana a exibir.
+// Devolve os cinco dias com as consultas do período, ordenadas por horário.
+function transformarAgendamentos(lista, refDate) {
+  const dias = diasDaSemana(refDate)
 
-  for (const agendamento of agendamentos) {
+  for (const agendamento of lista) {
     const dataConsulta = String(agendamento.data_consulta || '').slice(0, 10)
-
-    const dia = dias.find((item) => item.id === dataConsulta)
-
-    // Ignora apenas consultas que não pertencem à semana exibida.
-    if (!dia) continue
+    const dia = dias.find((d) => d.id === dataConsulta)
+    if (!dia) continue   // data fora da semana exibida
 
     dia.appointments.push({
-      id: agendamento.id,
-      time: formatarHorario(agendamento.horario_inicio),
-      name: agendamento.paciente,
-      initials: calcularIniciais(agendamento.paciente),
-      status: agendamento.status,
+      id:         agendamento.id,
+      time:       formatarHorario(agendamento.horario_inicio),
+      name:       agendamento.paciente,
+      initials:   calcularIniciais(agendamento.paciente),
+      status:     agendamento.status,
       id_triagem: agendamento.id_triagem,
+      // symptoms e priority não existem na API — omitidos intencionalmente
     })
   }
 
-  // Ordena as consultas de cada dia pelo horário.
   for (const dia of dias) {
     dia.appointments.sort((a, b) => a.time.localeCompare(b.time))
   }
@@ -119,135 +101,125 @@ function transformarAgendamentos(agendamentos) {
   return dias
 }
 
-// Define o título do mês da agenda.
+// Deriva o título 'Mês AAAA' a partir dos dias calculados.
 function derivarMes(agendaDays) {
-  const comAgendamentos = agendaDays.filter(
-    (dia) => dia.appointments.length > 0
-  )
-
-  const referencia = comAgendamentos[0] || agendaDays[0]
-
-  if (!referencia) {
+  const ref = agendaDays.find((d) => d.appointments.length > 0) || agendaDays[0]
+  if (!ref) {
     const hoje = new Date()
     return `${MESES_NOME[hoje.getMonth()]} ${hoje.getFullYear()}`
   }
-
-  const data = parseDateLocal(referencia.id)
-
+  const data = parseDateLocal(ref.id)
   return `${MESES_NOME[data.getMonth()]} ${data.getFullYear()}`
 }
 
-// ─── Componente principal ───────────────────────────────────────────────────
+// Calcula o dia da semana (0–4, seg=0) de uma string 'YYYY-MM-DD',
+// ou -1 se a data não corresponder a seg–sex.
+function dowDoDia(id) {
+  const data = parseDateLocal(id)
+  const dow = data.getDay() // 0=dom…6=sab
+  return dow >= 1 && dow <= 5 ? dow - 1 : -1  // seg=0 … sex=4
+}
 
-function AgendaProfissional() {
-  const [agendaDays, setAgendaDays] = useState(() => diasDaSemana(new Date()))
+// ─── componente principal ─────────────────────────────────────────────────────
 
-  const [agendaMonth, setAgendaMonth] = useState(() => {
-    const hoje = new Date()
-    return `${MESES_NOME[hoje.getMonth()]} ${hoje.getFullYear()}`
-  })
-
-  const [selectedDayId, setSelectedDayId] = useState(() => {
-    const hoje = new Date()
-    const dow = hoje.getDay()
-    const dias = diasDaSemana(hoje)
-
-    // Seleciona hoje de segunda a sexta; no fim de semana, seleciona segunda.
-    const diaInicial = dow === 0 || dow === 6 ? dias[0] : dias[dow - 1]
-
-    return diaInicial.id
+// onLogout é recebido do App.jsx e será conectado ao botão de sair
+// quando o perfil profissional for integrado (etapa posterior).
+// eslint-disable-next-line no-unused-vars
+function AgendaProfissional({ onLogout }) {
+  // Lista bruta retornada pela API — carregada apenas uma vez.
+  const [agendamentos, setAgendamentos] = useState([])
+  // Deslocamento de semana em relação a hoje: 0 = semana atual, ±n = n semanas.
+  const [semanaOffset, setSemanaOffset] = useState(0)
+  // Dia da semana selecionado: índice 0–4 (seg–sex).
+  const [dowSelecionado, setDowSelecionado] = useState(() => {
+    const dow = new Date().getDay()
+    return dow >= 1 && dow <= 5 ? dow - 1 : 0
   })
 
   const [carregando, setCarregando] = useState(true)
-  const [erro, setErro] = useState('')
-  const [panel, setPanel] = useState(null)
-  const [hours, setHours] = useState({ start: '08:00', end: '17:00' })
+  const [erro, setErro]             = useState('')
+  const [panel, setPanel]           = useState(null)
+  const [hours, setHours]           = useState({ start: '08:00', end: '17:00' })
 
+  // Carrega os agendamentos uma única vez ao montar.
   useEffect(() => {
     let cancelado = false
 
     async function carregarAgenda() {
       setCarregando(true)
       setErro('')
-
       try {
         const dados = await api('/profissionais/me/agendamentos')
-
         if (cancelado) return
-
-        const dias = transformarAgendamentos(
-          Array.isArray(dados) ? dados : []
-        )
-
-        setAgendaDays(dias)
-        setAgendaMonth(derivarMes(dias))
-
-        // Mantém o dia selecionado se ele existir na semana atual.
-        // Caso contrário, seleciona o dia de hoje ou segunda-feira.
-        setSelectedDayId((atual) => {
-          const existe = dias.some((dia) => dia.id === atual)
-
-          if (existe) return atual
-
-          const hoje = new Date()
-          const dow = hoje.getDay()
-          const diaInicial = dow === 0 || dow === 6
-            ? dias[0]
-            : dias[dow - 1]
-
-          return diaInicial.id
-        })
+        setAgendamentos(Array.isArray(dados) ? dados : [])
       } catch (e) {
-        if (!cancelado) {
-          setErro(e.message || 'Não foi possível carregar a agenda.')
-        }
+        if (!cancelado) setErro(e.message || 'Não foi possível carregar a agenda.')
       } finally {
-        if (!cancelado) {
-          setCarregando(false)
-        }
+        if (!cancelado) setCarregando(false)
       }
     }
 
     carregarAgenda()
-
-    return () => {
-      cancelado = true
-    }
+    return () => { cancelado = true }
   }, [])
 
-  const selectedDay =
-    agendaDays.find(({ id }) => id === selectedDayId) || agendaDays[0]
+  // Data de referência da semana exibida: hoje deslocado por semanaOffset * 7 dias.
+  const refDate = useMemo(() => {
+    const ref = new Date()
+    ref.setDate(ref.getDate() + semanaOffset * 7)
+    return ref
+  }, [semanaOffset])
+
+  // Dias calculados a partir da lista bruta e da semana de referência.
+  const agendaDays = useMemo(
+    () => transformarAgendamentos(agendamentos, refDate),
+    [agendamentos, refDate]
+  )
+
+  // Título do mês acompanha a semana exibida.
+  const agendaMonth = useMemo(() => derivarMes(agendaDays), [agendaDays])
+
+  // ID do dia selecionado: mantém o mesmo dia-da-semana ao navegar entre semanas.
+  const selectedDayId = agendaDays[dowSelecionado]?.id ?? agendaDays[0]?.id ?? ''
+
+  const selectedDay = agendaDays.find(({ id }) => id === selectedDayId) ?? agendaDays[0]
+
+  // Ao clicar em um dia no seletor, guarda o índice (dow) para preservá-lo ao trocar de semana.
+  function handleSelectDay(id) {
+    const dow = dowDoDia(id)
+    if (dow !== -1) setDowSelecionado(dow)
+  }
+
+  function irParaAnterior() { setSemanaOffset((n) => n - 1) }
+  function irParaProxima()  { setSemanaOffset((n) => n + 1) }
+  function irParaHoje() {
+    setSemanaOffset(0)
+    // Restaura o índice de hoje
+    const dow = new Date().getDay()
+    setDowSelecionado(dow >= 1 && dow <= 5 ? dow - 1 : 0)
+  }
 
   function navigate(destination) {
-    if (destination === 'inicio' || destination === 'agenda') {
-      window.location.hash =
-        destination === 'inicio' ? '#profissional' : '#agenda-profissional'
-    } else if (destination === 'historico') {
-      window.location.hash = '#historico-profissional'
-    } else if (destination === 'perfil') {
-      window.location.hash = '#perfil-profissional'
-    } else {
-      window.location.hash = '#profissional'
+    const rotas = {
+      inicio:    '#profissional',
+      agenda:    '#agenda-profissional',
+      historico: '#historico-profissional',
+      perfil:    '#perfil-profissional',
     }
+    window.location.hash = rotas[destination] ?? '#profissional'
   }
 
   function closePanel() {
     setPanel(null)
-
     if (window.location.hash.startsWith('#profissional/')) {
       window.location.hash = '#agenda-profissional'
     }
   }
 
-  // Renderiza o conteúdo principal conforme o estado da agenda.
   function renderMain() {
     if (carregando) {
       return (
-        <p
-          className="agenda-professional__empty"
-          role="status"
-          aria-live="polite"
-        >
+        <p className="agenda-professional__empty" role="status" aria-live="polite">
           Carregando agenda…
         </p>
       )
@@ -261,14 +233,9 @@ function AgendaProfissional() {
       )
     }
 
-    const totalConsultas = selectedDay.appointments.length
+    const totalConsultas   = selectedDay.appointments.length
     const totalDisponiveis = selectedDay.availableSlots.length
-
-    const hoje = new Date()
-    const dataHoje =
-      `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}-${String(hoje.getDate()).padStart(2, '0')}`
-
-    const diaSelecionadoEhHoje = selectedDay.id === dataHoje
+    const ehHoje           = selectedDay.id === dataHojeStr()
 
     return (
       <section aria-labelledby="agenda-day-title">
@@ -277,18 +244,12 @@ function AgendaProfissional() {
             <h2 id="agenda-day-title">
               {selectedDay.weekdayName}, {selectedDay.date}
             </h2>
-
             <p>
-              {totalConsultas}{' '}
-              {totalConsultas === 1 ? 'consulta' : 'consultas'}
-              {totalDisponiveis > 0 &&
-                ` · ${totalDisponiveis} horários livres`}
+              {totalConsultas} {totalConsultas === 1 ? 'consulta' : 'consultas'}
+              {totalDisponiveis > 0 && ` · ${totalDisponiveis} horários livres`}
             </p>
           </div>
-
-          {diaSelecionadoEhHoje && (
-            <span className="agenda-professional__today">Hoje</span>
-          )}
+          {ehHoje && <span className="agenda-professional__today">Hoje</span>}
         </div>
 
         <div
@@ -299,16 +260,12 @@ function AgendaProfissional() {
             <AgendaAppointmentRow
               key={appointment.id}
               appointment={appointment}
-              onOpen={(item) =>
-                setPanel({ type: 'triagem', appointment: item })
-              }
+              onOpen={(item) => setPanel({ type: 'triagem', appointment: item })}
             />
           ))}
-
           {selectedDay.availableSlots.map((time) => (
             <AgendaAvailableSlot key={time} time={time} />
           ))}
-
           {totalConsultas === 0 && totalDisponiveis === 0 && (
             <p className="agenda-professional__empty">
               Nenhuma consulta agendada para este dia.
@@ -320,15 +277,11 @@ function AgendaProfissional() {
   }
 
   return (
-    <ProfessionalLayout
-      activePage="agenda"
-      onNavigate={navigate}
-    >
+    <ProfessionalLayout activePage="agenda" onNavigate={navigate}>
       <div className="agenda-professional">
         <header className="agenda-professional__header">
           <div className="agenda-professional__month-row">
             <h1>{agendaMonth}</h1>
-
             <button
               className="agenda-professional__settings"
               type="button"
@@ -339,10 +292,39 @@ function AgendaProfissional() {
             </button>
           </div>
 
+          {/* Navegação entre semanas */}
+          <div className="agenda-week-nav" role="group" aria-label="Navegar entre semanas">
+            <button
+              className="agenda-week-nav__btn"
+              type="button"
+              aria-label="Semana anterior"
+              onClick={irParaAnterior}
+            >
+              ← Anterior
+            </button>
+            <button
+              className="agenda-week-nav__btn agenda-week-nav__btn--hoje"
+              type="button"
+              aria-label="Voltar para a semana atual"
+              disabled={semanaOffset === 0}
+              onClick={irParaHoje}
+            >
+              Hoje
+            </button>
+            <button
+              className="agenda-week-nav__btn"
+              type="button"
+              aria-label="Próxima semana"
+              onClick={irParaProxima}
+            >
+              Próxima →
+            </button>
+          </div>
+
           <AgendaDaySelector
             days={agendaDays}
             selectedDayId={selectedDayId}
-            onSelectDay={setSelectedDayId}
+            onSelectDay={handleSelectDay}
           />
         </header>
 
