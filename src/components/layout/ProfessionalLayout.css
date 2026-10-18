@@ -74,3 +74,10 @@
 .professional-skip-link:focus {
   transform: translateY(0);
 }
+
+.professional-accessibility {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--space-3) var(--space-5);
+}
+

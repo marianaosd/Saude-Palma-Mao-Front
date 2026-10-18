@@ -12,7 +12,7 @@ export const FONT_SCALES = [
 
 export function obterConfiguracoesAcessibilidade() {
   const escalaSalva = parseFloat(localStorage.getItem(STORAGE_KEY_SCALE))
-  const temaSalvo = localStorage.getItem(STORAGE_KEY_THEME) || 'padrao'
+  const temaSalvo = localStorage.getItem(STORAGE_KEY_THEME) === 'dislexia' ? 'dislexia' : 'padrao'
   const contrasteSalvo = localStorage.getItem(STORAGE_KEY_CONTRAST) || 'padrao'
 
   return {
@@ -31,7 +31,7 @@ export function aplicarConfiguracoesAcessibilidade({ escala, tema, contraste }) 
     localStorage.setItem(STORAGE_KEY_SCALE, String(escala))
   }
 
-  // Aplica tema de daltonismo
+  // Aplica a fonte de leitura ('padrao' ou 'dislexia')
   if (tema) {
     if (tema === 'padrao') {
       root.removeAttribute('data-theme')

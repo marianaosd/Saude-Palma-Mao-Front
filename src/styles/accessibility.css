@@ -1,0 +1,74 @@
+/* Acessibilidade: tamanho do texto, leitura para dislexia e alto contraste.
+   O painel (AccessibilityPanel) controla estes três itens no elemento <html>:
+   --font-scale, data-theme e data-contrast.
+
+   Valores usados:
+   - data-theme='dislexia' ativa a fonte OpenDyslexic;
+   - data-contrast='alto' ativa o alto contraste. */
+
+:root {
+  --font-scale: 1;
+}
+
+/* Os tamanhos do projeto estão em rem. Mudar o tamanho base do <html>
+   aumenta ou diminui todo o texto, sem alterar o design. */
+html {
+  font-size: calc(100% * var(--font-scale));
+}
+
+/* ── Dislexia: OpenDyslexic e espaçamento de leitura ─────────────────── */
+:root[data-theme='dislexia'] {
+  --font-body: 'OpenDyslexic', 'Atkinson Hyperlegible', Arial, sans-serif;
+  --font-heading: 'OpenDyslexic', 'Atkinson Hyperlegible', Arial, sans-serif;
+  font-family: var(--font-body);
+}
+
+:root[data-theme='dislexia'] body,
+:root[data-theme='dislexia'] button,
+:root[data-theme='dislexia'] input,
+:root[data-theme='dislexia'] select,
+:root[data-theme='dislexia'] textarea {
+  font-family: var(--font-body);
+  letter-spacing: 0.03em;
+  word-spacing: 0.08em;
+}
+
+:root[data-theme='dislexia'] body {
+  line-height: 1.75;
+}
+
+:root[data-theme='dislexia'] p,
+:root[data-theme='dislexia'] li,
+:root[data-theme='dislexia'] label {
+  line-height: 1.75;
+}
+
+:root[data-theme='dislexia'] h1,
+:root[data-theme='dislexia'] h2,
+:root[data-theme='dislexia'] h3,
+:root[data-theme='dislexia'] h4,
+:root[data-theme='dislexia'] h5,
+:root[data-theme='dislexia'] h6 {
+  font-family: var(--font-heading);
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+/* ── Alto contraste: fundo branco, texto preto e bordas marcadas ─────── */
+:root[data-contrast='alto'],
+:root[data-contrast='alto'] .theme-figma {
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f8fafc;
+
+  --color-text: #000000;
+  --color-text-secondary: #000000;
+  --color-muted: #1e293b;
+  --color-border: #000000;
+  --border-width: 2px;
+
+  --color-primary: #004494;
+  --color-primary-dark: #002b66;
+  --color-primary-light: #e6f0ff;
+  --color-primary-border: #000000;
+}

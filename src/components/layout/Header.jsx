@@ -1,3 +1,5 @@
+import AccessibilityPanel from '../ui/AccessibilityPanel.jsx'
+
 function Header({ onLogin }) {
   return (
     <header className="site-header container">
@@ -17,6 +19,8 @@ function Header({ onLogin }) {
         >
           Entrar
         </button>
+
+        <AccessibilityPanel />
       </nav>
     </header>
   )
