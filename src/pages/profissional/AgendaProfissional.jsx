@@ -139,7 +139,6 @@ function AgendaProfissional({ onLogout }) {
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro]             = useState('')
   const [panel, setPanel]           = useState(null)
-  const [hours, setHours]           = useState({ start: '08:00', end: '17:00' })
 
   // Carrega os agendamentos uma única vez ao montar.
   useEffect(() => {
@@ -344,8 +343,6 @@ function AgendaProfissional({ onLogout }) {
           professional={{}}
           appointments={selectedDay.appointments}
           historyRecords={[]}
-          hours={hours}
-          onSaveHours={setHours}
           onClose={closePanel}
         />
       )}

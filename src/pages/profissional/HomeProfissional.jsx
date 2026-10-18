@@ -95,7 +95,6 @@ function HomeProfissional({ onLogout }) {
   const [erro, setErro]               = useState('')
   const [available, setAvailable]     = useState(true)
   const [panel, setPanel]             = useState(getInitialPanel)
-  const [hours, setHours]             = useState({ start: '08:00', end: '17:00' })
 
   // Carrega perfil e agendamentos uma única vez ao montar.
   useEffect(() => {
@@ -375,8 +374,6 @@ function HomeProfissional({ onLogout }) {
           professional={professionalParaPainel}
           appointments={proximosPanel}
           historyRecords={[]}
-          hours={hours}
-          onSaveHours={setHours}
           onClose={closePanel}
         />
       )}

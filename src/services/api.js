@@ -65,9 +65,15 @@ export async function api(path, options = {}) {
 
   // Rotas do portal profissional usam o token do profissional;
   // todas as demais usam o token do paciente.
+  // /disponibilidades/me → sempre profissional.
+  // /disponibilidades (outros métodos) → PUT/POST/DELETE do profissional.
+  // GET /disponibilidades sem /me → leitura pública (paciente).
+  const method = (options.method || 'GET').toUpperCase()
   const isProfissionalRoute =
     path.startsWith('/profissionais/me') ||
-    path.startsWith('/auth/profissional/')
+    path.startsWith('/auth/profissional/') ||
+    path === '/disponibilidades/me' ||
+    (path.startsWith('/disponibilidades') && method !== 'GET')
   const token = isProfissionalRoute ? getProfissionalToken() : getToken()
 
   if (options.body && !headers.has('Content-Type')) {
