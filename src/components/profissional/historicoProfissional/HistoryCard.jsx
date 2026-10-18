@@ -16,8 +16,8 @@ function HistoryCard({ record, onOpen }) {
         <strong>{record.name}</strong>
         <span className="professional-history-card__description">{record.detail}</span>
         <span className="professional-history-card__completion">
-          <ProfessionalIcon name="historyCheck" />
-          <span>Concluído às {record.time}</span>
+          {record.status === 'Concluido' && <ProfessionalIcon name="historyCheck" />}
+          <span>{record.statusLabel} · {record.time}</span>
         </span>
       </span>
       <span className="professional-history-card__chevron" aria-hidden="true">
