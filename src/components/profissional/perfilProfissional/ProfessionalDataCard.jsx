@@ -2,10 +2,10 @@ import './ProfessionalDataCard.css'
 
 function ProfessionalDataCard({ professional: profile }) {
   const details = [
-    { label: 'CRM', value: `CRM/SP ${profile.registration.replace('CRM ', '')}` },
+    { label: 'Registro profissional', value: profile.registration },
     { label: 'Especialidade principal', value: profile.specialty },
-    { label: 'Especialidade secundária', value: profile.secondarySpecialty },
-    { label: 'E-mail', value: profile.email },
+    { label: 'E-mail',                 value: profile.email },
+    { label: 'Telefone',               value: profile.telefone || 'Não informado' },
   ]
 
   return (
