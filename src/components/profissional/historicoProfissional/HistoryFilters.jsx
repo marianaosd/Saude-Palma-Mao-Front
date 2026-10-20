@@ -1,9 +1,9 @@
 import './HistoryFilters.css'
 
 const filters = [
-  { id: 'all', label: 'Todos' },
-  { id: 'month', label: 'Este mês' },
-  { id: 'returns', label: 'Retornos' },
+  { id: 'all',       label: 'Todos' },
+  { id: 'month',     label: 'Este mês' },
+  { id: 'completed', label: 'Concluídos' },
 ]
 
 function HistoryFilters({ selectedFilter, onChange }) {

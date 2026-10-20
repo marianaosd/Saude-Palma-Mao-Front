@@ -116,3 +116,15 @@
     padding-left: 16px;
   }
 }
+
+/* Mensagens de estado (carregamento e erro) */
+.professional-profile__empty {
+  margin: 0;
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-muted);
+  font: 400 0.875rem / 1.5 var(--font-body);
+  text-align: center;
+}

@@ -1,6 +1,36 @@
+import { useState } from 'react'
+import { api } from '../../services/api.js'
 import './Agendamento.css'
 
-function Agendamento({ onBack, onConfirmar }) {
+function Agendamento({ onBack, onConfirmar, clinica, profissional, especialidade, slot, triagem }) {
+  const [erro, setErro] = useState('')
+  const [enviando, setEnviando] = useState(false)
+
+  async function handleConfirmar() {
+    setErro('')
+    setEnviando(true)
+
+    try {
+      const agendamento = await api('/agendamentos', {
+        method: 'POST',
+        body: JSON.stringify({
+          id_profissional: profissional.id,
+          id_clinica: clinica.id,
+          id_triagem: triagem?.id,
+          data_consulta: slot.data,
+          horario_inicio: slot.horario_inicio,
+          horario_fim: slot.horario_fim
+        })
+      })
+
+      onConfirmar(agendamento)
+    } catch (error) {
+      setErro(error.message)
+    } finally {
+      setEnviando(false)
+    }
+  }
+
   return (
     <section className="booking-page" aria-labelledby="booking-title">
       <div className="booking-header">
@@ -27,25 +57,25 @@ function Agendamento({ onBack, onConfirmar }) {
         <div className="booking-section">
           <span className="card-label">Profissional</span>
 
-          <h2>Dr. Rafael Almeida</h2>
+          <h2>{profissional?.nome || 'Profissional não selecionado'}</h2>
 
-          <p>Clínico Geral</p>
+          <p>{especialidade || 'Atendimento'}</p>
         </div>
 
         <div className="booking-section">
           <span className="card-label">Local</span>
 
-          <h2>Centro Médico Recife</h2>
+          <h2>{clinica?.nome || 'Clínica não selecionada'}</h2>
 
-          <p>Boa Vista · Recife</p>
+          <p>{clinica?.endereco}</p>
         </div>
 
         <div className="booking-section">
           <span className="card-label">Data e horário</span>
 
-          <h2>Hoje · 14:00</h2>
+          <h2>{slot?.rotulo || 'Horário não selecionado'}</h2>
 
-          <p>Atendimento clínico geral</p>
+          <p>Atendimento clínico</p>
         </div>
 
         <div className="booking-warning">
@@ -57,12 +87,15 @@ function Agendamento({ onBack, onConfirmar }) {
           </p>
         </div>
 
+        {erro && <p className="app-feedback error" role="alert">{erro}</p>}
+
         <button
           type="button"
           className="primary-button"
-          onClick={onConfirmar}
+          onClick={handleConfirmar}
+          disabled={enviando || !profissional || !clinica || !slot}
         >
-          Confirmar agendamento
+          {enviando ? 'Confirmando...' : 'Confirmar agendamento'}
         </button>
       </div>
     </section>

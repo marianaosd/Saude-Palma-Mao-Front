@@ -31,8 +31,6 @@ function ProfessionalHomePanel({
   professional,
   appointments,
   historyRecords,
-  hours,
-  onSaveHours,
   onClose,
 }) {
   const dialogRef = useRef(null)
@@ -44,7 +42,7 @@ function ProfessionalHomePanel({
   let content
   if (panel.type === 'agenda') content = <AgendaPreview appointments={appointments} />
   else if (panel.type === 'historico') content = <HistoryPreview records={historyRecords} />
-  else if (panel.type === 'horarios') content = <AvailabilityForm hours={hours} onSave={onSaveHours} />
+  else if (panel.type === 'horarios') content = <AvailabilityForm />
   else if (panel.type === 'perfil') content = <ProfilePreview professional={professional} />
   else if (panel.type === 'triagem') content = <TriagePanel appointment={panel.appointment} />
   else content = <p className="professional-panel__empty">Você está em dia.</p>

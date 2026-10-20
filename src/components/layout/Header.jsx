@@ -1,9 +1,11 @@
+import AccessibilityPanel from '../ui/AccessibilityPanel.jsx'
+
 function Header({ onLogin }) {
   return (
     <header className="site-header container">
       <a className="brand" href="#inicio">
         <img src="/favicon.svg" width="36" height="36" alt="" />
-        <span>Saúde na Palma da Mão</span>
+        <span>Desafila</span>
       </a>
 
       <nav aria-label="Navegação principal">
@@ -17,6 +19,8 @@ function Header({ onLogin }) {
         >
           Entrar
         </button>
+
+        <AccessibilityPanel />
       </nav>
     </header>
   )

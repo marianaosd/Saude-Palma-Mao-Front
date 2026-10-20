@@ -5,7 +5,7 @@ function Home({ onLogin }) {
     <>
       <section id="inicio" className="hero" aria-labelledby="home-title">
         <div className="hero-content">
-          <p className="eyebrow">Saúde na Palma da Mão</p>
+          <p className="eyebrow">Desafila</p>
 
           <h1 id="home-title">
             O cuidado começa com um primeiro passo.
@@ -45,7 +45,7 @@ function Home({ onLogin }) {
           </h2>
 
           <p>
-            O Saúde na Palma da Mão conecta pacientes, profissionais de saúde
+            O Desafila conecta pacientes, profissionais de saúde
             e clínicas em uma aplicação acessível pelo celular.
           </p>
 
@@ -93,7 +93,7 @@ function Home({ onLogin }) {
 
       <section className="access-section" aria-labelledby="access-title">
         <div>
-          <p className="eyebrow">Saúde na Palma da Mão</p>
+          <p className="eyebrow">Desafila</p>
 
           <h2 id="access-title">
             Comece sua jornada de atendimento de forma mais simples.

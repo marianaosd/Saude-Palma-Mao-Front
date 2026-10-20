@@ -17,8 +17,8 @@ function AppointmentCard({ appointment, highlighted = false, onViewTriage }) {
         </div>
         <div className="appointment-card__patient">
           <h3 id={`appointment-${appointment.id}`}>{appointment.name}</h3>
-          <p>{appointment.symptoms}</p>
-          <PriorityTag priority={appointment.priority} />
+          {appointment.detail && <p>{appointment.detail}</p>}
+          {appointment.priority && <PriorityTag priority={appointment.priority} />}
         </div>
       </div>
       <button

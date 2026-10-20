@@ -1,22 +1,16 @@
 import ProfessionalIcon from '../ProfessionalIcon.jsx'
 import './ProfessionalClinicsCard.css'
 
-function ProfessionalClinicsCard({ clinics, onAddClinic }) {
+function ProfessionalClinicsCard({ clinics }) {
+  const subtitulo = `${clinics.length} ${clinics.length === 1 ? 'local' : 'locais'} de atendimento`
+
   return (
     <section className="professional-clinics-card" aria-labelledby="professional-clinics-title">
       <header className="professional-clinics-card__heading">
         <div>
           <h2 id="professional-clinics-title">Clínicas vinculadas</h2>
-          <p>{clinics.length} locais de atendimento</p>
+          <p>{subtitulo}</p>
         </div>
-        <button
-          className="professional-clinics-card__add"
-          type="button"
-          aria-label="Adicionar clínica"
-          onClick={onAddClinic}
-        >
-          <ProfessionalIcon name="profileClinicAdd" />
-        </button>
       </header>
       <ul className="professional-clinics-card__list">
         {clinics.map((clinic) => (
@@ -26,7 +20,7 @@ function ProfessionalClinicsCard({ clinics, onAddClinic }) {
             </span>
             <span className="professional-clinics-card__details">
               <strong>{clinic.name}</strong>
-              <span>{clinic.days}</span>
+              {clinic.days && <span>{clinic.days}</span>}
             </span>
           </li>
         ))}

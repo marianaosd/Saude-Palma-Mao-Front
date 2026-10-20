@@ -1,15 +1,39 @@
+import { useState } from 'react'
+import { api, salvarSessao } from '../../services/api.js'
 import './Auth.css'
 
-function Login({ onBack, onCadastro, onLogin }) {
-  function handleSubmit(event) {
+function Login({ onBack, onCadastro, onLogin, onLoginProfissional }) {
+  const [erro, setErro] = useState('')
+  const [enviando, setEnviando] = useState(false)
+
+  async function handleSubmit(event) {
     event.preventDefault()
-    onLogin()
+    setErro('')
+    setEnviando(true)
+
+    const form = new FormData(event.currentTarget)
+    const email = String(form.get('email') || '').trim()
+    const senha = String(form.get('password') || '')
+
+    try {
+      const resposta = await api('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, senha })
+      })
+
+      salvarSessao(resposta.token, resposta.paciente)
+      onLogin(resposta.paciente)
+    } catch (error) {
+      setErro(error.message)
+    } finally {
+      setEnviando(false)
+    }
   }
 
   return (
     <section className="auth-page" aria-labelledby="login-title">
       <div className="auth-card">
-        <p className="eyebrow">Saúde na Palma da Mão</p>
+        <p className="eyebrow">Desafila</p>
 
         <h1 id="login-title">Bem-vindo de volta</h1>
 
@@ -27,6 +51,7 @@ function Login({ onBack, onCadastro, onLogin }) {
               type="email"
               placeholder="seu@email.com"
               autoComplete="email"
+              required
             />
           </div>
 
@@ -39,11 +64,14 @@ function Login({ onBack, onCadastro, onLogin }) {
               type="password"
               placeholder="Digite sua senha"
               autoComplete="current-password"
+              required
             />
           </div>
 
-          <button type="submit" className="primary-button">
-            Entrar
+          {erro && <p className="app-feedback error" role="alert">{erro}</p>}
+
+          <button type="submit" className="primary-button" disabled={enviando}>
+            {enviando ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
 
@@ -59,7 +87,13 @@ function Login({ onBack, onCadastro, onLogin }) {
         </p>
 
         <p className="professional-login-link">
-          <a href="#profissional">Entrar como profissional</a>
+          <button
+            type="button"
+            className="auth-link-button"
+            onClick={onLoginProfissional}
+          >
+            Entrar como profissional
+          </button>
         </p>
 
         <button

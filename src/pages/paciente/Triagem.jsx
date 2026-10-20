@@ -1,6 +1,118 @@
+import { useEffect, useState } from 'react'
+import { api } from '../../services/api.js'
 import './Triagem.css'
 
 function Triagem({ onBack, onResultado }) {
+  const [categorias, setCategorias] = useState([])
+  const [categoriaId, setCategoriaId] = useState('')
+  const [perguntas, setPerguntas] = useState([])
+  const [respostas, setRespostas] = useState({})
+  const [erro, setErro] = useState('')
+  const [carregando, setCarregando] = useState(true)
+  const [enviando, setEnviando] = useState(false)
+
+  useEffect(() => {
+    let ativo = true
+
+    async function carregarCategorias() {
+      try {
+        const dados = await api('/triagem/categorias')
+        if (ativo) setCategorias(dados)
+      } catch (error) {
+        if (ativo) setErro(error.message)
+      } finally {
+        if (ativo) setCarregando(false)
+      }
+    }
+
+    carregarCategorias()
+    return () => { ativo = false }
+  }, [])
+
+  useEffect(() => {
+    if (!categoriaId) return
+
+    let ativo = true
+
+    async function carregarPerguntas() {
+      setErro('')
+      try {
+        const dados = await api(`/triagem/categorias/${categoriaId}/perguntas`)
+        if (ativo) {
+          setPerguntas(dados)
+          setRespostas({})
+        }
+      } catch (error) {
+        if (ativo) setErro(error.message)
+      }
+    }
+
+    carregarPerguntas()
+    return () => { ativo = false }
+  }, [categoriaId])
+
+  function atualizarResposta(pergunta, valor) {
+    setRespostas((atual) => ({ ...atual, [pergunta.id]: valor }))
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault()
+    setErro('')
+
+    if (!categoriaId) {
+      setErro('Selecione o que você está sentindo.')
+      return
+    }
+
+    const payload = perguntas.map((pergunta) => {
+      const valor = respostas[pergunta.id]
+      const tipo = String(pergunta.tipo_resposta || '').toUpperCase()
+
+      if (tipo === 'BOOLEAN') {
+        return {
+          id_pergunta: pergunta.id,
+          resposta_bool: valor === 'sim'
+        }
+      }
+
+      return {
+        id_pergunta: pergunta.id,
+        resposta_texto: String(valor || '').trim()
+      }
+    })
+
+    const incompleta = perguntas.some((pergunta) => {
+      const valor = respostas[pergunta.id]
+      const tipo = String(pergunta.tipo_resposta || '').toUpperCase()
+      if (tipo === 'BOOLEAN') return valor !== 'sim' && valor !== 'nao'
+      return !String(valor || '').trim()
+    })
+
+    if (incompleta) {
+      setErro('Responda todas as perguntas para continuar.')
+      return
+    }
+
+    setEnviando(true)
+
+    try {
+      const resultado = await api('/triagem', {
+        method: 'POST',
+        body: JSON.stringify({
+          id_categoria: categoriaId,
+          respostas: payload
+        })
+      })
+
+      const categoria = categorias.find((item) => item.id === categoriaId)
+      onResultado({ categoria, triagem: resultado.triagem })
+    } catch (error) {
+      setErro(error.message)
+    } finally {
+      setEnviando(false)
+    }
+  }
+
   return (
     <section className="triage-page" aria-labelledby="triage-page-title">
       <div className="triage-page-header">
@@ -24,127 +136,97 @@ function Triagem({ onBack, onResultado }) {
         </p>
       </div>
 
-      <form className="triage-form">
-        <fieldset className="triage-question">
-          <legend>1. O que você está sentindo?</legend>
+      {carregando ? (
+        <p className="app-empty">Carregando perguntas da pré-triagem...</p>
+      ) : (
+        <form className="triage-form" onSubmit={handleSubmit}>
+          <fieldset className="triage-question">
+            <legend>O que você está sentindo?</legend>
 
-          <label className="triage-option">
-            <input
-              type="radio"
-              name="symptom"
-              value="dor"
-            />
-            <span>Estou sentindo dor</span>
-          </label>
+            {categorias.length === 0 && (
+              <p className="app-empty">Nenhuma categoria de triagem cadastrada.</p>
+            )}
 
-          <label className="triage-option">
-            <input
-              type="radio"
-              name="symptom"
-              value="febre"
-            />
-            <span>Estou com febre</span>
-          </label>
+            {categorias.map((categoria) => (
+              <label className="triage-option" key={categoria.id}>
+                <input
+                  type="radio"
+                  name="categoria"
+                  value={categoria.id}
+                  checked={categoriaId === categoria.id}
+                  onChange={() => setCategoriaId(categoria.id)}
+                />
+                <span>{categoria.nome_categoria}</span>
+              </label>
+            ))}
+          </fieldset>
 
-          <label className="triage-option">
-            <input
-              type="radio"
-              name="symptom"
-              value="respiracao"
-            />
-            <span>Estou com dificuldade para respirar</span>
-          </label>
+          {perguntas.map((pergunta, index) => {
+            const tipo = String(pergunta.tipo_resposta || '').toUpperCase()
 
-          <label className="triage-option">
-            <input
-              type="radio"
-              name="symptom"
-              value="outro"
-            />
-            <span>Outro sintoma</span>
-          </label>
-        </fieldset>
+            return (
+              <fieldset className="triage-question" key={pergunta.id}>
+                <legend>{index + 1}. {pergunta.texto_pergunta}</legend>
 
-        <fieldset className="triage-question">
-          <legend>2. Há quanto tempo você está sentindo isso?</legend>
+                {tipo === 'BOOLEAN' ? (
+                  <>
+                    <label className="triage-option">
+                      <input
+                        type="radio"
+                        name={pergunta.id}
+                        value="sim"
+                        checked={respostas[pergunta.id] === 'sim'}
+                        onChange={() => atualizarResposta(pergunta, 'sim')}
+                      />
+                      <span>Sim</span>
+                    </label>
+                    <label className="triage-option">
+                      <input
+                        type="radio"
+                        name={pergunta.id}
+                        value="nao"
+                        checked={respostas[pergunta.id] === 'nao'}
+                        onChange={() => atualizarResposta(pergunta, 'nao')}
+                      />
+                      <span>Não</span>
+                    </label>
+                  </>
+                ) : (
+                  <label className="triage-option">
+                    <span>Sua resposta</span>
+                    <input
+                      type="text"
+                      value={respostas[pergunta.id] || ''}
+                      onChange={(event) => atualizarResposta(pergunta, event.target.value)}
+                      placeholder="Descreva com suas palavras"
+                    />
+                  </label>
+                )}
+              </fieldset>
+            )
+          })}
 
-          <label className="triage-option">
-            <input
-              type="radio"
-              name="duration"
-              value="hoje"
-            />
-            <span>Começou hoje</span>
-          </label>
+          <div className="triage-warning">
+            <strong>Importante</strong>
 
-          <label className="triage-option">
-            <input
-              type="radio"
-              name="duration"
-              value="dias"
-            />
-            <span>Há alguns dias</span>
-          </label>
+            <p>
+              Esta pré-triagem não substitui uma avaliação médica.
+              Em situações de emergência, procure imediatamente um serviço
+              de atendimento de urgência.
+            </p>
+          </div>
 
-          <label className="triage-option">
-            <input
-              type="radio"
-              name="duration"
-              value="semana"
-            />
-            <span>Há mais de uma semana</span>
-          </label>
-        </fieldset>
+          {erro && <p className="app-feedback error" role="alert">{erro}</p>}
 
-        <fieldset className="triage-question">
-          <legend>3. Como você considera a intensidade?</legend>
-
-          <label className="triage-option">
-            <input
-              type="radio"
-              name="intensity"
-              value="leve"
-            />
-            <span>Leve</span>
-          </label>
-
-          <label className="triage-option">
-            <input
-              type="radio"
-              name="intensity"
-              value="moderada"
-            />
-            <span>Moderada</span>
-          </label>
-
-          <label className="triage-option">
-            <input
-              type="radio"
-              name="intensity"
-              value="intensa"
-            />
-            <span>Intensa</span>
-          </label>
-        </fieldset>
-
-        <div className="triage-warning">
-          <strong>Importante</strong>
-
-          <p>
-            Esta pré-triagem não substitui uma avaliação médica.
-            Em situações de emergência, procure imediatamente um serviço
-            de atendimento de urgência.
-          </p>
-        </div>
-
-        <button
-          type="button"
-          className="primary-button triage-submit"
-          onClick={onResultado}
-        >
-          Continuar
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="primary-button triage-submit"
+            disabled={enviando}
+          >
+            {enviando ? 'Registrando...' : 'Continuar'}
+          </button>
+        </form>
+      )}
     </section>
   )
 }

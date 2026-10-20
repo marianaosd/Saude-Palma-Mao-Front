@@ -1,4 +1,5 @@
 import ProfessionalIcon from '../profissional/ProfessionalIcon.jsx'
+import AccessibilityPanel from '../ui/AccessibilityPanel.jsx'
 import './ProfessionalLayout.css'
 
 const destinations = [
@@ -35,6 +36,9 @@ function ProfessionalLayout({ children, onNavigate, activePage = 'inicio' }) {
       <a className="professional-skip-link" href="#professional-content">
         Pular para o conteúdo
       </a>
+      <div className="professional-accessibility">
+        <AccessibilityPanel />
+      </div>
       {children}
       <nav className="professional-bottom-nav" aria-label="Navegação profissional">
         {destinations.map(({ id, label, icon }) => (

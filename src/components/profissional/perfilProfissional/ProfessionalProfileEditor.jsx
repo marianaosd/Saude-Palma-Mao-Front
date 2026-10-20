@@ -2,23 +2,30 @@ import { useState } from 'react'
 import ProfessionalProfileDialog from './ProfessionalProfileDialog.jsx'
 
 function ProfessionalProfileEditor({ professional, onSave, onClose }) {
-  const [draft, setDraft] = useState({ ...professional })
+  // draft contém apenas os campos editáveis pelo backend
+  const [draft, setDraft] = useState({
+    name:     professional.name     || '',
+    telefone: professional.telefone || '',
+  })
+  const [salvando, setSalvando] = useState(false)
+  const [erroForm, setErroForm] = useState('')
 
   function updateField(event) {
     setDraft({ ...draft, [event.currentTarget.name]: event.currentTarget.value })
   }
 
-  function submit(event) {
+  async function submit(event) {
     event.preventDefault()
-    const initials = draft.name
-      .replace(/^Dr\.\s*/i, '')
-      .trim()
-      .split(/\s+/)
-      .slice(0, 2)
-      .map((part) => part[0])
-      .join('')
-      .toUpperCase()
-    onSave({ ...draft, initials })
+    setSalvando(true)
+    setErroForm('')
+    try {
+      await onSave(draft)
+      // onSave fecha o diálogo em sucesso; não fechar aqui
+    } catch (e) {
+      setErroForm(e.message || 'Não foi possível salvar as alterações.')
+    } finally {
+      setSalvando(false)
+    }
   }
 
   return (
@@ -26,21 +33,34 @@ function ProfessionalProfileEditor({ professional, onSave, onClose }) {
       <form className="professional-profile-form" onSubmit={submit}>
         <label className="professional-profile-form__field">
           Nome profissional
-          <input name="name" value={draft.name} onChange={updateField} required />
+          <input
+            name="name"
+            value={draft.name}
+            onChange={updateField}
+            required
+          />
         </label>
         <label className="professional-profile-form__field">
-          Especialidade principal
-          <input name="specialty" value={draft.specialty} onChange={updateField} required />
+          Telefone
+          <input
+            name="telefone"
+            type="tel"
+            value={draft.telefone}
+            onChange={updateField}
+          />
         </label>
-        <label className="professional-profile-form__field">
-          Especialidade secundária
-          <input name="secondarySpecialty" value={draft.secondarySpecialty} onChange={updateField} />
-        </label>
-        <label className="professional-profile-form__field">
-          E-mail
-          <input name="email" type="email" value={draft.email} onChange={updateField} required />
-        </label>
-        <button className="professional-profile-form__submit" type="submit">Salvar alterações</button>
+        {erroForm && (
+          <p role="alert" style={{ color: 'var(--color-error, #dc2626)', fontSize: '0.875rem', margin: 0 }}>
+            {erroForm}
+          </p>
+        )}
+        <button
+          className="professional-profile-form__submit"
+          type="submit"
+          disabled={salvando}
+        >
+          {salvando ? 'Salvando…' : 'Salvar alterações'}
+        </button>
       </form>
     </ProfessionalProfileDialog>
   )
