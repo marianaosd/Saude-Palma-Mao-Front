@@ -1,4 +1,4 @@
-# Style guide — Saúde na Palma da Mão
+# Style guide — Desafila
 
 Referência visual e técnica para padronizar as próximas páginas do frontend.
 
@@ -135,7 +135,7 @@ Tamanho e entrelinha em pixels. Os nomes de estilo são propostas para organizar
 
 | Estilo proposto | Família / peso | Tamanho / entrelinha | Referência de uso |
 | --- | --- | --- | --- |
-| `display` | Nunito 400 | 30 / 37,5 | “Saúde na Palma da Mão” na abertura |
+| `display` | Nunito 400 | 30 / 37,5 | “Desafila” na abertura |
 | `page-title` | Nunito 400 | 24 / 32 | “Acesse sua conta” |
 | `hero-title` | Nunito 400 | 24 / 30 | Pergunta principal da home do paciente |
 | `section-title` | Nunito 400 | 20 / 28 | Títulos das etapas e mês da agenda |

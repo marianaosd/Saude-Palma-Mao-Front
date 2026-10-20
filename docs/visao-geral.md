@@ -1,6 +1,6 @@
 # Visão geral e planejamento
 
-Este documento organiza o contexto fornecido pelo grupo para o Projeto Integrador **Saúde na Palma da Mão**. Ele descreve a visão futura do produto. O que já está implementado e as instruções para executar estão no [README](../README.md).
+Este documento organiza o contexto fornecido pelo grupo para o Projeto Integrador **Desafila**. Ele descreve a visão futura do produto. O que já está implementado e as instruções para executar estão no [README](../README.md).
 
 ## Problema e proposta
 

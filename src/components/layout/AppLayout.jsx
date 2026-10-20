@@ -16,7 +16,7 @@ function AppLayout({ children, onLogin }) {
       </main>
 
       <footer className="site-footer container">
-        <p>Saúde na Palma da Mão</p>
+        <p>Desafila</p>
         <p>Projeto Integrador · 3º período</p>
       </footer>
     </>

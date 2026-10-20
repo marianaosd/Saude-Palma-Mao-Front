@@ -33,7 +33,7 @@ function Login({ onBack, onCadastro, onLogin, onLoginProfissional }) {
   return (
     <section className="auth-page" aria-labelledby="login-title">
       <div className="auth-card">
-        <p className="eyebrow">Saúde na Palma da Mão</p>
+        <p className="eyebrow">Desafila</p>
 
         <h1 id="login-title">Bem-vindo de volta</h1>
 

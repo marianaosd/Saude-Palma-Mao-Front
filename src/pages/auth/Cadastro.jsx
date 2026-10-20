@@ -55,7 +55,7 @@ function Cadastro({ onBack, onCadastro, onLoginProfissional }) {
   return (
     <section className="auth-page" aria-labelledby="cadastro-title">
       <div className="auth-card">
-        <p className="eyebrow">Saúde na Palma da Mão</p>
+        <p className="eyebrow">Desafila</p>
 
         <h1 id="cadastro-title">Crie sua conta</h1>
 

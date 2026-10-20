@@ -1,4 +1,4 @@
-# Saúde na Palma da Mão — padrão de desenvolvimento
+# Desafila — padrão de desenvolvimento
 
 Projeto acadêmico em React, JavaScript/JSX, CSS puro e Vite. O foco atual é o frontend do profissional de saúde. Manter a implementação compreensível para quem está aprendendo React a partir de HTML e CSS.
 
