@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ClinicasAdmin from './ClinicasAdmin.jsx'
 import './Admin.css'
 
 function Admin({ admin, onLogout }) {
@@ -54,7 +55,11 @@ function Admin({ admin, onLogout }) {
       </nav>
 
       <main className="admin-main">
-        <p>Seção em construção.</p>
+        {secao === 'clinicas' ? (
+          <ClinicasAdmin />
+        ) : (
+          <p>Seção em construção.</p>
+        )}
       </main>
     </div>
   )
