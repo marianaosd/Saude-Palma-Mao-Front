@@ -111,7 +111,7 @@ function Login({ onBack, onCadastro, onLogin, onLoginProfissional, onLoginAdmin 
           className="back-home-button"
           onClick={onBack}
         >
-          ← Voltar ao início
+          ← Conheça o projeto
         </button>
       </div>
     </section>
