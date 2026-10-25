@@ -1,5 +1,4 @@
 .agenda-professional {
-  min-height: calc(100dvh - var(--professional-nav-height) - env(safe-area-inset-bottom));
   background: var(--color-background);
 }
 

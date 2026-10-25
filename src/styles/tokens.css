@@ -59,8 +59,13 @@
   --radius-header: 1.5rem;
   --radius-pill: 9999px;
   --border-width: 1px;
-  --professional-shell-width: 402px;
-  --professional-nav-height: 68px;
+    /* Largura máxima de leitura em telas grandes. */
+    --content-max-width: 1400px;
+    /* Margem lateral fluida: 12px no celular, cresce com a tela até 32px.
+      É o que faz o layout se ajustar sozinho, sem breakpoints. */
+    --page-gutter: clamp(0.75rem, 3vw, 2rem);
+    /* Diálogos e painéis não devem acompanhar a largura do conteúdo. */
+    --dialog-max-width: 720px;
   --shadow-sm:
     0 1px 2px -1px rgb(0 0 0 / 10%),
     0 1px 3px 0 rgb(0 0 0 / 10%);

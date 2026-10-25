@@ -122,9 +122,7 @@ function dowDoDia(id) {
 
 // ─── componente principal ─────────────────────────────────────────────────────
 
-// onLogout é recebido do App.jsx e será conectado ao botão de sair
-// quando o perfil profissional for integrado (etapa posterior).
-// eslint-disable-next-line no-unused-vars
+// onLogout vem do App.jsx e é usado pelo botão "Sair" do cabeçalho do layout.
 function AgendaProfissional({ onLogout }) {
   // Lista bruta retornada pela API — carregada apenas uma vez.
   const [agendamentos, setAgendamentos] = useState([])
@@ -276,7 +274,7 @@ function AgendaProfissional({ onLogout }) {
   }
 
   return (
-    <ProfessionalLayout activePage="agenda" onNavigate={navigate}>
+    <ProfessionalLayout activePage="agenda" onNavigate={navigate} onLogout={onLogout}>
       <div className="agenda-professional">
         <header className="agenda-professional__header">
           <div className="agenda-professional__month-row">
@@ -327,13 +325,9 @@ function AgendaProfissional({ onLogout }) {
           />
         </header>
 
-        <main
-          className="agenda-professional__main"
-          id="professional-content"
-          tabIndex={-1}
-        >
+        <div className="agenda-professional__main">
           {renderMain()}
-        </main>
+        </div>
       </div>
 
       {panel && (

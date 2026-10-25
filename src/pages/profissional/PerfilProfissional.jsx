@@ -132,7 +132,7 @@ function PerfilProfissional({ onLogout }) {
   const especialidadeExibida = profile?.specialty || ''
 
   return (
-    <ProfessionalLayout activePage="perfil" onNavigate={navigate}>
+    <ProfessionalLayout activePage="perfil" onNavigate={navigate} onLogout={onLogout}>
       <div className="professional-profile">
         <header className="professional-profile__header">
           <div className="professional-profile__title-row">
@@ -160,7 +160,7 @@ function PerfilProfissional({ onLogout }) {
           </div>
         </header>
 
-        <main className="professional-profile__main" id="professional-content" tabIndex={-1}>
+        <div className="professional-profile__main">
 
           {carregando && (
             <p className="professional-profile__empty" role="status" aria-live="polite">
@@ -181,16 +181,7 @@ function PerfilProfissional({ onLogout }) {
             </>
           )}
 
-          {/* Botão de logout sempre visível */}
-          <button
-            className="professional-profile__logout"
-            type="button"
-            onClick={onLogout}
-          >
-            <ProfessionalIcon name="profileLogout" />
-            <span>Sair da conta</span>
-          </button>
-        </main>
+        </div>
       </div>
 
       {editando && profile && (

@@ -1,17 +1,16 @@
+/* Casca da área do profissional, no mesmo padrão das outras áreas:
+   cabeçalho com a marca + acessibilidade + Sair, abas no topo e conteúdo
+   numa coluna centralizada. Antes era uma "tela de celular" fixa de 402px
+   com menu inferior, diferente de todo o resto do sistema. */
+
 .professional-shell {
-  position: relative;
-  width: min(100%, var(--professional-shell-width));
+  display: flex;
   min-height: 100dvh;
-  margin-inline: auto;
-  padding-bottom: calc(var(--professional-nav-height) + var(--space-5) + env(safe-area-inset-bottom));
+  flex-direction: column;
   background: var(--color-background);
   color: var(--color-text);
   font: 400 0.875rem / 1.4286 var(--font-body);
   font-synthesis: none;
-}
-
-.professional-shell button {
-  font-weight: 400;
 }
 
 .professional-shell :focus-visible {
@@ -19,45 +18,121 @@
   outline-offset: 3px;
 }
 
-.professional-bottom-nav {
-  position: fixed;
-  z-index: 5;
-  bottom: 0;
-  left: 50%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  width: min(100%, var(--professional-shell-width));
-  min-height: var(--professional-nav-height);
-  padding: var(--space-2) var(--space-3);
-  padding-bottom: calc(var(--space-2) + env(safe-area-inset-bottom));
-  transform: translateX(-50%);
-  border-top: var(--border-width) solid var(--color-border);
+/* ── Cabeçalho ─────────────────────────────────────────────────────────── */
+
+.professional-topbar {
+  border-bottom: var(--border-width) solid var(--color-border);
   background: var(--color-surface);
 }
 
-.professional-bottom-nav__item {
+.professional-topbar__content {
   display: flex;
-  min-width: 64px;
-  min-height: 51px;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: var(--space-1);
-  padding: var(--space-1-5) 0;
-  border: 0;
-  border-radius: var(--radius-md);
-  color: var(--color-ink);
-  background: transparent;
-  font-size: 0.625rem;
-  line-height: 1.5;
+  justify-content: space-between;
+  width: min(calc(100% - (2 * var(--page-gutter))), var(--content-max-width));
+  margin-inline: auto;
+  gap: var(--space-4);
+  padding-block: 1rem;
 }
 
-.professional-bottom-nav__item--active,
-.professional-bottom-nav__item:hover {
-  color: var(--color-primary-dark);
-  background: var(--color-primary-light);
+.professional-topbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 800;
+  text-decoration: none;
 }
+
+.professional-topbar__brand img {
+  flex-shrink: 0;
+}
+
+.professional-topbar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.professional-topbar__logout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.professional-topbar__logout:hover,
+.professional-topbar__logout:focus-visible {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+/* ── Abas ──────────────────────────────────────────────────────────────── */
+
+.professional-tabs {
+  border-bottom: var(--border-width) solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.professional-tabs__content {
+  display: flex;
+  width: min(calc(100% - (2 * var(--page-gutter))), var(--content-max-width));
+  margin-inline: auto;
+  gap: var(--space-1);
+  overflow-x: auto;
+}
+
+.professional-tabs__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 48px;
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-ink);
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.professional-tabs__item:hover {
+  background: var(--color-surface-muted);
+  color: var(--color-primary-dark);
+}
+
+.professional-tabs__item--active {
+  border-bottom-color: var(--color-primary);
+  color: var(--color-primary-dark);
+}
+
+/* ── Conteúdo ──────────────────────────────────────────────────────────── */
+
+.professional-content {
+  width: min(calc(100% - (2 * var(--page-gutter))), var(--content-max-width));
+  margin-inline: auto;
+  flex: 1 1 auto;
+  padding-block: 2rem;
+}
+
+/* ── Pular para o conteúdo ─────────────────────────────────────────────── */
 
 .professional-skip-link {
   position: absolute;
@@ -75,9 +150,68 @@
   transform: translateY(0);
 }
 
-.professional-accessibility {
-  display: flex;
-  justify-content: flex-end;
-  padding: var(--space-3) var(--space-5);
+/* ── Responsividade: celular, tablet e computador ───────────────────────
+   Três faixas:
+   - até 600px .......... celular: rótulos das abas somem, sobra o ícone;
+   - 601px a 1024px ..... tablet: conteúdo um pouco mais estreito nas bordas;
+  - acima de 1024px .... computador: coluna de 1400px centralizada.
+   O layout é fluido (min(100%, 1100px)), então não há quebra em nenhum ponto. */
+
+@media (max-width: 1024px) {
+  .professional-content {
+    padding-block: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .professional-topbar__content {
+    padding-block: var(--space-2);
+    gap: var(--space-2);
+  }
+
+  .professional-topbar__brand {
+    font-size: 1rem;
+  }
+
+  .professional-topbar__brand img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .professional-topbar__actions {
+    gap: var(--space-2);
+  }
+
+  .professional-tabs__item {
+    flex: 1 1 0;
+    justify-content: center;
+    min-height: 52px;
+    padding-inline: var(--space-2);
+  }
+
+  /* No celular sobra o ícone; o nome da aba continua nos leitores de tela. */
+  .professional-tabs__item span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .professional-content {
+    padding-block: var(--space-3);
+  }
+}
+
+/* Telas muito estreitas: o botão "Sair" não pode empurrar a marca para fora. */
+@media (max-width: 360px) {
+  .professional-topbar__brand span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
 }
 

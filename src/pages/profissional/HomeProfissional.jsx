@@ -85,9 +85,7 @@ function getInitialPanel() {
 
 // ─── componente principal ─────────────────────────────────────────────────────
 
-// onLogout é recebido do App.jsx e será conectado ao botão de sair
-// quando o perfil profissional for integrado (etapa posterior).
-// eslint-disable-next-line no-unused-vars
+// onLogout vem do App.jsx e é usado pelo botão "Sair" do cabeçalho do layout.
 function HomeProfissional({ onLogout }) {
   const [perfil, setPerfil]           = useState(null)
   const [agendamentos, setAgendamentos] = useState([])
@@ -236,6 +234,7 @@ function HomeProfissional({ onLogout }) {
     <ProfessionalLayout
       activePage={panel?.type === 'perfil' ? panel.type : 'inicio'}
       onNavigate={navigate}
+      onLogout={onLogout}
     >
       {/* Cabeçalho: usa dados reais do perfil quando disponíveis */}
       <header className="professional-header">
@@ -273,13 +272,12 @@ function HomeProfissional({ onLogout }) {
         >
           <span>Status de disponibilidade</span>
           <span className={`professional-availability__status${available ? '' : ' professional-availability__status--inactive'}`}>
-            <span className="professional-availability__dot" aria-hidden="true" />
             {available ? 'Ativo' : 'Inativo'}
           </span>
         </button>
       </header>
 
-      <main className="professional-home" id="professional-content" tabIndex={-1}>
+      <div className="professional-home">
 
         {/* Estado de carregamento ou erro na área principal */}
         {carregando && (
@@ -365,7 +363,7 @@ function HomeProfissional({ onLogout }) {
             </section>
           </>
         )}
-      </main>
+      </div>
 
       {panel && (
         <ProfessionalHomePanel
