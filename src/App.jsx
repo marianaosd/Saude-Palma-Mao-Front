@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
 import AppLayout from './components/layout/AppLayout.jsx'
+import PatientLayout from './components/layout/PatientLayout.jsx'
 import Home from './pages/institucional/Home.jsx'
 import Login from './pages/auth/Login.jsx'
 import LoginProfissional from './pages/auth/LoginProfissional.jsx'
 import LoginAdmin from './pages/auth/LoginAdmin.jsx'
 import Cadastro from './pages/auth/Cadastro.jsx'
 import Paciente from './pages/paciente/Paciente.jsx'
+import HistoricoPaciente from './pages/paciente/HistoricoPaciente.jsx'
+import PerfilPaciente from './pages/paciente/PerfilPaciente.jsx'
 import Triagem from './pages/paciente/Triagem.jsx'
 import Resultado from './pages/paciente/Resultado.jsx'
 import Clinicas from './pages/paciente/Clinicas.jsx'
@@ -38,6 +41,8 @@ const INITIAL_JOURNEY = {
 
 function screenFromHash() {
   if (window.location.hash === '#paciente') return 'paciente'
+  if (window.location.hash === '#historico-paciente') return 'historico-paciente'
+  if (window.location.hash === '#perfil-paciente') return 'perfil-paciente'
   if (window.location.hash === '#admin') return 'admin'
   if (window.location.hash === '#perfil-profissional') return 'perfil-profissional'
   if (window.location.hash === '#historico-profissional') return 'historico-profissional'
@@ -47,9 +52,25 @@ function screenFromHash() {
   return null
 }
 
-const TELAS_PACIENTE = ['paciente', 'triagem', 'resultado', 'clinicas', 'escolha-profissional', 'agendamento', 'confirmacao']
+const TELAS_PACIENTE = [
+  'paciente', 'historico-paciente', 'perfil-paciente',
+  'triagem', 'resultado', 'clinicas', 'escolha-profissional', 'agendamento', 'confirmacao'
+]
 const TELAS_PROFISSIONAL = ['profissional', 'agenda-profissional', 'historico-profissional', 'perfil-profissional']
 const TELAS_ADMIN = ['admin']
+
+// Abas da área do paciente: a tela diz qual aba fica marcada e o caminho de volta.
+const ABA_DO_PACIENTE = {
+  'paciente': 'inicio',
+  'historico-paciente': 'historico',
+  'perfil-paciente': 'perfil'
+}
+
+const TELA_DA_ABA = {
+  inicio: 'paciente',
+  historico: 'historico-paciente',
+  perfil: 'perfil-paciente'
+}
 
 function App() {
   const [usuario, setUsuario] = useState(() => getUsuario())
@@ -151,7 +172,7 @@ function App() {
     setUsuario(null)
     setJourney(INITIAL_JOURNEY)
     // Limpa o hash para não reativar a área do paciente ao recarregar
-    if (window.location.hash === '#paciente') {
+    if (TELAS_PACIENTE.includes(window.location.hash.replace('#', ''))) {
       history.replaceState(null, '', window.location.pathname)
     }
     goTo('login')
@@ -201,6 +222,108 @@ function App() {
   if (screen === 'historico-profissional') return <HistoricoProfissional onLogout={handleLogoutProfissional} />
   if (screen === 'perfil-profissional') return <PerfilProfissional onLogout={handleLogoutProfissional} />
 
+  // Abas da área do paciente: trocam a tela e o hash, para o F5 manter a aba.
+  function navegarPaciente(destino) {
+    window.location.hash = `#${TELA_DA_ABA[destino] ?? 'paciente'}`
+  }
+
+  // A área do paciente tem casca própria (cabeçalho + abas). Fica aqui para
+  // valer também nas telas do fluxo de agendamento: nelas a aba "Início" fica
+  // marcada e o "Voltar" do próprio fluxo continua disponível.
+  if (TELAS_PACIENTE.includes(screen)) {
+    return (
+      <PatientLayout
+        activePage={ABA_DO_PACIENTE[screen] ?? 'inicio'}
+        onNavigate={navegarPaciente}
+        onLogout={handleLogout}
+      >
+        {screen === 'paciente' && (
+          <Paciente
+            usuario={usuario}
+            onTriagem={() => goTo('triagem')}
+            onClinicas={() => goTo('clinicas')}
+          />
+        )}
+
+        {screen === 'historico-paciente' && <HistoricoPaciente />}
+
+        {screen === 'perfil-paciente' && <PerfilPaciente />}
+
+        {screen === 'triagem' && (
+          <Triagem
+            onBack={() => goTo('paciente')}
+            onResultado={(resultado) => {
+              updateJourney(resultado)
+              goTo('resultado')
+            }}
+          />
+        )}
+
+        {screen === 'resultado' && (
+          <Resultado
+            categoria={journey.categoria}
+            classificacao={journey.classificacao}
+            onBack={() => goTo('triagem')}
+            onClinicas={() => goTo('clinicas')}
+          />
+        )}
+
+        {screen === 'clinicas' && (
+          <Clinicas
+            onBack={() => goTo(journey.categoria ? 'resultado' : 'paciente')}
+            onSelecionar={(clinica) => {
+              updateJourney({ clinica, profissional: null, especialidade: null, slot: null })
+              goTo('escolha-profissional')
+            }}
+          />
+        )}
+
+        {screen === 'escolha-profissional' && (
+          <EscolhaProfissional
+            clinica={journey.clinica}
+            onBack={() => goTo('clinicas')}
+            onAgendar={({ profissional, especialidade, slot }) => {
+              updateJourney({ profissional, especialidade, slot })
+              goTo('agendamento')
+            }}
+          />
+        )}
+
+        {screen === 'agendamento' && (
+          <Agendamento
+            clinica={journey.clinica}
+            profissional={journey.profissional}
+            especialidade={journey.especialidade}
+            slot={journey.slot}
+            triagem={journey.triagem}
+            onBack={() => goTo('escolha-profissional')}
+            onConfirmar={(agendamento) => {
+              updateJourney({ agendamento })
+              goTo('confirmacao')
+            }}
+          />
+        )}
+
+        {screen === 'confirmacao' && (
+          <Confirmacao
+            clinica={journey.clinica}
+            profissional={journey.profissional}
+            especialidade={journey.especialidade}
+            slot={journey.slot}
+            onPaciente={() => {
+              setJourney(INITIAL_JOURNEY)
+              goTo('paciente')
+            }}
+            onHome={() => {
+              setJourney(INITIAL_JOURNEY)
+              irParaHome()
+            }}
+          />
+        )}
+      </PatientLayout>
+    )
+  }
+
   return (
     <AppLayout
       onLogin={irParaLogin}
@@ -240,87 +363,6 @@ function App() {
           onBack={() => goTo('login')}
           onCadastro={handleLogin}
           onLoginProfissional={() => goTo('login-profissional')}
-        />
-      )}
-
-      {screen === 'paciente' && (
-        <Paciente
-          usuario={usuario}
-          onTriagem={() => goTo('triagem')}
-          onClinicas={() => goTo('clinicas')}
-          onBack={handleLogout}
-        />
-      )}
-
-      {screen === 'triagem' && (
-        <Triagem
-          onBack={() => goTo('paciente')}
-          onResultado={(resultado) => {
-            updateJourney(resultado)
-            goTo('resultado')
-          }}
-        />
-      )}
-
-      {screen === 'resultado' && (
-        <Resultado
-          categoria={journey.categoria}
-          classificacao={journey.classificacao}
-          onBack={() => goTo('triagem')}
-          onClinicas={() => goTo('clinicas')}
-        />
-      )}
-
-      {screen === 'clinicas' && (
-        <Clinicas
-          onBack={() => goTo(journey.categoria ? 'resultado' : 'paciente')}
-          onSelecionar={(clinica) => {
-            updateJourney({ clinica, profissional: null, especialidade: null, slot: null })
-            goTo('escolha-profissional')
-          }}
-        />
-      )}
-
-      {screen === 'escolha-profissional' && (
-        <EscolhaProfissional
-          clinica={journey.clinica}
-          onBack={() => goTo('clinicas')}
-          onAgendar={({ profissional, especialidade, slot }) => {
-            updateJourney({ profissional, especialidade, slot })
-            goTo('agendamento')
-          }}
-        />
-      )}
-
-      {screen === 'agendamento' && (
-        <Agendamento
-          clinica={journey.clinica}
-          profissional={journey.profissional}
-          especialidade={journey.especialidade}
-          slot={journey.slot}
-          triagem={journey.triagem}
-          onBack={() => goTo('escolha-profissional')}
-          onConfirmar={(agendamento) => {
-            updateJourney({ agendamento })
-            goTo('confirmacao')
-          }}
-        />
-      )}
-
-      {screen === 'confirmacao' && (
-        <Confirmacao
-          clinica={journey.clinica}
-          profissional={journey.profissional}
-          especialidade={journey.especialidade}
-          slot={journey.slot}
-          onPaciente={() => {
-            setJourney(INITIAL_JOURNEY)
-            goTo('paciente')
-          }}
-          onHome={() => {
-            setJourney(INITIAL_JOURNEY)
-            irParaHome()
-          }}
         />
       )}
     </AppLayout>

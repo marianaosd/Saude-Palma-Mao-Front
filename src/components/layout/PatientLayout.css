@@ -1,0 +1,228 @@
+/* Casca da área do paciente: cabeçalho com a marca + acessibilidade + Sair,
+   abas no topo e conteúdo numa coluna centralizada — o mesmo desenho do
+   ProfessionalLayout.
+
+   Diferença proposital: aqui NÃO se aplica a classe .theme-figma, para não
+   trocar as cores e a tipografia que as telas do paciente já usam. Por isso os
+   espaçamentos e raios aparecem com valor literal (ou com reserva no var()).
+   Também não fixamos o tamanho base da fonte: o paciente tem mais idade e o
+   texto grande do restante da área é mantido. */
+
+.patient-shell {
+  display: flex;
+  min-height: 100dvh;
+  flex-direction: column;
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+.patient-shell :focus-visible {
+  outline: 3px solid var(--color-primary-dark);
+  outline-offset: 3px;
+}
+
+/* ── Cabeçalho ─────────────────────────────────────────────────────────── */
+
+.patient-topbar {
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.patient-topbar__content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: min(calc(100% - (2 * var(--page-gutter))), var(--content-max-width));
+  margin-inline: auto;
+  column-gap: 1rem;
+  row-gap: 0.5rem;
+  padding-block: 1rem;
+}
+
+.patient-topbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 800;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.patient-topbar__brand img {
+  flex-shrink: 0;
+}
+
+.patient-topbar__actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  margin-left: auto;
+  gap: 0.75rem;
+}
+
+.patient-topbar__logout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.patient-topbar__logout:hover,
+.patient-topbar__logout:focus-visible {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+/* ── Abas ──────────────────────────────────────────────────────────────── */
+
+.patient-tabs {
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.patient-tabs__content {
+  display: flex;
+  width: min(calc(100% - (2 * var(--page-gutter))), var(--content-max-width));
+  margin-inline: auto;
+  gap: 0.25rem;
+  overflow-x: auto;
+}
+
+.patient-tabs__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.5rem 0.75rem;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-muted);
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.patient-tabs__item svg {
+  flex-shrink: 0;
+}
+
+.patient-tabs__item:hover {
+  background: #f5f5f4;
+  color: var(--color-primary-dark);
+}
+
+.patient-tabs__item--active {
+  border-bottom-color: var(--color-primary);
+  color: var(--color-primary-dark);
+}
+
+/* ── Conteúdo ──────────────────────────────────────────────────────────── */
+
+.patient-content {
+  width: min(calc(100% - (2 * var(--page-gutter))), var(--content-max-width));
+  margin-inline: auto;
+  flex: 1 1 auto;
+  padding-block: 2rem;
+}
+
+/* ── Pular para o conteúdo ─────────────────────────────────────────────── */
+
+.patient-skip-link {
+  position: absolute;
+  z-index: 10;
+  top: 0.5rem;
+  left: 0.5rem;
+  padding: 0.75rem;
+  transform: translateY(-160%);
+  border-radius: 0.5rem;
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+}
+
+.patient-skip-link:focus {
+  transform: translateY(0);
+}
+
+/* ── Responsividade ─────────────────────────────────────────────────────
+   A largura é fluida (min(100% - 2*gutter, 1400px)) e o gutter cresce com
+   clamp(), então o layout se ajusta sozinho. As media queries cuidam só do
+   que muda de forma. Com três abas, os rótulos cabem até em 360px — por isso
+   eles continuam visíveis no celular (o portal do profissional esconde os
+   rótulos porque lá são quatro abas). */
+
+@media (max-width: 1024px) {
+  .patient-content {
+    padding-block: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .patient-topbar__content {
+    padding-block: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .patient-topbar__brand {
+    font-size: 1rem;
+  }
+
+  .patient-topbar__brand img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .patient-topbar__actions {
+    gap: 0.5rem;
+  }
+
+  .patient-tabs__item {
+    flex: 1 1 0;
+    justify-content: center;
+    min-height: 52px;
+    padding-inline: 0.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .patient-content {
+    padding-block: 1rem;
+  }
+}
+
+/* Tela muito estreita (zoom alto): as ações ocupam a linha inteira, com a
+   acessibilidade à esquerda e o "Sair" à direita — nada fica solto num canto. */
+@media (max-width: 400px) {
+  .patient-topbar__actions {
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
+  }
+}
+
+/* Telas muito estreitas: o botão "Sair" não pode empurrar a marca para fora. */
+@media (max-width: 360px) {
+  .patient-topbar__brand span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
