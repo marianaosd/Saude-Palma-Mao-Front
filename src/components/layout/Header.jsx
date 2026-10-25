@@ -1,8 +1,11 @@
 import AccessibilityPanel from '../ui/AccessibilityPanel.jsx'
 
-// variant="entrada" é a versão enxuta usada nas telas de login e cadastro:
-// marca + acessibilidade, sem o menu institucional. O botão "Entrar" também
-// sai, porque não faz sentido aparecer na própria tela de login.
+// Header das telas públicas.
+// - variant="institucional" (Home): marca + menu + "Entrar" + acessibilidade.
+// - variant="entrada" (login e cadastro): só marca + acessibilidade, sem menu
+//   (o botão "Entrar" não faz sentido na própria tela de login).
+// A acessibilidade é irmã do menu, e não filha dele, para poder subir para a
+// primeira linha no celular sem arrastar o menu junto.
 function Header({ onLogin, variant = 'institucional' }) {
   const entrada = variant === 'entrada'
 
@@ -13,11 +16,7 @@ function Header({ onLogin, variant = 'institucional' }) {
         <span>Desafila</span>
       </a>
 
-      {entrada ? (
-        <div className="site-header__access">
-          <AccessibilityPanel />
-        </div>
-      ) : (
+      {!entrada && (
         <nav aria-label="Navegação principal">
           <a href="#proposta">A proposta</a>
           <a href="#publicos">Para quem</a>
@@ -29,10 +28,12 @@ function Header({ onLogin, variant = 'institucional' }) {
           >
             Entrar
           </button>
-
-          <AccessibilityPanel />
         </nav>
       )}
+
+      <div className="site-header__access">
+        <AccessibilityPanel />
+      </div>
     </header>
   )
 }

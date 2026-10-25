@@ -1,7 +1,8 @@
 import Header from './Header.jsx'
 import './AppLayout.css'
 
-// Estrutura atual do protótipo; os layouts por perfil serão desenvolvidos depois.
+// Estrutura das telas públicas. O variant "entrada" é repassado ao Header
+// pelas telas de login e cadastro; a Home institucional usa o padrão.
 function AppLayout({ children, onLogin, variant = 'institucional' }) {
   return (
     <>
@@ -14,11 +15,6 @@ function AppLayout({ children, onLogin, variant = 'institucional' }) {
       <main id="conteudo" className="container" tabIndex={-1}>
         {children}
       </main>
-
-      <footer className="site-footer container">
-        <p>Desafila</p>
-        <p>Projeto Integrador · 3º período</p>
-      </footer>
     </>
   )
 }
