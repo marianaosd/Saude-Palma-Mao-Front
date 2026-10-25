@@ -19,6 +19,7 @@
   color: var(--color-text, #1c1917);
   font-size: var(--text-sm, 0.875rem);
   font-weight: 600;
+  white-space: nowrap;
   transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
@@ -48,6 +49,23 @@
   background: var(--color-surface, #ffffff);
   color: var(--color-text, #1c1917);
   box-shadow: var(--shadow-md, 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.06));
+  /* Nunca pode passar da altura da tela (com o texto aumentado ele cresce). */
+  max-height: calc(100dvh - 6rem);
+  overflow-y: auto;
+}
+
+/* No celular o botão "Sair" fica à direita do botão de acessibilidade, então o
+   painel ancorado no botão sairia da tela pela esquerda. Aqui ele passa a ser
+   uma folha presa à janela: ocupa a largura disponível e fica logo abaixo do
+   botão (posição estática, sem valor mágico de top). */
+@media (max-width: 480px) {
+  .a11y-panel {
+    position: fixed;
+    top: auto;
+    inset-inline: var(--space-3, 0.75rem);
+    width: auto;
+    max-height: calc(100dvh - 8rem);
+  }
 }
 
 .a11y-header {

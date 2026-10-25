@@ -83,34 +83,30 @@
   line-height: 1.3334;
 }
 
+/* Mesmo desenho do selo "Ativa/Inativa" da área administrativa. */
 .professional-availability__status {
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-1-5) var(--space-3);
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--priority-moderate-border, #a4f4cf);
   border-radius: var(--radius-pill);
-  color: var(--color-primary-dark);
-  background: var(--color-surface);
-}
-
-.professional-availability__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--color-available);
+  background: var(--priority-moderate-background, #ecfdf5);
+  color: var(--priority-moderate-text, #007a55);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 .professional-availability__status--inactive {
+  border-color: var(--color-border);
+  background: var(--color-background);
   color: var(--color-muted);
 }
 
-.professional-availability__status--inactive .professional-availability__dot {
-  background: var(--color-muted);
-}
-
+/* O padding agora vem do .professional-content do layout. */
 .professional-home {
-  padding: var(--space-5);
+  padding: 0;
 }
 
 .professional-summary {

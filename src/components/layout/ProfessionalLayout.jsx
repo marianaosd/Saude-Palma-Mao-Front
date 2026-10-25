@@ -30,38 +30,62 @@ const profileIcons = {
   perfil: 'profileActiveNav',
 }
 
-function ProfessionalLayout({ children, onNavigate, activePage = 'inicio' }) {
+function ProfessionalLayout({ children, onNavigate, onLogout, activePage = 'inicio' }) {
   return (
     <div className="professional-shell theme-figma">
       <a className="professional-skip-link" href="#professional-content">
         Pular para o conteúdo
       </a>
-      <div className="professional-accessibility">
-        <AccessibilityPanel />
-      </div>
-      {children}
-      <nav className="professional-bottom-nav" aria-label="Navegação profissional">
-        {destinations.map(({ id, label, icon }) => (
-          <button
-            key={id}
-            type="button"
-            className={`professional-bottom-nav__item${id === activePage ? ' professional-bottom-nav__item--active' : ''}`}
-            aria-current={id === activePage ? 'page' : undefined}
-            onClick={() => onNavigate(id)}
-          >
-            <ProfessionalIcon
-              name={activePage === 'agenda'
-                ? agendaIcons[id]
-                : activePage === 'historico'
-                  ? historyIcons[id]
-                  : activePage === 'perfil'
-                    ? profileIcons[id]
-                    : icon}
-            />
-            <span>{label}</span>
-          </button>
-        ))}
+
+      <header className="professional-topbar">
+        <div className="professional-topbar__content">
+          <a className="professional-topbar__brand" href="#profissional">
+            <img src="/favicon.svg" width="32" height="32" alt="" />
+            <span>Desafila</span>
+          </a>
+
+          <div className="professional-topbar__actions">
+            <AccessibilityPanel />
+
+            <button
+              type="button"
+              className="professional-topbar__logout"
+              onClick={onLogout}
+            >
+              Sair
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <nav className="professional-tabs" aria-label="Navegação profissional">
+        <div className="professional-tabs__content">
+          {destinations.map(({ id, label, icon }) => (
+            <button
+              key={id}
+              type="button"
+              className={`professional-tabs__item${id === activePage ? ' professional-tabs__item--active' : ''}`}
+              aria-current={id === activePage ? 'page' : undefined}
+              onClick={() => onNavigate(id)}
+            >
+              <ProfessionalIcon
+                name={activePage === 'agenda'
+                  ? agendaIcons[id]
+                  : activePage === 'historico'
+                    ? historyIcons[id]
+                    : activePage === 'perfil'
+                      ? profileIcons[id]
+                      : icon}
+              />
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
       </nav>
+
+      <main id="professional-content" className="professional-content" tabIndex={-1}>
+        {children}
+      </main>
     </div>
   )
 }

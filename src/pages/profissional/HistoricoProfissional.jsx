@@ -50,7 +50,7 @@ function statusLabel(status) {
 
 // ─── componente principal ─────────────────────────────────────────────────────
 
-function HistoricoProfissional() {
+function HistoricoProfissional({ onLogout }) {
   const [agendamentos, setAgendamentos] = useState([])
   const [carregando, setCarregando]     = useState(true)
   const [erro, setErro]                 = useState('')
@@ -144,7 +144,7 @@ function HistoricoProfissional() {
   }
 
   return (
-    <ProfessionalLayout activePage="historico" onNavigate={navigate}>
+    <ProfessionalLayout activePage="historico" onNavigate={navigate} onLogout={onLogout}>
       <div className="professional-history">
         <header className="professional-history__header">
           <h1>Histórico</h1>
@@ -162,7 +162,7 @@ function HistoricoProfissional() {
           </label>
         </header>
 
-        <main className="professional-history__main" id="professional-content" tabIndex={-1}>
+        <div className="professional-history__main">
           <HistoryFilters selectedFilter={selectedFilter} onChange={setSelectedFilter} />
 
           {/* Estados de carregamento e erro */}
@@ -195,7 +195,7 @@ function HistoricoProfissional() {
               Nenhum atendimento encontrado.
             </p>
           )}
-        </main>
+        </div>
       </div>
 
       {selectedRecord && (
