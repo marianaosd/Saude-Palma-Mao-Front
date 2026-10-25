@@ -43,7 +43,7 @@ function screenFromHash() {
   if (window.location.hash === '#historico-profissional') return 'historico-profissional'
   if (window.location.hash === '#agenda-profissional') return 'agenda-profissional'
   if (window.location.hash.startsWith('#profissional')) return 'profissional'
-  if (['', '#inicio', '#proposta', '#publicos'].includes(window.location.hash)) return 'home'
+  if (['#inicio', '#proposta', '#publicos'].includes(window.location.hash)) return 'home'
   return null
 }
 
@@ -58,17 +58,17 @@ function App() {
   const [journey, setJourney] = useState(INITIAL_JOURNEY)
   const [requestedScreen, setScreen] = useState(() => {
     const fromHash = screenFromHash()
-    const semHashDeTela = !window.location.hash || window.location.hash === '#inicio'
 
-    // Sem hash de outra área: retoma a área de quem já tem sessão salva.
-    // Antes, F5 aqui caía na home pública e pedia login de novo.
-    if (semHashDeTela) {
+    // Sem hash na URL: retoma a área de quem já tem sessão salva.
+    // Sem sessão, a entrada do app é a tela de login.
+    if (!window.location.hash) {
       if (getUsuario()) return 'paciente'
       if (getProfissional()) return 'profissional'
       if (getAdmin()) return 'admin'
+      return 'login'
     }
 
-    return fromHash || 'home'
+    return fromHash || 'login'
   })
 
   useEffect(() => {
@@ -125,6 +125,20 @@ function App() {
     setScreen(nextScreen)
   }
 
+  // Navegação entre o login e a página institucional: o hash acompanha a tela
+  // para o F5 não trocar de tela (mesmo cuidado que já existe nas áreas logadas).
+  function irParaLogin() {
+    if (['#inicio', '#proposta', '#publicos'].includes(window.location.hash)) {
+      history.replaceState(null, '', window.location.pathname)
+    }
+    goTo('login')
+  }
+
+  function irParaHome() {
+    window.location.hash = 'inicio'
+    goTo('home')
+  }
+
   function handleLogin(paciente) {
     setUsuario(paciente)
     setJourney(INITIAL_JOURNEY)
@@ -140,7 +154,7 @@ function App() {
     if (window.location.hash === '#paciente') {
       history.replaceState(null, '', window.location.pathname)
     }
-    goTo('home')
+    goTo('login')
   }
 
   function handleLoginProfissional(profissionalData) {
@@ -159,7 +173,7 @@ function App() {
         window.location.hash.startsWith('#perfil-profissional')) {
       history.replaceState(null, '', window.location.pathname)
     }
-    goTo('home')
+    goTo('login')
   }
 
   function handleLoginAdmin(adminData) {
@@ -174,7 +188,7 @@ function App() {
     if (window.location.hash === '#admin') {
       history.replaceState(null, '', window.location.pathname)
     }
-    goTo('home')
+    goTo('login')
   }
 
   function updateJourney(partial) {
@@ -189,17 +203,17 @@ function App() {
 
   return (
     <AppLayout
-      onLogin={() => goTo('login')}
+      onLogin={irParaLogin}
       usuario={usuario}
       onLogout={handleLogout}
     >
       {screen === 'home' && (
-        <Home onLogin={() => goTo('login')} />
+        <Home onLogin={irParaLogin} />
       )}
 
       {screen === 'login' && (
         <Login
-          onBack={() => goTo('home')}
+          onBack={irParaHome}
           onCadastro={() => goTo('cadastro')}
           onLogin={handleLogin}
           onLoginProfissional={() => goTo('login-profissional')}
@@ -305,7 +319,7 @@ function App() {
           }}
           onHome={() => {
             setJourney(INITIAL_JOURNEY)
-            goTo('home')
+            irParaHome()
           }}
         />
       )}
