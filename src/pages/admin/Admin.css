@@ -458,3 +458,77 @@
   align-items: center;
   gap: 0.75rem;
 }
+
+/* ─── Aba Senhas (senha temporária) ─────────────────────────────────────────── */
+
+.admin-senhas {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  max-width: 520px;
+}
+
+.admin-senhas__result {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--priority-moderate-border, #a4f4cf);
+  border-radius: 0.75rem;
+  background: var(--priority-moderate-background, #ecfdf5);
+  max-width: 520px;
+}
+
+.admin-senhas__result-label {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* A senha precisa ser lida em voz alta e copiada à mão: fonte grande e
+   monoespaçada, com espaçamento entre as letras. */
+.admin-senhas__senha {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border: 1px dashed var(--priority-moderate-border, #a4f4cf);
+  border-radius: 0.5rem;
+  background-color: var(--color-surface);
+  color: var(--priority-moderate-text, #007a55);
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-align: center;
+  word-break: break-all;
+}
+
+.admin-senhas__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.admin-senhas__warning {
+  margin: 0;
+  color: var(--color-text-secondary, #44403c);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+  .admin-senhas,
+  .admin-senhas__result {
+    max-width: none;
+  }
+
+  .admin-senhas__senha {
+    font-size: 1.4rem;
+  }
+
+  .admin-senhas__actions .admin-btn {
+    flex: 1 1 100%;
+  }
+}

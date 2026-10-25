@@ -2,6 +2,7 @@ import { useState } from 'react'
 import ClinicasAdmin from './ClinicasAdmin.jsx'
 import EspecialidadesAdmin from './EspecialidadesAdmin.jsx'
 import ProfissionaisAdmin from './ProfissionaisAdmin.jsx'
+import SenhasAdmin from './SenhasAdmin.jsx'
 import AccessibilityPanel from '../../components/ui/AccessibilityPanel.jsx'
 import './Admin.css'
 
@@ -58,6 +59,14 @@ function Admin({ admin, onLogout }) {
           >
             Profissionais
           </button>
+          <button
+            type="button"
+            className={`admin-nav__item ${secao === 'senhas' ? 'admin-nav__item--active' : ''}`}
+            aria-pressed={secao === 'senhas'}
+            onClick={() => setSecao('senhas')}
+          >
+            Senhas
+          </button>
         </div>
       </nav>
 
@@ -68,6 +77,8 @@ function Admin({ admin, onLogout }) {
           <EspecialidadesAdmin />
         ) : secao === 'profissionais' ? (
           <ProfissionaisAdmin />
+        ) : secao === 'senhas' ? (
+          <SenhasAdmin />
         ) : (
           null
         )}

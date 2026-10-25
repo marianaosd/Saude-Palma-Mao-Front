@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { api, salvarSessaoProfissional } from '../../services/api.js'
 import './Auth.css'
 
-function LoginProfissional({ onBack, onLogin }) {
+function LoginProfissional({ onBack, onLogin, onEsqueciSenha }) {
   const [erro, setErro] = useState('')
   const [enviando, setEnviando] = useState(false)
 
@@ -65,6 +65,16 @@ function LoginProfissional({ onBack, onLogin }) {
               required
             />
           </div>
+
+          <p className="auth-forgot">
+            <button
+              type="button"
+              className="auth-link-button"
+              onClick={onEsqueciSenha}
+            >
+              Esqueci minha senha
+            </button>
+          </p>
 
           {erro && (
             <p className="app-feedback error" role="alert">
