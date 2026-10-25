@@ -325,3 +325,134 @@
     padding: 1.5rem;
   }
 }
+
+.patient-data-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--color-border, #e7e5e4);
+  border-radius: 1rem;
+  background: var(--color-surface, #ffffff);
+}
+
+.patient-data-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.patient-data-header h2 {
+  margin: 0.25rem 0 0;
+}
+
+.patient-data-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.patient-data-row {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.patient-data-row dt {
+  color: var(--color-muted, #57534e);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.patient-data-row dd {
+  margin: 0;
+  color: var(--color-text, #1c1917);
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.patient-data-note {
+  margin: 0;
+  color: var(--color-muted, #57534e);
+  font-size: 0.8125rem;
+}
+
+.patient-data-form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.patient-data-field {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 700;
+}
+
+.patient-data-field input {
+  min-height: 44px;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--color-border, #e7e5e4);
+  border-radius: 0.5rem;
+  background: var(--color-surface, #ffffff);
+  color: var(--color-text, #1c1917);
+  font: inherit;
+}
+
+.patient-data-field input:focus-visible {
+  outline: 3px solid var(--color-primary, #0d9488);
+  outline-offset: 2px;
+}
+
+.patient-data-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.patient-data-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--color-border, #e7e5e4);
+  border-radius: 0.5rem;
+  background: var(--color-surface, #ffffff);
+  color: var(--color-text, #1c1917);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.patient-data-button:focus-visible {
+  outline: 3px solid var(--color-primary, #0d9488);
+  outline-offset: 2px;
+}
+
+.patient-data-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.patient-data-button--primary {
+  border-color: var(--color-primary, #0d9488);
+  background: var(--color-primary, #0d9488);
+  color: #ffffff;
+}
+
+.patient-data-success {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-primary-border, #99f6e0);
+  border-radius: 0.5rem;
+  background: var(--color-primary-light, #f0fdf9);
+  color: var(--color-primary-dark, #0f766e);
+  font-weight: 700;
+}
+
+.patient-data-error {
+  margin: 0;
+  color: var(--priority-emergency-text, #c10007);
+  font-weight: 700;
+}
