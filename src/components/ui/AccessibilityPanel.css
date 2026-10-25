@@ -19,6 +19,7 @@
   color: var(--color-text, #1c1917);
   font-size: var(--text-sm, 0.875rem);
   font-weight: 600;
+  white-space: nowrap;
   transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 

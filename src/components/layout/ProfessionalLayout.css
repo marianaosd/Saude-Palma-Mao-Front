@@ -27,11 +27,13 @@
 
 .professional-topbar__content {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   width: min(calc(100% - (2 * var(--page-gutter))), var(--content-max-width));
   margin-inline: auto;
-  gap: var(--space-4);
+  column-gap: var(--space-4);
+  row-gap: var(--space-2);
   padding-block: 1rem;
 }
 
@@ -43,6 +45,7 @@
   font-family: var(--font-heading);
   font-size: 1.125rem;
   font-weight: 800;
+  white-space: nowrap;
   text-decoration: none;
 }
 
@@ -52,8 +55,9 @@
 
 .professional-topbar__actions {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
+  margin-left: auto;
   gap: var(--space-3);
 }
 
@@ -201,6 +205,14 @@
 
   .professional-content {
     padding-block: var(--space-3);
+  }
+}
+
+@media (max-width: 400px) {
+  .professional-topbar__actions {
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
   }
 }
 
