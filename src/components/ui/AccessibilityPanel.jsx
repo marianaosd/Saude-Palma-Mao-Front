@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import {
   obterConfiguracoesAcessibilidade,
   aplicarConfiguracoesAcessibilidade,
@@ -11,10 +11,40 @@ import simboloAcessibilidadeONU from '../../assets/icons/acessibilidade-onu.svg'
 function AccessibilityPanel() {
   const [aberto, setAberto] = useState(false)
   const [config, setConfig] = useState(obterConfiguracoesAcessibilidade)
+  const widgetRef = useRef(null)
+  const triggerRef = useRef(null)
 
   useEffect(() => {
     aplicarConfiguracoesAcessibilidade(config)
   }, [config])
+
+  // Com o painel aberto: fecha com Escape (devolvendo o foco ao botão) ou
+  // com um clique fora dele. Sem isso, o painel só fechava pelo ✕.
+  useEffect(() => {
+    if (!aberto) return undefined
+
+    function fecharComEscape(event) {
+      if (event.key === 'Escape') {
+        setAberto(false)
+        triggerRef.current?.focus()
+      }
+    }
+
+    function fecharAoClicarFora(event) {
+      if (widgetRef.current && !widgetRef.current.contains(event.target)) {
+        // Aqui o foco vai para onde a pessoa clicou, e não para o botão.
+        setAberto(false)
+      }
+    }
+
+    document.addEventListener('keydown', fecharComEscape)
+    document.addEventListener('mousedown', fecharAoClicarFora)
+
+    return () => {
+      document.removeEventListener('keydown', fecharComEscape)
+      document.removeEventListener('mousedown', fecharAoClicarFora)
+    }
+  }, [aberto])
 
   function ajustarEscala(direcao) {
     const currentIndex = FONT_SCALES.findIndex((item) => Math.abs(item.valor - config.escala) < 0.05)
@@ -42,9 +72,10 @@ function AccessibilityPanel() {
   }
 
   return (
-    <div className="a11y-widget">
+    <div className="a11y-widget" ref={widgetRef}>
       <button
         type="button"
+        ref={triggerRef}
         className="a11y-trigger"
         aria-expanded={aberto}
         aria-controls="a11y-menu"
