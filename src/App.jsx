@@ -37,6 +37,7 @@ const INITIAL_JOURNEY = {
 }
 
 function screenFromHash() {
+  if (window.location.hash === '#paciente') return 'paciente'
   if (window.location.hash === '#admin') return 'admin'
   if (window.location.hash === '#perfil-profissional') return 'perfil-profissional'
   if (window.location.hash === '#historico-profissional') return 'historico-profissional'
@@ -55,7 +56,20 @@ function App() {
   const [profissional, setProfissional] = useState(() => getProfissional())
   const [admin, setAdmin] = useState(() => getAdmin())
   const [journey, setJourney] = useState(INITIAL_JOURNEY)
-  const [requestedScreen, setScreen] = useState(() => screenFromHash() || 'home')
+  const [requestedScreen, setScreen] = useState(() => {
+    const fromHash = screenFromHash()
+    const semHashDeTela = !window.location.hash || window.location.hash === '#inicio'
+
+    // Sem hash de outra área: retoma a área de quem já tem sessão salva.
+    // Antes, F5 aqui caía na home pública e pedia login de novo.
+    if (semHashDeTela) {
+      if (getUsuario()) return 'paciente'
+      if (getProfissional()) return 'profissional'
+      if (getAdmin()) return 'admin'
+    }
+
+    return fromHash || 'home'
+  })
 
   useEffect(() => {
     function syncScreenFromHash() {
@@ -114,6 +128,7 @@ function App() {
   function handleLogin(paciente) {
     setUsuario(paciente)
     setJourney(INITIAL_JOURNEY)
+    window.location.hash = 'paciente'
     goTo('paciente')
   }
 
@@ -121,11 +136,16 @@ function App() {
     limparSessao()
     setUsuario(null)
     setJourney(INITIAL_JOURNEY)
+    // Limpa o hash para não reativar a área do paciente ao recarregar
+    if (window.location.hash === '#paciente') {
+      history.replaceState(null, '', window.location.pathname)
+    }
     goTo('home')
   }
 
   function handleLoginProfissional(profissionalData) {
     setProfissional(profissionalData)
+    window.location.hash = 'profissional'
     goTo('profissional')
   }
 
