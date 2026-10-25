@@ -8,6 +8,10 @@ const USER_KEY = 'saude_paciente'
 const PROF_TOKEN_KEY = 'saude_profissional_token'
 const PROF_USER_KEY = 'saude_profissional'
 
+// Chaves do administrador
+const ADMIN_TOKEN_KEY = 'saude_admin_token'
+const ADMIN_USER_KEY = 'saude_admin'
+
 export function getToken() {
   return localStorage.getItem(TOKEN_KEY)
 }
@@ -60,23 +64,59 @@ export function limparSessaoProfissional() {
   localStorage.removeItem(PROF_USER_KEY)
 }
 
+// ─── Sessão do administrador ───────────────────────────────────────────────────
+
+export function getAdminToken() {
+  return localStorage.getItem(ADMIN_TOKEN_KEY)
+}
+
+export function getAdmin() {
+  const raw = localStorage.getItem(ADMIN_USER_KEY)
+  if (!raw) return null
+
+  try {
+    return JSON.parse(raw)
+  } catch {
+    return null
+  }
+}
+
+export function salvarSessaoAdmin(token, admin) {
+  localStorage.setItem(ADMIN_TOKEN_KEY, token)
+  localStorage.setItem(ADMIN_USER_KEY, JSON.stringify(admin))
+}
+
+export function limparSessaoAdmin() {
+  localStorage.removeItem(ADMIN_TOKEN_KEY)
+  localStorage.removeItem(ADMIN_USER_KEY)
+}
+
 export async function api(path, options = {}) {
-  const headers = new Headers(options.headers || {})
+  const { perfil, ...fetchOptions } = options
+  const headers = new Headers(fetchOptions.headers || {})
 
   // Rotas do portal profissional usam o token do profissional;
-  // todas as demais usam o token do paciente.
+  // todas as demais usam o token do paciente, exceto quando perfil for admin.
   // /disponibilidades/me → sempre profissional.
   // /disponibilidades (outros métodos) → PUT/POST/DELETE do profissional.
   // GET /disponibilidades sem /me → leitura pública (paciente).
-  const method = (options.method || 'GET').toUpperCase()
+  const method = (fetchOptions.method || 'GET').toUpperCase()
   const isProfissionalRoute =
     path.startsWith('/profissionais/me') ||
     path.startsWith('/auth/profissional/') ||
     path === '/disponibilidades/me' ||
     (path.startsWith('/disponibilidades') && method !== 'GET')
-  const token = isProfissionalRoute ? getProfissionalToken() : getToken()
 
-  if (options.body && !headers.has('Content-Type')) {
+  let token
+  if (perfil === 'admin') {
+    token = getAdminToken()
+  } else if (isProfissionalRoute) {
+    token = getProfissionalToken()
+  } else {
+    token = getToken()
+  }
+
+  if (fetchOptions.body && !headers.has('Content-Type')) {
     headers.set('Content-Type', 'application/json')
   }
 
@@ -85,7 +125,7 @@ export async function api(path, options = {}) {
   }
 
   const response = await fetch(`${API_BASE}${path}`, {
-    ...options,
+    ...fetchOptions,
     headers
   })
 
@@ -97,7 +137,10 @@ export async function api(path, options = {}) {
 
   // Sessão expirada ou antiga: limpa o login e avisa o App para voltar à tela de entrada.
   if (response.status === 401 && token && !path.startsWith('/auth/')) {
-    if (isProfissionalRoute) {
+    if (perfil === 'admin') {
+      limparSessaoAdmin()
+      window.dispatchEvent(new Event('sessao-admin-expirada'))
+    } else if (isProfissionalRoute) {
       limparSessaoProfissional()
       window.dispatchEvent(new Event('sessao-profissional-expirada'))
     } else {

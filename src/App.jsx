@@ -3,6 +3,7 @@ import AppLayout from './components/layout/AppLayout.jsx'
 import Home from './pages/institucional/Home.jsx'
 import Login from './pages/auth/Login.jsx'
 import LoginProfissional from './pages/auth/LoginProfissional.jsx'
+import LoginAdmin from './pages/auth/LoginAdmin.jsx'
 import Cadastro from './pages/auth/Cadastro.jsx'
 import Paciente from './pages/paciente/Paciente.jsx'
 import Triagem from './pages/paciente/Triagem.jsx'
@@ -15,7 +16,15 @@ import HomeProfissional from './pages/profissional/HomeProfissional.jsx'
 import AgendaProfissional from './pages/profissional/AgendaProfissional.jsx'
 import HistoricoProfissional from './pages/profissional/HistoricoProfissional.jsx'
 import PerfilProfissional from './pages/profissional/PerfilProfissional.jsx'
-import { getUsuario, limparSessao, getProfissional, limparSessaoProfissional } from './services/api.js'
+import Admin from './pages/admin/Admin.jsx'
+import {
+  getUsuario,
+  limparSessao,
+  getProfissional,
+  limparSessaoProfissional,
+  getAdmin,
+  limparSessaoAdmin
+} from './services/api.js'
 
 const INITIAL_JOURNEY = {
   categoria: null,
@@ -28,6 +37,7 @@ const INITIAL_JOURNEY = {
 }
 
 function screenFromHash() {
+  if (window.location.hash === '#admin') return 'admin'
   if (window.location.hash === '#perfil-profissional') return 'perfil-profissional'
   if (window.location.hash === '#historico-profissional') return 'historico-profissional'
   if (window.location.hash === '#agenda-profissional') return 'agenda-profissional'
@@ -36,16 +46,17 @@ function screenFromHash() {
   return null
 }
 
-
-
-const TELAS_PACIENTE = ['paciente','triagem','resultado','clinicas','escolha-profissional','agendamento','confirmacao']
-const TELAS_PROFISSIONAL = ['profissional','agenda-profissional','historico-profissional','perfil-profissional']
+const TELAS_PACIENTE = ['paciente', 'triagem', 'resultado', 'clinicas', 'escolha-profissional', 'agendamento', 'confirmacao']
+const TELAS_PROFISSIONAL = ['profissional', 'agenda-profissional', 'historico-profissional', 'perfil-profissional']
+const TELAS_ADMIN = ['admin']
 
 function App() {
   const [usuario, setUsuario] = useState(() => getUsuario())
   const [profissional, setProfissional] = useState(() => getProfissional())
+  const [admin, setAdmin] = useState(() => getAdmin())
   const [journey, setJourney] = useState(INITIAL_JOURNEY)
   const [requestedScreen, setScreen] = useState(() => screenFromHash() || 'home')
+
   useEffect(() => {
     function syncScreenFromHash() {
       const fromHash = screenFromHash()
@@ -77,12 +88,24 @@ function App() {
     return () => window.removeEventListener('sessao-profissional-expirada', handleSessaoProfissionalExpirada)
   }, [])
 
+  useEffect(() => {
+    function handleSessaoAdminExpirada() {
+      setAdmin(null)
+      setScreen('login-admin')
+    }
+
+    window.addEventListener('sessao-admin-expirada', handleSessaoAdminExpirada)
+    return () => window.removeEventListener('sessao-admin-expirada', handleSessaoAdminExpirada)
+  }, [])
+
   const screen =
     TELAS_PACIENTE.includes(requestedScreen) && !usuario
       ? 'login'
       : TELAS_PROFISSIONAL.includes(requestedScreen) && !profissional
         ? 'login-profissional'
-        : requestedScreen
+        : TELAS_ADMIN.includes(requestedScreen) && !admin
+          ? 'login-admin'
+          : requestedScreen
 
   function goTo(nextScreen) {
     setScreen(nextScreen)
@@ -119,10 +142,26 @@ function App() {
     goTo('home')
   }
 
+  function handleLoginAdmin(adminData) {
+    setAdmin(adminData)
+    window.location.hash = 'admin'
+    goTo('admin')
+  }
+
+  function handleLogoutAdmin() {
+    limparSessaoAdmin()
+    setAdmin(null)
+    if (window.location.hash === '#admin') {
+      history.replaceState(null, '', window.location.pathname)
+    }
+    goTo('home')
+  }
+
   function updateJourney(partial) {
     setJourney((current) => ({ ...current, ...partial }))
   }
 
+  if (screen === 'admin') return <Admin admin={admin} onLogout={handleLogoutAdmin} />
   if (screen === 'profissional') return <HomeProfissional onLogout={handleLogoutProfissional} />
   if (screen === 'agenda-profissional') return <AgendaProfissional onLogout={handleLogoutProfissional} />
   if (screen === 'historico-profissional') return <HistoricoProfissional onLogout={handleLogoutProfissional} />
@@ -144,6 +183,7 @@ function App() {
           onCadastro={() => goTo('cadastro')}
           onLogin={handleLogin}
           onLoginProfissional={() => goTo('login-profissional')}
+          onLoginAdmin={() => goTo('login-admin')}
         />
       )}
 
@@ -151,6 +191,13 @@ function App() {
         <LoginProfissional
           onBack={() => goTo('login')}
           onLogin={handleLoginProfissional}
+        />
+      )}
+
+      {screen === 'login-admin' && (
+        <LoginAdmin
+          onBack={() => goTo('login')}
+          onLogin={handleLoginAdmin}
         />
       )}
 

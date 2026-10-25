@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { api, salvarSessao } from '../../services/api.js'
 import './Auth.css'
 
-function Login({ onBack, onCadastro, onLogin, onLoginProfissional }) {
+function Login({ onBack, onCadastro, onLogin, onLoginProfissional, onLoginAdmin }) {
   const [erro, setErro] = useState('')
   const [enviando, setEnviando] = useState(false)
 
@@ -93,6 +93,16 @@ function Login({ onBack, onCadastro, onLogin, onLoginProfissional }) {
             onClick={onLoginProfissional}
           >
             Entrar como profissional
+          </button>
+        </p>
+
+        <p className="professional-login-link">
+          <button
+            type="button"
+            className="auth-link-button"
+            onClick={onLoginAdmin}
+          >
+            Acesso administrativo
           </button>
         </p>
 
