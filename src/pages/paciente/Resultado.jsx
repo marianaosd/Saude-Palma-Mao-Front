@@ -1,8 +1,14 @@
-import { humanizarAcao } from '../../services/agenda.js'
 import './Resultado.css'
 
-function Resultado({ onBack, onClinicas, categoria }) {
-  const orientacao = humanizarAcao(categoria?.acao_imediata)
+function Resultado({ onBack, onClinicas, categoria, classificacao }) {
+  const orientacoes = {
+    TELECONSULTA: 'Encaminhamento para teleconsulta',
+    PRESENCIAL: 'Encaminhamento para atendimento presencial',
+    POSSIVEL_URGENCIA: 'Possível urgência identificada'
+  }
+
+  const orientacao = orientacoes[classificacao] ||
+    'Pré-triagem registrada. Encaminhamento ainda não disponível.'
 
   return (
     <section className="result-page" aria-labelledby="result-title">

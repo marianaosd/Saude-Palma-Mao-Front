@@ -10,7 +10,7 @@ function Triagem({ onBack, onResultado }) {
   const [erro, setErro] = useState('')
   const [carregando, setCarregando] = useState(true)
   const [enviando, setEnviando] = useState(false)
-
+  const [carregandoPerguntas, setCarregandoPerguntas] = useState(false)
   useEffect(() => {
     let ativo = true
 
@@ -30,25 +30,45 @@ function Triagem({ onBack, onResultado }) {
   }, [])
 
   useEffect(() => {
-    if (!categoriaId) return
-
     let ativo = true
+
+    if (!categoriaId) {
+      setPerguntas([])
+      setRespostas({})
+      setCarregandoPerguntas(false)
+      return
+    }
 
     async function carregarPerguntas() {
       setErro('')
+      setPerguntas([])
+      setRespostas({})
+      setCarregandoPerguntas(true)
+
       try {
-        const dados = await api(`/triagem/categorias/${categoriaId}/perguntas`)
+        const dados = await api(
+          `/triagem/categorias/${categoriaId}/perguntas`
+        )
+
         if (ativo) {
           setPerguntas(dados)
-          setRespostas({})
         }
       } catch (error) {
-        if (ativo) setErro(error.message)
+        if (ativo) {
+          setErro(error.message)
+        }
+      } finally {
+        if (ativo) {
+          setCarregandoPerguntas(false)
+        }
       }
     }
 
     carregarPerguntas()
-    return () => { ativo = false }
+
+    return () => {
+      ativo = false
+    }
   }, [categoriaId])
 
   function atualizarResposta(pergunta, valor) {
@@ -103,9 +123,13 @@ function Triagem({ onBack, onResultado }) {
           respostas: payload
         })
       })
-
       const categoria = categorias.find((item) => item.id === categoriaId)
-      onResultado({ categoria, triagem: resultado.triagem })
+
+      onResultado({
+        categoria,
+        triagem: resultado.triagem,
+        classificacao: resultado.classificacao
+      })
     } catch (error) {
       setErro(error.message)
     } finally {
@@ -160,6 +184,12 @@ function Triagem({ onBack, onResultado }) {
               </label>
             ))}
           </fieldset>
+
+          {carregandoPerguntas && (
+            <p className="app-empty" role="status">
+              Carregando perguntas da categoria selecionada...
+            </p>
+          )}
 
           {perguntas.map((pergunta, index) => {
             const tipo = String(pergunta.tipo_resposta || '').toUpperCase()
@@ -218,13 +248,18 @@ function Triagem({ onBack, onResultado }) {
 
           {erro && <p className="app-feedback error" role="alert">{erro}</p>}
 
-          <button
-            type="submit"
-            className="primary-button triage-submit"
-            disabled={enviando}
-          >
-            {enviando ? 'Registrando...' : 'Continuar'}
-          </button>
+<button
+  type="submit"
+  className="primary-button triage-submit"
+  disabled={
+    enviando ||
+    carregandoPerguntas ||
+    !categoriaId ||
+    perguntas.length === 0
+  }
+>
+  {enviando ? 'Registrando...' : 'Continuar'}
+</button>
         </form>
       )}
     </section>

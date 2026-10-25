@@ -184,6 +184,7 @@ function App() {
       {screen === 'resultado' && (
         <Resultado
           categoria={journey.categoria}
+          classificacao={journey.classificacao}
           onBack={() => goTo('triagem')}
           onClinicas={() => goTo('clinicas')}
         />
