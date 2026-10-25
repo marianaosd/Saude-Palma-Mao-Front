@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ClinicasAdmin from './ClinicasAdmin.jsx'
 import EspecialidadesAdmin from './EspecialidadesAdmin.jsx'
+import ProfissionaisAdmin from './ProfissionaisAdmin.jsx'
 import './Admin.css'
 
 function Admin({ admin, onLogout }) {
@@ -60,8 +61,10 @@ function Admin({ admin, onLogout }) {
           <ClinicasAdmin />
         ) : secao === 'especialidades' ? (
           <EspecialidadesAdmin />
+        ) : secao === 'profissionais' ? (
+          <ProfissionaisAdmin />
         ) : (
-          <p>Seção em construção.</p>
+          null
         )}
       </main>
     </div>
