@@ -49,6 +49,11 @@
   gap: 1.5rem;
 }
 
+.site-header__access {
+  display: flex;
+  align-items: center;
+}
+
 .site-header a {
   color: var(--color-text);
   text-decoration: none;
@@ -96,3 +101,4 @@
     gap: 1rem;
   }
 }
+

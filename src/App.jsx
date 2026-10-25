@@ -329,6 +329,7 @@ function App() {
       onLogin={irParaLogin}
       usuario={usuario}
       onLogout={handleLogout}
+      variant={screen === 'home' ? 'institucional' : 'entrada'}
     >
       {screen === 'home' && (
         <Home onLogin={irParaLogin} />
