@@ -2,6 +2,7 @@ import { useState } from 'react'
 import ClinicasAdmin from './ClinicasAdmin.jsx'
 import EspecialidadesAdmin from './EspecialidadesAdmin.jsx'
 import ProfissionaisAdmin from './ProfissionaisAdmin.jsx'
+import AccessibilityPanel from '../../components/ui/AccessibilityPanel.jsx'
 import './Admin.css'
 
 function Admin({ admin, onLogout }) {
@@ -17,13 +18,17 @@ function Admin({ admin, onLogout }) {
               <span className="admin-header__email">{admin.email}</span>
             )}
           </div>
-          <button
-            type="button"
-            className="admin-logout-btn"
-            onClick={onLogout}
-          >
-            Sair
-          </button>
+          <div className="admin-header__actions">
+            <AccessibilityPanel />
+
+            <button
+              type="button"
+              className="admin-logout-btn"
+              onClick={onLogout}
+            >
+              Sair
+            </button>
+          </div>
         </div>
       </header>
 

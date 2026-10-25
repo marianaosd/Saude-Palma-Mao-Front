@@ -450,3 +450,11 @@
     justify-content: flex-end;
   }
 }
+
+/* Ações do cabeçalho: acessibilidade + Sair, alinhados como nas outras áreas. */
+.admin-header__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
