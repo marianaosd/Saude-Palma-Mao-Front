@@ -147,6 +147,138 @@
   font-weight: 700;
 }
 
+.patient-appointments-card {
+  min-width: 0;
+}
+
+.patient-appointments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.patient-appointment-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  min-width: 0;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.patient-appointment-item:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.patient-appointment-name {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.patient-appointment-clinic {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.patient-cancel-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.6rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  font: inherit;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+}
+
+.patient-cancel-button:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.patient-cancel-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.patient-cancel-button--request {
+  margin-top: 0.5rem;
+  border-color: var(--priority-emergency-border);
+  background: var(--color-surface);
+  color: var(--priority-emergency-text);
+}
+
+.patient-cancel-button--request:hover:not(:disabled) {
+  background: var(--priority-emergency-background);
+}
+
+.patient-cancel-button--confirm {
+  border-color: var(--priority-emergency-text);
+  background: var(--priority-emergency-text);
+  color: var(--color-surface);
+}
+
+.patient-cancel-button--back {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.patient-cancel-button--back:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.patient-cancel-confirm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 1rem;
+  border: 1px solid var(--priority-emergency-border);
+  border-radius: 0.5rem;
+  background: var(--priority-emergency-background);
+}
+
+.patient-cancel-confirm p {
+  margin: 0;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.patient-cancel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.patient-cancel-error {
+  margin: 0.25rem 0 0;
+  color: var(--priority-emergency-text);
+  font-weight: 700;
+}
+
+.patient-cancel-success {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-primary-border);
+  border-radius: 0.5rem;
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
+
 @media (max-width: 800px) {
 
   .patient-header {
