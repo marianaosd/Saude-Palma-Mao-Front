@@ -213,18 +213,18 @@
 
 .patient-cancel-button--request {
   margin-top: 0.5rem;
-  border-color: var(--priority-emergency-border);
+  border-color: var(--priority-emergency-border, #ffc9c9);
   background: var(--color-surface);
-  color: var(--priority-emergency-text);
+  color: var(--priority-emergency-text, #c10007);
 }
 
 .patient-cancel-button--request:hover:not(:disabled) {
-  background: var(--priority-emergency-background);
+  background: var(--priority-emergency-background, #fef2f2);
 }
 
 .patient-cancel-button--confirm {
-  border-color: var(--priority-emergency-text);
-  background: var(--priority-emergency-text);
+  border-color: var(--priority-emergency-text, #c10007);
+  background: var(--priority-emergency-text, #c10007);
   color: var(--color-surface);
 }
 
@@ -247,9 +247,9 @@
   width: 100%;
   margin-top: 0.5rem;
   padding: 1rem;
-  border: 1px solid var(--priority-emergency-border);
+  border: 1px solid var(--priority-emergency-border, #ffc9c9);
   border-radius: 0.5rem;
-  background: var(--priority-emergency-background);
+  background: var(--priority-emergency-background, #fef2f2);
 }
 
 .patient-cancel-confirm p {
@@ -266,13 +266,13 @@
 
 .patient-cancel-error {
   margin: 0.25rem 0 0;
-  color: var(--priority-emergency-text);
+  color: var(--priority-emergency-text, #c10007);
   font-weight: 700;
 }
 
 .patient-cancel-success {
   padding: 0.75rem 1rem;
-  border: 1px solid var(--color-primary-border);
+  border: 1px solid var(--color-primary-border, #99f6e0);
   border-radius: 0.5rem;
   background: var(--color-primary-light);
   color: var(--color-primary-dark);
