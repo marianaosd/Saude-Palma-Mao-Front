@@ -1,12 +1,22 @@
 import { useEffect, useState } from 'react'
 import { api } from '../../services/api.js'
-import { formatarHorario, primeiroNome, rotuloData } from '../../services/agenda.js'
+import { formatarDataISO, formatarHorario, horarioParaMinutos, primeiroNome, rotuloData } from '../../services/agenda.js'
 import './Paciente.css'
 
 function Paciente({ onTriagem, onBack, onClinicas, usuario }) {
   const [agendamentos, setAgendamentos] = useState([])
   const [historico, setHistorico] = useState([])
   const [erro, setErro] = useState('')
+  const [confirmandoCancelamentoId, setConfirmandoCancelamentoId] = useState(null)
+  const [cancelandoId, setCancelandoId] = useState(null)
+  const [erroCancelamentoId, setErroCancelamentoId] = useState(null)
+  const [erroCancelamento, setErroCancelamento] = useState('')
+  const [avisoCancelamento, setAvisoCancelamento] = useState('')
+
+  async function recarregarAgendamentos() {
+    const listaAgendamentos = await api('/agendamentos')
+    setAgendamentos(Array.isArray(listaAgendamentos) ? listaAgendamentos : [])
+  }
 
   useEffect(() => {
     let ativo = true
@@ -30,11 +40,43 @@ function Paciente({ onTriagem, onBack, onClinicas, usuario }) {
     return () => { ativo = false }
   }, [])
 
-  const hoje = new Date().toLocaleDateString('en-CA')
-  const proximo = agendamentos.find(
-    (item) => item.status === 'Agendado' && item.data_consulta >= hoje
-  )
+  const hoje = formatarDataISO(new Date())
+  const consultasAgendadas = agendamentos
+    .filter((item) => (
+      item.status === 'Agendado' && String(item.data_consulta || '').slice(0, 10) >= hoje
+    ))
+    .sort((a, b) => {
+      const dataA = String(a.data_consulta || '').slice(0, 10)
+      const dataB = String(b.data_consulta || '').slice(0, 10)
+      const comparacaoData = dataA.localeCompare(dataB)
+      if (comparacaoData !== 0) return comparacaoData
+      return horarioParaMinutos(a.horario_inicio || '00:00') -
+        horarioParaMinutos(b.horario_inicio || '00:00')
+    })
   const ultimaTriagem = historico[0]
+
+  async function handleConfirmarCancelamento(id) {
+    try {
+      setCancelandoId(id)
+      setErroCancelamentoId(null)
+      setErroCancelamento('')
+      setAvisoCancelamento('')
+      await api(`/agendamentos/${id}/cancelar`, { method: 'PATCH' })
+      setConfirmandoCancelamentoId(null)
+      setAvisoCancelamento('Consulta cancelada com sucesso.')
+
+      try {
+        await recarregarAgendamentos()
+      } catch (error) {
+        setErro(error.message || 'Erro ao atualizar as consultas.')
+      }
+    } catch (error) {
+      setErroCancelamentoId(id)
+      setErroCancelamento(error.message || 'Erro ao cancelar consulta.')
+    } finally {
+      setCancelandoId(null)
+    }
+  }
 
   return (
     <section className="patient-page" aria-labelledby="patient-title">
@@ -114,17 +156,86 @@ function Paciente({ onTriagem, onBack, onClinicas, usuario }) {
       </section>
 
       <section className="patient-info-grid">
-        <article className="info-card">
-          <p className="eyebrow">Próxima consulta</p>
+        <article className="info-card patient-appointments-card">
+          <p className="eyebrow">Minhas consultas agendadas</p>
 
-          {proximo ? (
-            <>
-              <h2>{proximo.profissional}</h2>
-              <p>{proximo.clinica}</p>
-              <span className="appointment-status">
-                {rotuloData(proximo.data_consulta)} · {formatarHorario(proximo.horario_inicio)} · {proximo.status}
-              </span>
-            </>
+          {avisoCancelamento && (
+            <p className="patient-cancel-success" role="status">
+              {avisoCancelamento}
+            </p>
+          )}
+
+          {consultasAgendadas.length > 0 ? (
+            <ul className="patient-appointments-list">
+              {consultasAgendadas.map((consulta) => {
+                const estaConfirmando = confirmandoCancelamentoId === consulta.id
+                const estaCancelando = cancelandoId === consulta.id
+
+                return (
+                  <li key={consulta.id} className="patient-appointment-item">
+                    <h2 className="patient-appointment-name">
+                      {consulta.profissional || 'Profissional'}
+                    </h2>
+                    <p className="patient-appointment-clinic">
+                      {consulta.clinica || 'Clínica'}
+                    </p>
+                    <span className="appointment-status">
+                      {rotuloData(String(consulta.data_consulta).slice(0, 10))} · {formatarHorario(consulta.horario_inicio)} · {consulta.status}
+                    </span>
+
+                    {estaConfirmando ? (
+                      <div className="patient-cancel-confirm" role="group" aria-label="Confirmar cancelamento">
+                        <p>
+                          Cancelar esta consulta? Se precisar, você poderá agendar outra depois.
+                        </p>
+                        <div className="patient-cancel-actions">
+                          <button
+                            type="button"
+                            className="patient-cancel-button patient-cancel-button--confirm"
+                            disabled={estaCancelando}
+                            onClick={() => handleConfirmarCancelamento(consulta.id)}
+                          >
+                            {estaCancelando ? 'Cancelando...' : 'Sim, cancelar'}
+                          </button>
+                          <button
+                            type="button"
+                            className="patient-cancel-button patient-cancel-button--back"
+                            disabled={cancelandoId !== null}
+                            onClick={() => {
+                              setConfirmandoCancelamentoId(null)
+                              setErroCancelamentoId(null)
+                              setErroCancelamento('')
+                            }}
+                          >
+                            Voltar
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        className="patient-cancel-button patient-cancel-button--request"
+                        disabled={cancelandoId !== null}
+                        onClick={() => {
+                          setConfirmandoCancelamentoId(consulta.id)
+                          setErroCancelamentoId(null)
+                          setErroCancelamento('')
+                          setAvisoCancelamento('')
+                        }}
+                      >
+                        Cancelar consulta
+                      </button>
+                    )}
+
+                    {erroCancelamentoId === consulta.id && erroCancelamento && (
+                      <p className="patient-cancel-error" role="alert">
+                        {erroCancelamento}
+                      </p>
+                    )}
+                  </li>
+                )
+              })}
+            </ul>
           ) : (
             <>
               <h2>Nenhuma consulta agendada</h2>
