@@ -32,12 +32,11 @@ function Triagem({ onBack, onResultado }) {
   useEffect(() => {
     let ativo = true
 
-    if (!categoriaId) {
-      setPerguntas([])
-      setRespostas({})
-      setCarregandoPerguntas(false)
-      return
-    }
+    // Sem categoria selecionada não há o que carregar. O estado inicial já é
+    // vazio (perguntas [], respostas {}, carregandoPerguntas false) e a troca de
+    // categoria é resetada dentro de carregarPerguntas — por isso o retorno
+    // antecipado não precisa mexer no estado.
+    if (!categoriaId) return
 
     async function carregarPerguntas() {
       setErro('')
