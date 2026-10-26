@@ -222,10 +222,10 @@ function Triagem({ onBack, onResultado }) {
                     </label>
                   </>
                 ) : (
-                  <label className="triage-option">
+                  <label className="triage-option triage-option--texto">
                     <span>Sua resposta</span>
-                    <input
-                      type="text"
+                    <textarea
+                      rows={3}
                       value={respostas[pergunta.id] || ''}
                       onChange={(event) => atualizarResposta(pergunta, event.target.value)}
                       placeholder="Descreva com suas palavras"

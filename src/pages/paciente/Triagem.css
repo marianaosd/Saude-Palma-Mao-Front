@@ -71,7 +71,9 @@
   background: var(--color-primary-light);
 }
 
-.triage-option input {
+/* Só o botão de rádio tem 20x20. A regra antiga pegava todo input da opção,
+   o que espremia a caixa de resposta descritiva nesse tamanho. */
+.triage-option input[type='radio'] {
   width: 20px;
   height: 20px;
   margin: 0;
@@ -79,7 +81,50 @@
   accent-color: var(--color-primary);
 }
 
-.triage-option input:focus-visible {
+.triage-option input[type='radio']:focus-visible {
+  outline: 3px solid rgba(13, 148, 136, 0.25);
+  outline-offset: 2px;
+}
+
+/* Resposta descritiva: ocupa a largura toda, com altura confortável para
+   escrever e redimensionável se a pessoa quiser mais espaço. */
+.triage-option--texto {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  cursor: text;
+}
+
+.triage-option--texto:hover {
+  background: transparent;
+}
+
+.triage-option--texto > span {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.triage-option--texto textarea {
+  width: 100%;
+  min-height: 6.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.6rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.triage-option--texto textarea::placeholder {
+  color: var(--color-muted);
+}
+
+.triage-option--texto textarea:focus-visible {
+  border-color: var(--color-primary);
   outline: 3px solid rgba(13, 148, 136, 0.25);
   outline-offset: 2px;
 }
