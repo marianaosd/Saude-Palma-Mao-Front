@@ -149,3 +149,37 @@
     padding: 1.5rem;
   }
 }
+
+/* ── Esqueci minha senha ──────────────────────────────────────────────── */
+
+.recovery-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin: 0 0 1.5rem;
+  padding-left: 1.25rem;
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.recovery-steps li {
+  padding-left: 0.25rem;
+}
+
+.recovery-note {
+  margin-bottom: 2rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.6rem;
+  background: var(--color-background);
+  color: var(--color-muted);
+  font-size: 0.925rem;
+  line-height: 1.5;
+}
+
+/* Link "Esqueci minha senha" logo abaixo do campo de senha. */
+.auth-forgot {
+  margin-top: -0.5rem;
+  text-align: right;
+  font-size: 0.925rem;
+}

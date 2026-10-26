@@ -6,6 +6,7 @@ import Login from './pages/auth/Login.jsx'
 import LoginProfissional from './pages/auth/LoginProfissional.jsx'
 import LoginAdmin from './pages/auth/LoginAdmin.jsx'
 import Cadastro from './pages/auth/Cadastro.jsx'
+import EsqueciSenha from './pages/auth/EsqueciSenha.jsx'
 import Paciente from './pages/paciente/Paciente.jsx'
 import HistoricoPaciente from './pages/paciente/HistoricoPaciente.jsx'
 import PerfilPaciente from './pages/paciente/PerfilPaciente.jsx'
@@ -340,6 +341,7 @@ function App() {
           onBack={irParaHome}
           onCadastro={() => goTo('cadastro')}
           onLogin={handleLogin}
+          onEsqueciSenha={() => goTo('esqueci-senha')}
           onLoginProfissional={() => goTo('login-profissional')}
           onLoginAdmin={() => goTo('login-admin')}
         />
@@ -349,6 +351,7 @@ function App() {
         <LoginProfissional
           onBack={() => goTo('login')}
           onLogin={handleLoginProfissional}
+          onEsqueciSenha={() => goTo('esqueci-senha')}
         />
       )}
 
@@ -356,7 +359,12 @@ function App() {
         <LoginAdmin
           onBack={() => goTo('login')}
           onLogin={handleLoginAdmin}
+          onEsqueciSenha={() => goTo('esqueci-senha')}
         />
+      )}
+
+      {screen === 'esqueci-senha' && (
+        <EsqueciSenha onBack={() => goTo('login')} />
       )}
 
       {screen === 'cadastro' && (
