@@ -45,6 +45,7 @@ Essas contas existem apenas no ambiente de demonstração, com dados fictícios.
 ## Requisitos
 
 - **Node.js 24 ou superior** (`node -v`) — exigido em `engines` no `package.json`
+  e registrado no `.nvmrc`
 - Acesso à internet para falar com a API publicada, ou o back-end rodando localmente
 
 ## Como rodar localmente
@@ -52,11 +53,22 @@ Essas contas existem apenas no ambiente de demonstração, com dados fictícios.
 ### 1. Front-end
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-Abre em `http://localhost:5173`.
+`npm ci` instala as versões exatas do `package-lock.json`. Abre em
+`http://localhost:5173`.
+
+**Windows / PowerShell:** se aparecer que `npm.ps1` não pode ser carregado porque
+a execução de scripts está desabilitada, use `npm.cmd`:
+
+```powershell
+npm.cmd ci
+npm.cmd run dev
+```
+
+Não é preciso alterar a política de execução do PowerShell.
 
 ### 2. Back-end (obrigatório)
 
@@ -125,8 +137,9 @@ Stop-Process -Id <numero> -Force
 src/
 ├── assets/          fontes locais (com as licenças) e SVGs
 ├── components/
-│   ├── layout/      AppLayout, Header, PatientLayout, ProfessionalLayout
-│   └── ui/          AccessibilityPanel, PriorityTag
+│   ├── layout/       AppLayout, Header, PatientLayout, ProfessionalLayout
+│   ├── profissional/ peças do portal médico (cartões, painéis, agenda)
+│   └── ui/           AccessibilityPanel, PriorityTag
 ├── data/            registros fictícios usados só em demonstração
 ├── pages/
 │   ├── institucional/  Home
@@ -137,9 +150,19 @@ src/
 ├── services/        integração real com a API (api.js, agenda.js, accessibility.js)
 └── styles/          tokens, fontes, base global e estilos compartilhados
 public/              manifest do PWA, service worker e ícones
+docs/                style guide, estrutura, visão geral e créditos
 ```
 
-As convenções completas estão em [AGENTS.md](AGENTS.md).
+As convenções completas de código estão em [AGENTS.md](AGENTS.md).
+
+## Documentação do projeto
+
+- [Visão geral e planejamento](docs/visao-geral.md): problema, personas e jornadas
+- [Style guide](docs/style-guide.md): referência do Figma, tokens e componentes
+- [Estrutura do frontend](docs/estrutura-frontend.md): organização, inventário e
+  próximas entregas
+- [Créditos de terceiros](docs/creditos.md): origem e licença de fontes, ícones e
+  do símbolo de acessibilidade da ONU
 
 ## Acessibilidade
 
