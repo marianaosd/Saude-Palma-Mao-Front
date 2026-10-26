@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
-import ProfessionalLayout from '../../components/layout/ProfessionalLayout.jsx'
-import ProfessionalIcon from '../../components/profissional/ProfessionalIcon.jsx'
-import HistoryCard from '../../components/profissional/historicoProfissional/HistoryCard.jsx'
-import HistoryDetailDialog from '../../components/profissional/historicoProfissional/HistoryDetailDialog.jsx'
-import HistoryFilters from '../../components/profissional/historicoProfissional/HistoryFilters.jsx'
-import { api } from '../../services/api.js'
+import ProfessionalLayout from '../../../components/layout/ProfessionalLayout.jsx'
+import ProfessionalIcon from '../../../components/profissional/ProfessionalIcon.jsx'
+import HistoryCard from '../../../components/profissional/historicoProfissional/HistoryCard.jsx'
+import HistoryDetailDialog from '../../../components/profissional/historicoProfissional/HistoryDetailDialog.jsx'
+import HistoryFilters from '../../../components/profissional/historicoProfissional/HistoryFilters.jsx'
+import { api } from '../../../services/api.js'
 import './HistoricoProfissional.css'
 
 // ─── helpers ─────────────────────────────────────────────────────────────────

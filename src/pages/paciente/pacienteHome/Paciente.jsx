@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { api } from '../../services/api.js'
-import { formatarDataISO, formatarHorario, horarioParaMinutos, primeiroNome, rotuloData } from '../../services/agenda.js'
+import { api } from '../../../services/api.js'
+import { formatarDataISO, formatarHorario, horarioParaMinutos, primeiroNome, rotuloData } from '../../../services/agenda.js'
 import './Paciente.css'
 
 // Início da área do paciente. As outras abas ficam em HistoricoPaciente.jsx e
@@ -95,7 +95,7 @@ function Paciente({ onTriagem, onClinicas, usuario }) {
         <div>
           <p className="eyebrow">Área do paciente</p>
 
-          <h1 id="patient-title">Olá, {primeiroNome(nomePaciente)}! 👋</h1>
+          <h1 id="patient-title">Olá, {primeiroNome(nomePaciente)}!</h1>
 
           <p>
             Como podemos ajudar você hoje?

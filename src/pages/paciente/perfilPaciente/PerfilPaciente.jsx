@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { api } from '../../services/api.js'
-import './Paciente.css'
+import { api } from '../../../services/api.js'
+import '../pacienteHome/Paciente.css'
 
 function formatarDataNascimento(valor) {
   const iso = String(valor || '').slice(0, 10)

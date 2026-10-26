@@ -13,7 +13,7 @@ Consultar os trechos pertinentes antes de criar ou alterar telas. Distinguir o q
 
 ## Organização dos arquivos
 
-- `src/pages/<contexto>/`: somente páginas completas e o CSS dessas páginas. **Não criar pastas `components/` dentro de `pages/`.**
+- `src/pages/<contexto>/<pagina>/`: cada página fica organizada em sua própria pasta junto de seu arquivo CSS correspondente (ex: `src/pages/profissional/agenda/AgendaProfissional.jsx`). Não criar pastas `components/` dentro de `pages/`.
 - `src/components/profissional/`: componentes específicos do portal médico, mesmo que usados por uma única página.
 - `src/components/profissional/panels/`: conteúdos dos painéis demonstrativos abertos por `ProfessionalHomePanel`; não confundir esses conteúdos com páginas completas.
 - `src/components/ui/`: elementos de interface compartilháveis entre contextos, como `PriorityTag` e futuros botões/campos.
@@ -21,9 +21,9 @@ Consultar os trechos pertinentes antes de criar ou alterar telas. Distinguir o q
 - `src/data/`: registros fictícios de demonstração. Rótulos de interface e configurações visuais pequenas podem ficar junto do componente.
 - `src/assets/`: SVGs, fontes e licenças locais.
 - `src/styles/`: tokens, fontes, base global e estilos comuns.
-- Criar `src/services/` somente quando houver integração com API para implementar.
+- `src/services/`: cliente de API, cálculo de agenda e serviços de acessibilidade.
 
-Uma nova agenda completa, por exemplo, deve ser `src/pages/profissional/AgendaProfissional.jsx`, com seu CSS ao lado. Blocos visuais extraídos dessa página pertencem a `src/components/profissional/`.
+Cada página completa possui sua pasta dedicada (ex: `src/pages/profissional/agenda/AgendaProfissional.jsx` e `AgendaProfissional.css`). Blocos visuais reutilizáveis extraídos de páginas pertencem a `src/components/`.
 
 ## Responsabilidades e convenções
 

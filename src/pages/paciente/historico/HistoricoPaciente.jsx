@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { api } from '../../services/api.js'
-import { formatarHorario, horarioParaMinutos, rotuloData } from '../../services/agenda.js'
-import './Paciente.css'
+import { api } from '../../../services/api.js'
+import { formatarHorario, horarioParaMinutos, rotuloData } from '../../../services/agenda.js'
+import '../pacienteHome/Paciente.css'
 
 function formatarDataRegistro(valor) {
   const iso = String(valor || '').slice(0, 10)

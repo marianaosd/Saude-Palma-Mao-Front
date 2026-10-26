@@ -1,96 +1,100 @@
-# Visão geral e planejamento
+# Visão Geral e Arquitetura do Produto
 
-Este documento organiza o contexto fornecido pelo grupo para o Projeto Integrador **Desafila**. Ele descreve a visão futura do produto. O que já está implementado e as instruções para executar estão no [README](../README.md).
+Este documento descreve o propósito, a arquitetura e as jornadas do **Desafila** (Saúde na Palma da Mão), projeto acadêmico do Senac Pernambuco. Ele apresenta os problemas enfrentados, a solução desenvolvida e os papéis atendidos pelo ecossistema da aplicação.
 
-## Problema e proposta
+---
 
-Pacientes enfrentam filas nas recepções, dificuldade para encontrar horários e dúvidas sobre qual atendimento procurar. Profissionais recebem informações incompletas e precisam lidar com agendas e processos administrativos.
+## 1. Problema e Proposta de Valor
 
-A proposta é uma aplicação que permita iniciar o atendimento pelo celular: registrar informações em uma pré-triagem, receber uma orientação inicial e buscar/agendar uma consulta. Os profissionais poderão consultar as informações antes do atendimento, e a administração organizará clínicas, usuários e agendas.
+### O Problema
+- **Para os Pacientes:** Filas longas em recepções de clínicas e postos, incerteza sobre qual especialidade médica buscar diante de certos sintomas, dificuldade de encontrar horários compatíveis e falta de histórico centralizado dos seus agendamentos e pré-triagens.
+- **Para os Profissionais de Saúde:** Recepções sobrecarregadas, falta de contexto inicial dos pacientes antes do atendimento, conflitos de horários em agendas e excesso de burocracia manual.
+- **Para a Gestão de Clínicas:** Dificuldade em cadastrar e organizar disponibilidade de profissionais, clínicas e especialidades em um canal digital unificado.
 
-Reduzir o tempo de espera é o objetivo do projeto, ainda a ser validado com possíveis usuários. Não há medição de resultados nesta etapa.
+### A Solução
+O **Desafila** integra paciente, médico e gestão em uma plataforma web responsiva e acessível:
+1. **Pré-triagem inteligente e orientativa:** O paciente responde a um questionário estruturado por categorias de sintomas, recebendo uma recomendação imediata do nível de cuidado adequado (*Teleconsulta*, *Atendimento Presencial* ou *Possível Urgência*). **Atenção:** A pré-triagem é estritamente orientativa e de apoio, não constituindo diagnóstico médico.
+2. **Agendamento simplificado e dinâmico:** Cruzamento das janelas de disponibilidade cadastradas pelos médicos com as consultas já marcadas, oferecendo ao paciente apenas os horários livres reais (em blocos de 30 minutos).
+3. **Portal do Profissional:** O médico acessa sua agenda diária, visualiza o histórico de atendimentos e consulta previamente os sintomas e a classificação de pré-triagem informados pelo paciente para aquela consulta específica.
+4. **Painel Administrativo:** Gestão centralizada de clínicas, especialidades, corpo clínico e recuperação operacional de senhas.
+5. **Inclusão e Acessibilidade:** Painel acessível integrado com suporte a fontes para dislexia (*OpenDyslexic*), controle de tamanho de texto, alto contraste, tema escuro e redução de movimento.
 
-## Perfis e funcionalidades previstas
+---
 
-| Perfil | Funcionalidades da visão inicial |
+## 2. Perfis e Funcionalidades
+
+| Perfil | Funcionalidades Principais |
 | --- | --- |
-| Paciente | Cadastro e login; pré-triagem por chatbot ou formulário; classificação orientativa de prioridade; busca por clínicas e profissionais; agendamento; visualização das informações da consulta; cadastro e acionamento/compartilhamento com contato de emergência. |
-| Profissional de saúde | Consulta da pré-triagem e das informações antes do atendimento; visualização de pacientes e agendamentos; organização da disponibilidade e acompanhamento da agenda. |
-| Administrador | Gestão de clínicas parceiras, profissionais, usuários, horários, agendamentos e configurações do sistema. |
-| Experiência geral | Interface acessível, uso pelo celular e futura PWA. Confirmações e lembretes aparecem nas necessidades da jornada do paciente; os canais ainda serão definidos. |
+| **Paciente** | • Cadastro com validação de CPF e dados de contato de emergência.<br>• Login seguro via JWT.<br>• Questionário de pré-triagem por categoria de sintomas com feedback imediato.<br>• Catálogo e busca de clínicas e profissionais por especialidade.<br>• Agendamento de consultas com vinculação opcional da pré-triagem realizada.<br>• Cancelamento de consultas agendadas.<br>• Consulta ao histórico de agendamentos e histórico de pré-triagens.<br>• Edição de dados cadastrais e atualização de contato de emergência. |
+| **Profissional de Saúde** | • Login médico exclusivo.<br>• Visão geral da rotina do dia e métricas de atendimentos.<br>• Agenda diária interativa com filtros por data, listagem de consultas e horários livres.<br>• Acesso detalhado à pré-triagem do paciente vinculada à consulta marcada.<br>• Histórico completo de consultas realizadas com busca e filtros rápidos.<br>• Configuração e gestão de janelas de disponibilidade (dias da semana e horários).<br>• Perfil profissional com edição de dados e vínculo a clínicas. |
+| **Administrador** | • Autenticação administrativa restrita.<br>• Gestão completa (CRUD) de clínicas parceiras.<br>• Gestão completa (CRUD) de especialidades médicas.<br>• Gestão completa (CRUD) e inativação de profissionais de saúde.<br>• Emissão de senhas temporárias para suporte e recuperação de acesso. |
+| **Recursos Transversais** | • PWA com manifesto para instalação mobile.<br>• Painel de Acessibilidade (OpenDyslexic, contraste, redimensionamento de fonte).<br>• Interface adaptativa (Mobile First com suporte a Desktop). |
 
-A pré-triagem é orientativa: seu resultado deve ser apresentado como apoio à avaliação de um profissional, sem ser tratado como diagnóstico. As regras dessa orientação ainda não foram definidas.
+---
 
-## Personas
+## 3. Personas de Referência
 
-As personas abaixo são referências de planejamento apresentadas pelo grupo, não registros de pacientes ou profissionais reais.
+### Roberta Alves — Paciente
+- **Idade e Perfil:** 42 anos, analista administrativa. Utiliza principalmente o smartphone para resolver tarefas do dia a dia.
+- **Contexto:** Apresenta sintomas recorrentes de dor de cabeça e febre leve, mas não tem certeza se deve procurar um clínico geral, neurologista ou pronto atendimento.
+- **Dores:** Longas esperas em filas de recepção, medo de marcar a especialidade incorreta e perda de tempo em deslocamentos desnecessários.
+- **Expectativa:** Iniciar o atendimento pelo celular, responder perguntas claras sobre o que está sentindo, agendar em uma clínica próxima e ter confirmação na tela.
 
-### Roberta Alves — paciente
+### Dr. Rafael Mendes — Profissional de Saúde
+- **Idade e Perfil:** 36 anos, médico especialista em Clínica Geral e Medicina da Família.
+- **Contexto:** Atende em mais de uma clínica durante a semana e necessita de uma rotina pontual e sem sobreposição de horários.
+- **Dores:** Chegada de pacientes sem informações prévias sobre a queixa principal, recepções que agendam horários conflitantes e falta de visibilidade da agenda diária.
+- **Expectativa:** Abrir o sistema no celular ou computador da clínica, conferir a lista de pacientes do dia, ver antecipadamente o que o paciente respondeu na triagem e gerenciar com precisão seus horários de atendimento.
 
-42 anos, analista administrativa. Usa o celular no dia a dia e prefere aplicativos simples, objetivos e fáceis de entender.
+### Carlos Eduardo — Administrador da Clínica
+- **Idade e Perfil:** 48 anos, gestor de operações clínicas.
+- **Contexto:** Coordena as unidades conveniadas, controla o credenciamento de médicos e presta suporte operacional a pacientes e médicos com dificuldades de acesso.
+- **Dores:** Processos manuais de cadastro em planilhas e dificuldade em manter atualizado o catálogo de especialidades e clínicas parceiras.
+- **Expectativa:** Painel único e direto para cadastrar unidades, especialidades e médicos, além de poder gerar senhas temporárias seguras para usuários que esqueceram suas credenciais.
 
-- **Contexto:** precisa marcar uma consulta, mas nem sempre sabe qual especialidade procurar ou a prioridade de atendimento.
-- **Dores:** filas, horários incompatíveis, dificuldade de encontrar atendimento e receio de agendar uma consulta inadequada.
-- **Objetivos:** entender o próximo passo, encontrar atendimento e agendar sem enfrentar filas.
-- **Necessidades:** linguagem clara, pré-triagem simples, busca por clínicas/profissionais, confirmação e lembretes.
+---
 
-| Etapa da jornada | Ação esperada | Necessidade a considerar |
-| --- | --- | --- |
-| 1. Identificação da necessidade | Acessar a aplicação ao buscar atendimento | Encontrar com facilidade o início do fluxo |
-| 2. Pré-triagem | Responder às perguntas sobre sua situação | Compreender as perguntas e conseguir se expressar |
-| 3. Orientação | Consultar a orientação inicial | Entender os limites do resultado e o próximo passo |
-| 4. Escolha | Consultar clínicas, especialidades, profissionais e horários | Comparar opções adequadas à sua disponibilidade |
-| 5. Agendamento | Escolher data/horário e confirmar a consulta | Concluir um processo simples e compreensível |
-| 6. Notificação | Receber confirmação e lembrete | Encontrar os dados da consulta e lembrar do horário |
-
-### Rafael Mendes — profissional de saúde
-
-36 anos, médico clínico geral. Usa sistemas digitais no trabalho e precisa de informações organizadas para a rotina da clínica.
-
-- **Contexto:** atende pacientes e depende das informações e horários organizados pela recepção.
-- **Dores:** informações incompletas, conflitos de agenda, sobrecarga da recepção e tempo gasto com processos administrativos.
-- **Objetivos:** receber informações organizadas, manter a agenda atualizada e utilizar a pré-triagem como apoio.
-- **Necessidades:** consulta clara dos dados, disponibilidade de horários e integração com o agendamento.
-
-| Etapa da jornada | Ação esperada | Necessidade a considerar |
-| --- | --- | --- |
-| 1. Acesso | Entrar na área profissional | Encontrar a agenda com facilidade |
-| 2. Configuração da agenda | Definir horários e disponibilidade | Organizar os períodos de atendimento |
-| 3. Recebimento do agendamento | Visualizar uma nova consulta | Saber quem será atendido e quando |
-| 4. Consulta da pré-triagem | Ler as informações fornecidas pelo paciente | Encontrar os dados iniciais de forma organizada |
-| 5. Atendimento | Utilizar o contexto inicial durante a consulta | Ter a pré-triagem como apoio ao atendimento |
-| 6. Gestão da agenda | Acompanhar e atualizar os atendimentos | Manter os horários consistentes e evitar conflitos |
-
-A persona e a jornada do administrador ainda precisam ser detalhadas pelo grupo.
-
-## Limite desta entrega e recorte sugerido
-
-O frontend possui a página institucional e telas navegáveis de acesso e da jornada do paciente até a confirmação. Elas ainda usam conteúdo fixo e não completam os fluxos de cadastro, pré-triagem ou agendamento. O portal profissional ainda será desenvolvido. Consulte o [inventário atual e as próximas entregas](estrutura-frontend.md) e a [referência visual](style-guide.md).
-
-Como primeiro recorte, sugerimos prototipar a jornada do paciente com um formulário de pré-triagem e um agendamento simulado. O grupo deverá validar esse recorte com as aulas e com os possíveis usuários antes de tratá-lo como escopo fechado.
-
-Um formulário pode ser o primeiro exercício de estado, eventos e validação em React. A decisão entre formulário, chatbot ou ambos permanece aberta. Uma classificação clínica não deve ser inventada para preencher o protótipo; a orientação e seus critérios precisam ser definidos com participação de profissionais de saúde.
-
-## Arquitetura prevista
+## 4. Arquitetura da Solução
 
 ```text
-Frontend React no navegador → API Node.js → Banco de dados PostgreSQL
+┌────────────────────────────────────────────────────────┐
+│                  FRONTEND (SPA / PWA)                  │
+│  React 19 + Vanilla CSS + Vite                         │
+│  • Hospedagem: Vercel (https://saudepalmamao.vercel.app) │
+│  • Navegação por hash e estado de jornada               │
+│  • Gerenciador de Sessão por Perfil                    │
+│  • Painel de Acessibilidade (OpenDyslexic, Contraste)   │
+└───────────────────────────┬────────────────────────────┘
+                            │
+              Requisições HTTPS / JSON
+              (Bearer Token JWT no Header)
+                            │
+┌───────────────────────────▼────────────────────────────┐
+│                    BACKEND (API REST)                  │
+│  Node.js + Express 5                                   │
+│  • Hospedagem: Render (https://desafila-api.onrender.com)│
+│  • Documentação OpenAPI / Swagger UI (/api-docs)       │
+│  • Middlewares: Helmet, CORS, Rate Limit, Auth JWT     │
+│  • Motor de Classificação Orientativa de Triagem       │
+└───────────────────────────┬────────────────────────────┘
+                            │
+               Pool pg & ORM Sequelize
+                            │
+┌───────────────────────────▼────────────────────────────┐
+│                  BANCO DE DADOS (SGBD)                 │
+│  PostgreSQL (Relacional)                               │
+│  • Extensão pgcrypto (UUIDs nativos)                   │
+│  • Tabelas: pacientes, profissionais, clínicas,        │
+│    especialidades, disponibilidades, agendamentos,     │
+│    categorias_sintomas, perguntas, respostas,          │
+│    historico_triagem_paciente                          │
+└────────────────────────────────────────────────────────┘
 ```
 
-Hoje apenas o frontend existe. O Node.js instalado executa as ferramentas de desenvolvimento; não existe servidor de aplicação implementado. O frontend consumirá a API, e a API será responsável pelas regras de negócio, autenticação, permissões e acesso ao banco. O navegador não acessará diretamente o PostgreSQL.
+---
 
-A PWA será uma evolução do frontend. Manifesto, service worker, estratégia de cache e experiência sem conexão ainda não estão implementados nem definidos. A presença do favicon e da cor do tema não torna a aplicação uma PWA.
+## 5. Integração entre Ambientes
 
-## Decisões para as próximas etapas
-
-- Validar o problema com pacientes, recepção e profissionais e definir como avaliar se a solução ajuda.
-- Priorizar funcionalidades para a primeira entrega e dividir tarefas entre os integrantes.
-- Desenhar telas e navegação com foco em celular, linguagem simples e uso por teclado.
-- Definir perguntas, conteúdo e limites da orientação de pré-triagem com profissionais de saúde.
-- Detalhar criação, confirmação, alteração e cancelamento de agendamentos, incluindo conflitos de horário.
-- Definir quais dados cada perfil pode consultar e como será o acesso às informações de saúde antes de armazenar dados reais.
-- Definir canais e condições para lembretes e contato de emergência.
-- Combinar os contratos da API e decidir onde o backend será mantido.
-- Definir recursos da PWA, hospedagem e critérios de aceitação dos fluxos.
-
-Cada decisão aprovada deve ser refletida nesta documentação e nas tarefas do grupo. A sequência de implementação sugerida está no [README](../README.md#como-vamos-evoluir).
+- **Ambiente Local:** O Vite roda na porta `5173` e possui um proxy configurado em `vite.config.js` para redirecionar chamadas de `/api/*` para a API local na porta `3000` (`http://localhost:3000`).
+- **Ambiente de Produção:** O frontend na Vercel comunica-se diretamente com a API no Render (`https://desafila-api.onrender.com`), utilizando cabeçalhos CORS restritos e criptografia HTTPS.
+- **Segurança de Sessão:** Cada papel possui isolamento de chave no armazenamento local (`saude_token`, `saude_profissional_token`, `saude_admin_token`). Em caso de token expirado (código HTTP `401`), o cliente intercepta o erro, limpa o token e redireciona automaticamente para a respectiva tela de login.

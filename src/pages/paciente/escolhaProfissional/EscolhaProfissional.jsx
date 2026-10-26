@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
-import { api } from '../../services/api.js'
-import { gerarHorarios } from '../../services/agenda.js'
+import { api } from '../../../services/api.js'
+import { gerarHorarios } from '../../../services/agenda.js'
 import './EscolhaProfissional.css'
 
 function EscolhaProfissional({ onBack, onAgendar, clinica }) {

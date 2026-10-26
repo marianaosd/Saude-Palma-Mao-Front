@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { api } from '../../services/api.js'
+import { api } from '../../../services/api.js'
 import './Triagem.css'
 
 function Triagem({ onBack, onResultado }) {

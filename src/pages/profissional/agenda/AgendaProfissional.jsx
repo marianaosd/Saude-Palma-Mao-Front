@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
-import ProfessionalLayout from '../../components/layout/ProfessionalLayout.jsx'
-import ProfessionalIcon from '../../components/profissional/ProfessionalIcon.jsx'
-import AgendaAppointmentRow from '../../components/profissional/agendaProfissional/AgendaAppointmentRow.jsx'
-import AgendaAvailableSlot from '../../components/profissional/agendaProfissional/AgendaAvailableSlot.jsx'
-import AgendaDaySelector from '../../components/profissional/agendaProfissional/AgendaDaySelector.jsx'
-import ProfessionalHomePanel from '../../components/profissional/ProfessionalHomePanel.jsx'
-import { api } from '../../services/api.js'
+import ProfessionalLayout from '../../../components/layout/ProfessionalLayout.jsx'
+import ProfessionalIcon from '../../../components/profissional/ProfessionalIcon.jsx'
+import AgendaAppointmentRow from '../../../components/profissional/agendaProfissional/AgendaAppointmentRow.jsx'
+import AgendaAvailableSlot from '../../../components/profissional/agendaProfissional/AgendaAvailableSlot.jsx'
+import AgendaDaySelector from '../../../components/profissional/agendaProfissional/AgendaDaySelector.jsx'
+import ProfessionalHomePanel from '../../../components/profissional/ProfessionalHomePanel.jsx'
+import { api } from '../../../services/api.js'
 import './AgendaProfissional.css'
 
 // ─── helpers de data ─────────────────────────────────────────────────────────
