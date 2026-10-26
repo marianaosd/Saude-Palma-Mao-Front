@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
-import ProfessionalLayout from '../../components/layout/ProfessionalLayout.jsx'
-import ProfessionalIcon from '../../components/profissional/ProfessionalIcon.jsx'
-import AppointmentCard from '../../components/profissional/AppointmentCard.jsx'
-import ProfessionalHomePanel from '../../components/profissional/ProfessionalHomePanel.jsx'
-import { api } from '../../services/api.js'
+import ProfessionalLayout from '../../../components/layout/ProfessionalLayout.jsx'
+import ProfessionalIcon from '../../../components/profissional/ProfessionalIcon.jsx'
+import AppointmentCard from '../../../components/profissional/AppointmentCard.jsx'
+import ProfessionalHomePanel from '../../../components/profissional/ProfessionalHomePanel.jsx'
+import { api } from '../../../services/api.js'
 import './HomeProfissional.css'
 
 // ─── helpers ─────────────────────────────────────────────────────────────────

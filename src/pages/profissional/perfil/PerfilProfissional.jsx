@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import ProfessionalLayout from '../../components/layout/ProfessionalLayout.jsx'
-import ProfessionalIcon from '../../components/profissional/ProfessionalIcon.jsx'
-import ProfessionalClinicsCard from '../../components/profissional/perfilProfissional/ProfessionalClinicsCard.jsx'
-import ProfessionalDataCard from '../../components/profissional/perfilProfissional/ProfessionalDataCard.jsx'
-import ProfessionalProfileEditor from '../../components/profissional/perfilProfissional/ProfessionalProfileEditor.jsx'
-import { api } from '../../services/api.js'
+import ProfessionalLayout from '../../../components/layout/ProfessionalLayout.jsx'
+import ProfessionalIcon from '../../../components/profissional/ProfessionalIcon.jsx'
+import ProfessionalClinicsCard from '../../../components/profissional/perfilProfissional/ProfessionalClinicsCard.jsx'
+import ProfessionalDataCard from '../../../components/profissional/perfilProfissional/ProfessionalDataCard.jsx'
+import ProfessionalProfileEditor from '../../../components/profissional/perfilProfissional/ProfessionalProfileEditor.jsx'
+import { api } from '../../../services/api.js'
 import './PerfilProfissional.css'
 
 // ─── helpers ─────────────────────────────────────────────────────────────────

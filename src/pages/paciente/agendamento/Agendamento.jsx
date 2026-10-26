@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { api } from '../../services/api.js'
+import { api } from '../../../services/api.js'
 import './Agendamento.css'
 
 function Agendamento({ onBack, onConfirmar, clinica, profissional, especialidade, slot, triagem }) {

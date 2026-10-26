@@ -22,6 +22,15 @@ Pernambuco. Este repositório contém o **front-end**; a API está no
 > A API está no plano gratuito do Render e **dorme após 15 minutos sem uso**.
 > O primeiro acesso do dia pode levar até 1 minuto para responder.
 
+## Documentação do projeto
+
+- [Visão geral e planejamento](docs/visao-geral.md): problema, personas, arquitetura e proposta de valor
+- [Guia de requisições da API](docs/requisicoes-api.md): contratos, endpoints consumidos, autenticação JWT e tratamento de erros
+- [Fluxos e jornadas de usuário](docs/fluxos-e-jornadas.md): máquina de estados, navegação por hash e diagramas passo a passo
+- [Style guide](docs/style-guide.md): referência do Figma, tokens e componentes
+- [Estrutura do frontend](docs/estrutura-frontend.md): organização, inventário completo de telas e acessibilidade
+- [Créditos de terceiros](docs/creditos.md): origem e licença de fontes, ícones e do símbolo de acessibilidade da ONU
+
 ## Contas de demonstração
 
 O ambiente publicado tem uma conta de demonstração para cada perfil:
@@ -163,15 +172,6 @@ docs/                style guide, estrutura, visão geral e créditos
 ```
 
 As convenções completas de código estão em [AGENTS.md](AGENTS.md).
-
-## Documentação do projeto
-
-- [Visão geral e planejamento](docs/visao-geral.md): problema, personas e jornadas
-- [Style guide](docs/style-guide.md): referência do Figma, tokens e componentes
-- [Estrutura do frontend](docs/estrutura-frontend.md): organização, inventário e
-  próximas entregas
-- [Créditos de terceiros](docs/creditos.md): origem e licença de fontes, ícones e
-  do símbolo de acessibilidade da ONU
 
 ## Acessibilidade
 
