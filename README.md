@@ -24,13 +24,22 @@ Pernambuco. Este repositório contém o **front-end**; a API está no
 
 ## Contas de demonstração
 
-| Perfil | E-mail | Senha |
-| --- | --- | --- |
-| Paciente | `robertaalves@email.com` | `senha123` |
-| Profissional | `rafael.mendes@sauderecife.com.br` | `senha123` |
-| Administrador | `admin@desafila.com.br` | `admin123` |
+O ambiente publicado tem uma conta de demonstração para cada perfil:
 
-Essas contas existem apenas no ambiente de demonstração, com dados fictícios.
+| Perfil | E-mail |
+| --- | --- |
+| Paciente | `robertaalves@email.com` |
+| Profissional | `rafael.mendes@sauderecife.com.br` |
+| Administrador | `admin@desafila.com.br` |
+
+Todas com dados fictícios. **As senhas não ficam neste repositório** — são
+entregues junto com o material do projeto (Teams) e nas anotações da
+apresentação.
+
+> O acesso administrativo é o mais sensível: além da gestão de clínicas,
+> especialidades e profissionais, ele permite gerar senha temporária para
+> qualquer conta. Em um projeto real, essa conta teria senha forte, autenticação
+> em duas etapas e ficaria restrita a uma rede interna.
 
 ## Tecnologias
 
@@ -98,13 +107,13 @@ O login administrativo não fica no banco: ele compara com as variáveis
 `ADMIN_EMAIL` e `ADMIN_SENHA_HASH`. Para gerar o hash da senha desejada:
 
 ```bash
-node -e "console.log(require('bcrypt').hashSync('admin123', 10))"
+node -e "console.log(require('bcrypt').hashSync('SUA-SENHA-AQUI', 10))"
 ```
 
 E acrescente ao `.env` do back-end:
 
 ```
-ADMIN_EMAIL=admin@desafila.com.br
+ADMIN_EMAIL=seu-email@exemplo.com
 ADMIN_SENHA_HASH=<hash gerado acima>
 ```
 
