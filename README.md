@@ -1,247 +1,237 @@
 # Desafila
 
-Projeto Integrador do 3º período: uma proposta para reduzir filas e o tempo de espera nas recepções de clínicas, permitindo que o paciente inicie etapas do atendimento pelo celular.
+Aplicação web (PWA) que organiza o atendimento em clínicas: o paciente faz uma
+**pré-triagem orientativa**, encontra clínicas e profissionais e agenda a consulta.
+A pré-triagem **não emite diagnóstico** nem substitui avaliação médica — ela apenas
+orienta o próximo passo e adianta informação para o profissional.
 
-Este repositório é o ponto de partida do **frontend em React**. Nesta etapa, o foco é aprender a tecnologia, organizar o código e construir uma base para o trabalho em grupo. A aplicação fullstack será desenvolvida aos poucos.
+Projeto Integrador do curso de Análise e Desenvolvimento de Sistemas — Senac
+Pernambuco. Este repositório contém o **front-end**; a API está no
+[repositório do back-end](https://github.com/srenataoliveira/Saude-na-Palma-da-M-o---Senac).
 
-## Integrantes
+## Acessos
 
-- Gabriel Tenório
-- Luís Bezerra
-- Lorena Torres
-- Mariana Oliveira
-- Renata Oliveira
-
-## O que existe hoje
-
-- React com JavaScript, Vite e ESLint configurados.
-- Página institucional, home profissional de demonstração e nove telas de protótipo de acesso e do paciente: login, cadastro, área do paciente, pré-triagem, resultado, clínicas, escolha de profissional, agendamento e confirmação.
-- Páginas agrupadas por contexto, CSS junto das telas e layout compartilhado separado da navegação.
-- Tokens atuais centralizados e estilos globais carregados pelo ponto de entrada.
-- Style guide baseado no Figma e documentação da estrutura e das próximas entregas.
-
-**Existe navegação de demonstração, mas os fluxos ainda não estão completos.** O login apenas troca de tela; as respostas e escolhas não são compartilhadas; a confirmação não registra uma consulta. A home profissional usa dados fictícios do Figma; seus painéis locais não estão ligados a uma API. Cadastro, autenticação, API, banco de dados e PWA ainda precisam de implementação funcional.
-
-A reorganização preservou o protótipo existente. As limitações conhecidas, inclusive o tratamento pendente do envio do cadastro e o resultado fixo da pré-triagem, estão em [Estrutura do frontend e próximas entregas](docs/estrutura-frontend.md). Use somente dados fictícios.
-
-## A proposta completa
-
-| Perfil | O que pretendemos oferecer |
+| | Endereço |
 | --- | --- |
-| Paciente | Cadastro, pré-triagem, orientação inicial, busca e agendamento de atendimento, informações da consulta e contato de emergência. |
-| Profissional de saúde | Consulta das informações de pré-triagem, pacientes, agenda e disponibilidade. |
-| Administrador | Gestão de clínicas, profissionais, usuários, horários e agendamentos. |
+| Aplicação (produção) | https://saudepalmamao.vercel.app |
+| API (produção) | https://desafila-api.onrender.com |
+| Documentação da API (Swagger) | https://desafila-api.onrender.com/api-docs |
+| Front-end (este repositório) | https://github.com/marianaosd/Saude-Palma-Mao-Front |
+| Back-end | https://github.com/srenataoliveira/Saude-na-Palma-da-M-o---Senac |
 
-O objetivo futuro é disponibilizar uma PWA, uma aplicação web que possa ser instalada em dispositivos compatíveis. A pré-triagem será orientativa e deverá apoiar a avaliação profissional, sem apresentar seu resultado como diagnóstico.
+> A API está no plano gratuito do Render e **dorme após 15 minutos sem uso**.
+> O primeiro acesso do dia pode levar até 1 minuto para responder.
 
-As personas, jornadas e funcionalidades previstas estão em [Visão geral e planejamento](docs/visao-geral.md).
+## Contas de demonstração
 
-O [Style guide do frontend](docs/style-guide.md) documenta o design do Figma: cores, tipografia, espaçamentos, componentes e orientações para padronizar as páginas. O guia distingue os valores observados no design das propostas de implementação e dos ajustes ainda pendentes.
+| Perfil | E-mail | Senha |
+| --- | --- | --- |
+| Paciente | `robertaalves@email.com` | `senha123` |
+| Profissional | `rafael.mendes@sauderecife.com.br` | `senha123` |
+| Administrador | `admin@desafila.com.br` | `admin123` |
 
-A [Estrutura do frontend e próximas entregas](docs/estrutura-frontend.md) explica onde colocar cada arquivo, quais telas existem e o que falta nos fluxos de paciente e profissional.
+Essas contas existem apenas no ambiente de demonstração, com dados fictícios.
 
 ## Tecnologias
 
-| Tecnologia | Papel no projeto | Situação |
-| --- | --- | --- |
-| React + React DOM | Construção e renderização dos componentes da interface | Configurados |
-| JavaScript e JSX | Lógica e marcação dos componentes | Em uso |
-| CSS | Aparência e adaptação a diferentes telas | Em uso |
-| Vite | Servidor de desenvolvimento e geração do build | Configurado |
-| ESLint | Análise estática para identificar problemas no código | Configurado |
-| Node.js | Execução das ferramentas de desenvolvimento; futuramente também da API | Usado nas ferramentas |
-| PostgreSQL | Persistência dos dados no futuro backend | Planejado |
-| PWA | Instalação e definição dos recursos disponíveis sem conexão | Planejada |
+- **React 19** com JavaScript e JSX
+- **Vite 8** (desenvolvimento e build)
+- **CSS puro**, organizado em tokens, com fontes hospedadas localmente
+- **ESLint** para padronização do código
+- Nenhuma biblioteca de UI, roteador ou gerenciador de estado: navegação e estado
+  são resolvidos com React e a API do navegador, para manter o código
+  compreensível para quem está aprendendo.
 
-JavaScript foi mantido nesta base para concentrar o aprendizado inicial em React. Uma eventual adoção de TypeScript será uma decisão futura do grupo. As dependências declaradas estão em `package.json`, e suas versões fixadas estão em `package-lock.json`.
+## Requisitos
 
-## Como executar
+- **Node.js 24 ou superior** (`node -v`) — exigido em `engines` no `package.json`
+  e registrado no `.nvmrc`
+- Acesso à internet para falar com a API publicada, ou o back-end rodando localmente
 
-Pré-requisitos: **Node.js 24** como versão de referência desta base e npm. O arquivo `.nvmrc` registra essa versão para quem usa um gerenciador de versões; ele não instala o Node automaticamente.
+## Como rodar localmente
 
-Abra um terminal na pasta do projeto e execute:
+### 1. Front-end
 
 ```bash
 npm ci
 npm run dev
 ```
 
-`npm ci` instala as dependências a partir do `package-lock.json`. Abra no navegador o endereço mostrado pelo Vite no terminal, normalmente `http://localhost:5173`. Para encerrar o servidor, use `Ctrl+C`.
+`npm ci` instala as versões exatas do `package-lock.json`. Abre em
+`http://localhost:5173`.
 
-**Windows / PowerShell:** se aparecer a mensagem de que `npm.ps1` não pode ser carregado porque a execução de scripts está desabilitada, utilize `npm.cmd`:
+**Windows / PowerShell:** se aparecer que `npm.ps1` não pode ser carregado porque
+a execução de scripts está desabilitada, use `npm.cmd`:
 
 ```powershell
 npm.cmd ci
 npm.cmd run dev
 ```
 
-A mesma alternativa vale para os demais comandos npm. Não é necessário alterar a política de execução do PowerShell.
+Não é preciso alterar a política de execução do PowerShell.
 
-Neste momento, não é necessário configurar `.env`, API ou banco de dados. Para visualizar a aplicação, use o servidor do Vite; abrir `index.html` diretamente não executa esta base React corretamente.
+### 2. Back-end (obrigatório)
 
-## Comandos disponíveis
+O front **não funciona sozinho**: as telas de clínicas, profissionais, agenda e
+pré-triagem consultam a API. Sem ela, o app mostra a mensagem genérica
+"Não foi possível concluir a solicitação."
 
-| Comando | Finalidade |
-| --- | --- |
-| `npm run dev` | Inicia o servidor de desenvolvimento com atualização ao salvar. |
-| `npm run lint` | Verifica o código com ESLint. |
-| `npm run build` | Gera os arquivos de produção na pasta `dist/`. |
-| `npm run preview` | Permite conferir localmente o build já gerado. Execute `build` antes. |
+Em outro terminal:
 
-O `preview` serve para conferência local. A publicação da aplicação será definida em uma etapa futura.
-
-## Estrutura atual
-
-```text
-saude-palma-mao/
-├── docs/
-│   ├── estrutura-frontend.md # Organização, inventário e próximas entregas
-│   ├── style-guide.md       # Referência visual extraída do Figma
-│   └── visao-geral.md       # Problema, personas e jornadas
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   ├── layout/
-│   │   │   ├── AppLayout.jsx # Cabeçalho, conteúdo, rodapé e atalho acessível
-│   │   │   ├── AppLayout.css
-│   │   │   ├── Header.jsx
-│   │   │   ├── ProfessionalLayout.jsx # Navegação do portal profissional
-│   │   │   └── ProfessionalLayout.css
-│   │   ├── profissional/
-│   │   │   ├── AppointmentCard.jsx
-│   │   │   ├── AppointmentCard.css
-│   │   │   ├── ProfessionalIcon.jsx
-│   │   │   ├── ProfessionalIcon.css
-│   │   │   ├── ProfessionalHomePanel.jsx
-│   │   │   ├── ProfessionalHomePanel.css
-│   │   │   ├── agendaProfissional/
-│   │   │   │   ├── AgendaDaySelector.jsx/.css
-│   │   │   │   ├── AgendaAppointmentRow.jsx/.css
-│   │   │   │   └── AgendaAvailableSlot.jsx/.css
-│   │   │   ├── historicoProfissional/
-│   │   │   │   ├── HistoryFilters.jsx/.css
-│   │   │   │   ├── HistoryCard.jsx/.css
-│   │   │   │   └── HistoryDetailDialog.jsx/.css
-│   │   │   └── panels/     # Prévias e formulários da home
-│   │   │       ├── AgendaPreview.jsx
-│   │   │       ├── HistoryPreview.jsx
-│   │   │       ├── AvailabilityForm.jsx
-│   │   │       ├── ProfilePreview.jsx
-│   │   │       └── TriagePanel.jsx
-│   │   └── ui/
-│   │       ├── PriorityTag.jsx
-│   │       └── PriorityTag.css
-│   ├── pages/
-│   │   ├── institucional/
-│   │   │   ├── Home.jsx
-│   │   │   └── Home.css
-│   │   ├── auth/
-│   │   │   ├── Login.jsx
-│   │   │   ├── Cadastro.jsx
-│   │   │   └── Auth.css     # Estilos compartilhados das telas de acesso
-│   │   ├── paciente/
-│   │   │   ├── Paciente.jsx
-│   │   │   ├── Triagem.jsx
-│   │   │   ├── Resultado.jsx
-│   │   │   ├── Clinicas.jsx
-│   │   │   ├── EscolhaProfissional.jsx
-│   │   │   ├── Agendamento.jsx
-│   │   │   ├── Confirmacao.jsx
-│   │   │   └── …           # Cada JSX desta pasta tem seu CSS de mesmo nome
-│   │   └── profissional/
-│   │       ├── HomeProfissional.jsx
-│   │       ├── HomeProfissional.css
-│   │       ├── AgendaProfissional.jsx
-│   │       ├── AgendaProfissional.css
-│   │       ├── HistoricoProfissional.jsx
-│   │       └── HistoricoProfissional.css
-│   ├── assets/
-│   │   ├── fonts/          # Inter e Nunito locais
-│   │   └── icons/profissional/ # SVGs exportados do Figma
-│   ├── data/
-│   │   ├── profissional.js # Dados demonstrativos da home
-│   │   └── agendaProfissional.js # Dias e consultas de demonstração
-│   ├── styles/
-│   │   ├── fonts.css       # Fontes locais
-│   │   ├── tokens.css      # Valores efetivos do protótipo atual
-│   │   ├── global.css      # Base HTML, tipografia atual e foco
-│   │   └── shared.css      # Classes recorrentes de botões e textos
-│   ├── App.jsx             # Estado da tela e transições do protótipo
-│   └── main.jsx            # Entrada React e importação dos estilos comuns
-├── AGENTS.md              # Padrão de organização para agentes e contribuidores
-├── .gitignore
-├── .nvmrc
-├── eslint.config.js
-├── index.html
-├── package.json
-├── package-lock.json
-├── vite.config.js
-└── README.md
+```bash
+git clone https://github.com/srenataoliveira/Saude-na-Palma-da-M-o---Senac
+cd Saude-na-Palma-da-M-o---Senac
+npm install
+npm start
 ```
 
-`node_modules/` é a pasta local de dependências e `dist/` é gerada pelo build. Ambas são ignoradas pelo Git. A home profissional está em `#profissional`, a agenda em `#agenda-profissional`, o histórico em `#historico-profissional` e o perfil em `#perfil-profissional`.
+A API sobe em `http://localhost:3000`. As variáveis de ambiente necessárias
+(`DB_*`, `JWT_SECRET`, `ADMIN_*`) estão descritas no README do back-end.
 
-`EscolhaProfissional.jsx` pertence ao paciente: é a seleção de quem realizará o atendimento. Ela substitui o antigo nome `Profissional.jsx`, que poderia ser confundido com a área de trabalho do médico.
+> **Importante:** toda chamada do front começa com `/api`. Em desenvolvimento, o
+> `vite.config.js` faz proxy de `/api` para `http://localhost:3000` e remove o
+> prefixo. Em produção, o mesmo papel é do `vercel.json`.
 
-Mantemos `profissional` como nome da área. `HomeProfissional` e `AgendaProfissional` são páginas completas; `ProfessionalHomePanel` também é usado para os diálogos demonstrativos. `AgendaPreview`, `HistoryPreview` e `ProfilePreview` continuam sendo amostras do diálogo da home. Componentes reutilizáveis, como `AppointmentCard`, `ProfessionalIcon` e `ProfessionalLayout`, conservam nomes independentes da home.
+### 3. Login do administrador em desenvolvimento
 
-## Por onde começar a aprender React
+O login administrativo não fica no banco: ele compara com as variáveis
+`ADMIN_EMAIL` e `ADMIN_SENHA_HASH`. Para gerar o hash da senha desejada:
 
-O fluxo inicial é: `index.html` → `src/main.jsx` → `src/App.jsx` → layout e página selecionada.
+```bash
+node -e "console.log(require('bcrypt').hashSync('admin123', 10))"
+```
 
-1. **`index.html`** contém o elemento `root` e carrega `main.jsx`.
-2. **`main.jsx`** importa os estilos comuns e monta a aplicação dentro de `root`.
-3. **`App.jsx`** usa `useState` para escolher a tela; as funções passadas por propriedades (*props*) permitem avançar e voltar.
-4. **`AppLayout.jsx`** recebe o conteúdo em `children` e reúne os elementos externos às páginas.
-5. **As páginas** compõem o conteúdo e importam seu CSS. Login e cadastro compartilham `Auth.css`.
+E acrescente ao `.env` do back-end:
 
-Como primeiro exercício, altere um texto em `src/pages/paciente/Paciente.jsx` e observe o resultado. Depois, acompanhe a propriedade `onTriagem` até `App.jsx` para entender como um clique altera a tela. Os formulários ainda precisam de estado, validação e integração dos dados.
+```
+ADMIN_EMAIL=admin@desafila.com.br
+ADMIN_SENHA_HASH=<hash gerado acima>
+```
 
-### Onde colocar código novo
+O `.env` não é versionado. Ao iniciar, o servidor deve exibir
+`injected env (8)` — se aparecer `(6)`, as duas variáveis do admin não carregaram.
 
-- `pages/institucional/`: apresentação pública do projeto.
-- `pages/auth/`: acesso e cadastro; o link para profissional abre a home demonstrativa.
-- `pages/paciente/`: tarefas realizadas pelo paciente, inclusive a escolha do profissional.
-- `pages/profissional/`: páginas completas do médico e seu CSS; atualmente a home, a agenda e o histórico.
-- `components/layout/`: estrutura externa às telas e navegação compartilhada.
-- `components/profissional/`: cartões, ícones e diálogo do portal; conteúdos do diálogo em `panels/`.
-- `components/ui/`: elementos compartilháveis, como etiquetas e futuros campos e botões.
-- `styles/`: tokens e regras comuns. Estilos exclusivos ficam junto da página.
+### Reiniciar após alterar o back-end
 
-**Padrão do projeto:** `pages/` contém somente páginas e seu CSS. Todos os componentes, inclusive os exclusivos do médico, ficam em `components/`. Não criar pastas `components/` dentro de `pages/`. O [AGENTS.md](AGENTS.md) orienta agentes e contribuidores a manter essa organização.
+O back-end roda com Node puro, **sem recarga automática**. Depois de mudar
+qualquer arquivo da API, pare (`Ctrl+C`) e suba de novo. Se a porta 3000 ficar
+presa por um processo antigo, as rotas novas "não existem":
 
-Os dados profissionais, consultas e histórico são exemplos locais em `data/profissional.js`; os dias da agenda ficam em `data/agendaProfissional.js`. As páginas passam os registros aos componentes por propriedades; disponibilidade, histórico e consultas ainda não persistem nem se conectam a uma API. Chamadas futuras ficam em `services/`.
+```powershell
+Get-NetTCPConnection -LocalPort 3000 -State Listen | Select-Object OwningProcess
+Stop-Process -Id <numero> -Force
+```
 
-O tema `.theme-figma` em `tokens.css` delimita os valores visuais do portal profissional; fontes e SVGs do Figma são carregados de `assets/`. `shared.css` reúne classes existentes e ainda não equivale à biblioteca completa proposta no style guide.
+## Scripts
 
-A navegação profissional usa os hashes `#profissional`, `#agenda-profissional`, `#historico-profissional` e `#perfil-profissional`. A edição do perfil e o cadastro de clínicas permanecem em estado local demonstrativo. Ainda não há autenticação nem persistência; os estados locais são reiniciados ao recarregar.
+| Comando | O que faz |
+| --- | --- |
+| `npm run dev` | Servidor de desenvolvimento com recarga automática |
+| `npm run build` | Build de produção em `dist/` |
+| `npm run preview` | Serve o build localmente |
+| `npm run lint` | ESLint em todo o projeto |
 
-## Como vamos evoluir
+## Estrutura
 
-Esta é uma sequência sugerida para o grupo ajustar às aulas e às entregas, sem prazos ou responsáveis definidos nesta base.
+```
+src/
+├── assets/          fontes locais (com as licenças) e SVGs
+├── components/
+│   ├── layout/       AppLayout, Header, PatientLayout, ProfessionalLayout
+│   ├── profissional/ peças do portal médico (cartões, painéis, agenda)
+│   └── ui/           AccessibilityPanel, PriorityTag
+├── data/            registros fictícios usados só em demonstração
+├── pages/
+│   ├── institucional/  Home
+│   ├── auth/           Login, LoginProfissional, LoginAdmin, Cadastro, EsqueciSenha
+│   ├── paciente/       Início, Triagem, Clínicas, Agendamento, Histórico, Perfil
+│   ├── profissional/   Início, Agenda, Histórico, Perfil, Disponibilidades
+│   └── admin/          Clínicas, Especialidades, Profissionais, Senhas
+├── services/        integração real com a API (api.js, agenda.js, accessibility.js)
+└── styles/          tokens, fontes, base global e estilos compartilhados
+public/              manifest do PWA, service worker e ícones
+docs/                style guide, estrutura, visão geral e créditos
+```
 
-| Etapa | Entrega proposta | Aprendizado principal | Situação |
-| --- | --- | --- | --- |
-| 1 — Base atual | Apresentação, organização por contexto e documentação | JSX, componentes, props, estado e CSS | Base organizada |
-| 2 — Validação e protótipos | Validar as dores, aplicar o style guide e completar as referências das telas | Requisitos e padrões visuais | Design documentado; home, agenda, histórico e perfil profissionais implementados |
-| 3 — Interface do paciente | Conectar acesso, pré-triagem e acompanhamento das consultas | Estado, eventos, formulários e navegação | Telas parciais; dados e validação pendentes |
-| 4 — Fluxo de agendamento | Preservar escolhas, confirmar e consultar agendamentos simulados | Composição de telas e estados de interface | Telas existentes; registros pendentes |
-| 5 — Profissional e administração | Portal profissional, detalhes de pré-triagem; gestão administrativa em recorte posterior | Reutilização e organização por perfil | Home, agenda, histórico e perfil implementados; integração e persistência pendentes |
-| 6 — Integração fullstack | API Node.js, PostgreSQL, autenticação, permissões e persistência | Requisições, carregamento, erros e integração | Planejada |
-| 7 — Evolução e entrega | PWA, revisão de acessibilidade, testes dos fluxos e publicação | Qualidade e disponibilização da aplicação | Planejada |
+As convenções completas de código estão em [AGENTS.md](AGENTS.md).
 
-O primeiro recorte funcional sugerido é o percurso do paciente: informar a necessidade, preencher um formulário, consultar opções e simular um agendamento. O grupo ainda deve validar esse recorte. Chatbot, classificação de prioridade, notificações e contato de emergência precisam de requisitos próprios antes da implementação.
+## Documentação do projeto
 
-## Trabalho em grupo
+- [Visão geral e planejamento](docs/visao-geral.md): problema, personas e jornadas
+- [Style guide](docs/style-guide.md): referência do Figma, tokens e componentes
+- [Estrutura do frontend](docs/estrutura-frontend.md): organização, inventário e
+  próximas entregas
+- [Créditos de terceiros](docs/creditos.md): origem e licença de fontes, ícones e
+  do símbolo de acessibilidade da ONU
 
-1. Combinar uma tarefa pequena, com um responsável e um resultado esperado, antes de começar.
-2. Ao configurar o repositório compartilhado, usar uma branch por tarefa, como `feat/formulario-pre-triagem` ou `docs/atualizar-readme`.
-3. Usar nomes de componentes em `PascalCase`, como `AppLayout.jsx`, e variáveis/funções em `camelCase`. Manter o padrão existente de aspas simples e ausência de ponto e vírgula.
-4. Verificar a tela em largura de celular e desktop e navegar pelos links usando o teclado. Executar `npm run lint` e `npm run build` antes de entregar a alteração.
-5. Abrir um pull request com o que mudou, como foi conferido e imagens quando úteis. Pedir revisão a outro integrante antes de integrar à branch principal.
-6. Atualizar a documentação quando uma funcionalidade ou decisão técnica mudar.
+## Acessibilidade
 
-Ainda não há suíte de testes automatizados. Lint e build verificam aspectos do código e da compilação, mas não substituem conferir o comportamento no navegador. Testes de comportamento serão adicionados conforme os formulários e fluxos surgirem.
+Recursos implementados, pensados principalmente para o público idoso:
 
-Utilizar apenas dados fictícios nas demonstrações. Arquivos `.env` são ignorados pelo Git; se uma configuração passar a ser necessária, documentá-la e adicionar um `.env.example` sem credenciais. Valores enviados ao frontend ficam acessíveis no navegador.
+- **Texto ajustável** em 4 níveis (85%, 100%, 115% e 130%), aplicado ao app inteiro
+- **Alto contraste** em verde (não em azul)
+- **Fonte OpenDyslexic** para leitura por pessoas com dislexia
+- **Painel acessível por teclado**, fechando com `Esc`
+- **Layout sem quebra** em zoom de 400% e de 375px a 1400px de largura
+- Controles com altura mínima de 44px e foco visível por teclado
+
+## PWA
+
+O app é instalável e funciona com carregamento em cache. O manifest e o service
+worker estão em `public/` e foram escritos à mão — não há `vite-plugin-pwa`.
+
+> Após um novo deploy, o service worker pode servir o bundle antigo. Se algo
+> parecer desatualizado: `Ctrl+Shift+R` ou, no DevTools, *Application → Service
+> Workers → Unregister*.
+
+## Deploy
+
+| Camada | Serviço | Observação |
+| --- | --- | --- |
+| Front-end | Vercel | Publica automaticamente a partir da branch `main` |
+| API | Render (plano free) | Dorme após 15 min sem uso |
+| Banco | Supabase (PostgreSQL) | Conexão via pooler com `DB_SSL=true` |
+
+O `vercel.json` reescreve `/api/:path*` para a API no Render, então o front não
+precisa conhecer o endereço do back-end em tempo de execução.
+
+## Situação conhecida
+
+- `npm run lint` acusa **um** erro pré-existente em `src/pages/paciente/Triagem.jsx:36`
+  (`react-hooks/set-state-in-effect`). Não afeta o build nem o uso; está na lista
+  de pendências.
+- Os dados de demonstração em `src/data/` são fictícios e não vêm da API.
+- Telas públicas (login, cadastro e recuperação de senha) não guardam rota na URL:
+  recarregar a página volta ao login. As áreas logadas preservam a tela no F5.
+
+## Funcionalidades
+
+**Paciente:** cadastro e login, pré-triagem orientativa, busca de clínicas e
+profissionais, agendamento e cancelamento, histórico e perfil.
+
+**Profissional:** login próprio, agenda do dia, histórico de atendimentos,
+disponibilidades semanais, acesso à pré-triagem respondida pelo paciente e perfil.
+
+**Administração:** gestão de clínicas, especialidades e profissionais, e geração
+de **senha temporária** para quem esqueceu a senha.
+
+## Recuperação de senha
+
+O app não envia e-mail: o plano gratuito do Render bloqueia SMTP, e o envio para
+terceiros exigiria domínio verificado. Por isso a recuperação funciona
+presencialmente:
+
+1. A pessoa clica em **"Esqueci minha senha"** no login e vê as instruções
+2. Procura a recepção da clínica e informa o e-mail cadastrado
+3. A administração usa a aba **Senhas** para gerar uma senha temporária de 8
+   caracteres (sem letras ambíguas como `0/O` e `1/I/L`)
+4. A senha aparece uma única vez na tela, para ser repassada na hora
+
+## Créditos de terceiros
+
+Fontes, ícones e o símbolo de acessibilidade da ONU estão documentados em
+[docs/creditos.md](docs/creditos.md), com origem e licença de cada um.
+
+## Equipe
+
+Gabriel Tenório · Luís Bezerra · Lorena Torres · Mariana Oliveira · Renata Oliveira
